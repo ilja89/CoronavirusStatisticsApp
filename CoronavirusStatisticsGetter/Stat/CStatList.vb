@@ -3,13 +3,13 @@
 ''' Class used to comfortably work with statistics data, received from network in CSV format.
 ''' </summary>
 Public Class CStatList
-    Private _items As New List(Of String())
-    Private _fields As String()
-    Private _fieldsNumber As Integer
-    Private _inputIndex As Integer()
-    Private _inputIndexMax As Integer
-    Private _lastItemAccessedIndex As Integer = 0
-    Private _lastItemFieldAccessedIndex As Integer = 0
+    Private _items As New List(Of String())             ' List of items
+    Private _fields As String()                         ' Headers of these items fields
+    Private _fieldsNumber As Integer                    ' Number of these headers
+    Private _inputIndex As Integer()                    ' Indexes of these headers in raw splitted input string
+    Private _inputIndexMax As Integer                   ' Maximal raw splitted input string index
+    Private _lastItemAccessedIndex As Integer = 0       ' Index of last item accessed
+    Private _lastItemFieldAccessedIndex As Integer = 0  ' Index of last field accessed of last item acessed
     ''' <summary>
     ''' Get <see cref="CStatList"/> item by index
     ''' </summary>
@@ -46,9 +46,11 @@ Public Class CStatList
     ''' <param name="field"></param>
     Public WriteOnly Property SetField(index As Integer, field As String) As String
         Set(value As String)
-            _lastItemAccessedIndex = index
-            _lastItemFieldAccessedIndex = FindFieldIndex(field)
-            _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex) = value
+            If (index <= _items.Count - 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = FindFieldIndex(field)
+                _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex) = value
+            End If
         End Set
     End Property
     ''' <summary>
@@ -67,9 +69,13 @@ Public Class CStatList
     ''' <returns>Field as <see cref="String"/></returns>
     Public ReadOnly Property GetField(index As Integer, field As String) As String
         Get
-            _lastItemAccessedIndex = index
-            _lastItemFieldAccessedIndex = FindFieldIndex(field)
-            Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            If (_items.Count >= 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = FindFieldIndex(field)
+                Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            Else
+                Return Nothing
+            End If
         End Get
     End Property
     ''' <summary>
@@ -78,7 +84,11 @@ Public Class CStatList
     ''' <returns>Field as <see cref="String"/></returns>
     Public ReadOnly Property GetField() As String
         Get
-            Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            If (_items.Count >= 1) Then
+                Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            Else
+                Return Nothing
+            End If
         End Get
     End Property
     ''' <summary>
@@ -106,15 +116,17 @@ Public Class CStatList
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(field As String, indexFrom As Integer, Optional numberOfItems As Integer = -1)
+    Public Function GetFields(field As String, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1)
         Dim fieldIndex As Integer = FindFieldIndex(field)
-        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _fieldsNumber) Then
+        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
         End If
         If (numberOfItems = -1) Then
-            Dim result(_items.Count - 1) As String
+            Dim result(_items.Count - 1 - indexFrom) As String
+            Dim c As Integer = 0
             For i As Integer = indexFrom To _items.Count - 1
-                result(i) = _items(i)(fieldIndex)
+                result(c) = _items(i)(fieldIndex)
+                c += 1
             Next
             Return result
         Else
@@ -169,7 +181,6 @@ Public Class CStatList
         Next
         Return -1
     End Function
-
     Public Function GetIndexOfFirstItemWhereDate(dateValue As String, Optional condition As String = "=", Optional delimiter As String = "-", Optional dateFieldName As String = "Date")
         Dim fieldIndex As Integer = FindFieldIndex(dateFieldName)
         If (condition = "=") Then
@@ -216,7 +227,6 @@ Public Class CStatList
         End If
         Return Nothing
     End Function
-
     ''' <summary>
     ''' Used to add new item in <see cref="CStatList"/> using single string as input
     ''' </summary>
@@ -255,7 +265,7 @@ Public Class CStatList
     ''' <param name="newItemStrings"></param>
     ''' <param name="delimiter"></param>
     ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemStrings() As String, delimiter As String) As CStatList
+    Public Function Add(newItemStrings() As String, Optional delimiter As String = ",") As CStatList
         Dim l As Integer = _fieldsNumber - 1
         Dim splitted As String()
         Dim i As Integer = 0
@@ -407,7 +417,8 @@ Public Class CStatList
         Return Me
     End Function
     ''' <summary>
-    ''' Function used to create new instance of <see cref="CStatList"/> <br/>
+    ''' Function used to create new instance of <see cref="CStatList"/> with headers passed inside in form of array:<br/>
+    ''' {{RealName,NameToSaveWith,IndexInRawSplittedInput},...}
     ''' </summary>
     ''' <param name="parsedFields"></param>
     Public Sub New(parsedFields As String(,))
@@ -420,7 +431,6 @@ Public Class CStatList
         Next
         _fields = newHeaders
         _inputIndex = newInputIndex
-        Dim max As Integer = 0
         For Each index As Integer In _inputIndex
             If (index > _inputIndexMax) Then
                 _inputIndexMax = index
