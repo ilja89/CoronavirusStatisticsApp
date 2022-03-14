@@ -8,6 +8,7 @@
 ' Related components: CStatList, CStatObject
 
 Imports System.Net
+Imports System.Math
 Imports Newtonsoft.Json.Linq
 ''' <summary>
 ''' Class used to receive information about coronavirus statistics from "https://opendata.digilugu.ee/"
@@ -110,11 +111,10 @@ Public Class CRequest
         Dim data As CStatList = ParseCSVToCStatList(
             csv,
             {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
-        Dim i = 1
+        data.WhereNot("County", "")
         If (positiveOnly) Then
             data.Where("Result", "P")
         End If
-
         If (countyName <> "all") Then
             data.Where("County", countyName)
         End If
@@ -230,6 +230,101 @@ Public Class CRequest
         Next
         Return data
     End Function
+    ''' <summary>
+    ''' Deceased number this day<br/>
+    ''' Fields:<br/>
+    ''' - Date:     date<br/>
+    ''' - Deceased: number of people died<br/>
+    ''' </summary>
+    ''' <param name="accumulative">Should list be accumulative (each next by date entry is a sum of all deceased happened
+    ''' in preious day)</param>
+    ''' <returns></returns>
+    Public Async Function GetDeceased(Optional accumulative As Boolean = False) As Task(Of CStatList)
+        Dim rawJson As String = Await (New WebClient).DownloadStringTaskAsync("https://koroonakaart.ee/data.json")
+        Dim json As JObject = JObject.Parse(rawJson)
+        Dim dates As JArray = json.Exists("dates2")
+        Dim deceasedNumber As JArray = json.Exists("deceased")
+        Dim list As New CStatList({{0, "Date", 0}, {0, "Deceased", 1}})
+        Dim i As Integer = Min(dates.Count, deceasedNumber.Count) - 1
+        While (i >= 0)
+            list.AddItemDirectly({dates(i).Value(Of String), deceasedNumber(i).Value(Of String)})
+            i -= 1
+        End While
+        If (accumulative <> True) Then
+            i = 0
+            While (i < list.Count - 1)
+                list.SetField(i, 1) = Max(list.GetField(i, 1) - list.GetField(i + 1, 1), 0)
+                i = i + 1
+            End While
+        End If
+        Return list
+    End Function
+
+    Public Async Function GetSick(Optional period As Integer = 14) As Task(Of CStatList)
+        period = Max(0, period - 1)
+        Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
+        Dim data As CStatList = ParseCSVToCStatList(
+            csv,
+            {"StatisticsDate||Date", "DailyCases", "TotalCasesLast14D||Sick"})
+        Dim sickFieldNumber = data.FindFieldIndex("Sick")
+        Dim dailyFieldNumber = data.FindFieldIndex("DailyCases")
+        Dim i = 0
+        data(i)(sickFieldNumber) = 0
+        If (i < period) Then
+            For c As Integer = 0 To period
+                If (i - c < 0) Then
+                    Exit For
+                End If
+                data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) + CInt(data(i - c)(dailyFieldNumber))
+            Next
+        Else
+            data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) + CInt(data(i - 1)(sickFieldNumber))
+            data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) + CInt(data(i)(dailyFieldNumber))
+            data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) - CInt(data(i - period)(dailyFieldNumber))
+        End If
+        data.DeleteFieldFromItems("DailyCases")
+        Return data
+    End Function
+
+    Public Async Function GetSickCounty(Optional period As Integer = 14, Optional aimCounty As String = "all") As Task(Of CStatList)
+        period = Max(0, period - 1)
+        Dim list As CStatList = Await GetTestStatCounty()
+        Dim counties As New List(Of CStatList)
+        Dim sickFieldNumber, dailyFieldNumber As Integer
+        list.Where("County", aimCounty)
+        list.RenameField("TotalTests", "Sick")
+        While (list.Count > 0)
+            ' Add all entries with this county as independent CStatList
+            counties.Add(list.AsNew.Where("County", list.GetField(0, "County")))
+            ' Remove entries with this county from list
+            list.WhereNot("County", list.GetField(0, "County"))
+        End While
+        sickFieldNumber = list.FindFieldIndex("Sick")
+        dailyFieldNumber = list.FindFieldIndex("DailyTests")
+        For Each county In counties
+            For i As Integer = 0 To county.Count - 1
+                county(i)(sickFieldNumber) = 0
+                If (i < period) Then
+                    For c As Integer = 0 To period
+                        If (i - c < 0) Then
+                            Exit For
+                        End If
+                        county(i)(sickFieldNumber) = CInt(county(i)(sickFieldNumber)) + CInt(county(i - c)(dailyFieldNumber))
+                    Next
+                Else
+                    county(i)(sickFieldNumber) = CInt(county(i)(sickFieldNumber)) + CInt(county(i - 1)(sickFieldNumber))
+                    county(i)(sickFieldNumber) = CInt(county(i)(sickFieldNumber)) + CInt(county(i)(dailyFieldNumber))
+                    county(i)(sickFieldNumber) = CInt(county(i)(sickFieldNumber)) - CInt(county(i - period)(dailyFieldNumber))
+                End If
+            Next
+        Next
+        For Each county In counties
+            list.AddItemsDirectly(county.GetItemsDirectly)
+        Next
+        list.DeleteFieldFromItems("Result")
+        list.DeleteFieldFromItems("DailyTests")
+        Return list
+    End Function
     Private Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
         Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
         Dim headers As String() = data(0).Split(",")
@@ -312,6 +407,7 @@ Public Class CRequest
     '    End While
     'Return objectsCollection
     'End Function
+    '
     'Private Function ParseJSONToStatObject(rawJson As String, fields As Array) As CStatObject
     '    rawJson = "{""body"":" + rawJson + "}"
     '    Dim json As JArray = JObject.Parse(rawJson).Exists("body")

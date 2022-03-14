@@ -15,11 +15,15 @@ Public Class CStatList
     ''' </summary>
     ''' <param name="index"></param>
     ''' <returns>String()</returns>
-    Default Public ReadOnly Property Element(index As Integer) As String()
+    Default Public Property Element(index As Integer) As String()
         Get
             _lastItemAccessedIndex = index
             Return _items(index)
         End Get
+        Set(value As String())
+            _lastItemAccessedIndex = index
+            _items(index) = value
+        End Set
     End Property
     ''' <summary>
     ''' Get <see cref="CStatList"/> headers as array of strings
@@ -54,6 +58,20 @@ Public Class CStatList
         End Set
     End Property
     ''' <summary>
+    ''' Used to set value of field with index of <paramref name="fieldIndex"/> of element of <see cref="CStatList"/> with index <paramref name="index"/>
+    ''' </summary>
+    ''' <param name="index"></param>
+    ''' <param name="fieldIndex"></param>
+    Public WriteOnly Property SetField(index As Integer, fieldIndex As Integer) As String
+        Set(value As String)
+            If (index <= _items.Count - 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = fieldIndex
+                _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex) = value
+            End If
+        End Set
+    End Property
+    ''' <summary>
     ''' Used to set value of last accessed field of last accessed item
     ''' </summary>
     Public WriteOnly Property SetField() As String
@@ -72,6 +90,23 @@ Public Class CStatList
             If (_items.Count >= 1) Then
                 _lastItemAccessedIndex = index
                 _lastItemFieldAccessedIndex = FindFieldIndex(field)
+                Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+    ''' <summary>
+    ''' Used to get value of field with index of <paramref name="fieldIndex"/> of element of <see cref="CStatList"/> with index <paramref name="index"/>
+    ''' </summary>
+    ''' <param name="index"></param>
+    ''' <param name="fieldIndex"></param>
+    ''' <returns>Field as <see cref="String"/></returns>
+    Public ReadOnly Property GetField(index As Integer, fieldIndex As Integer) As String
+        Get
+            If (_items.Count >= 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = fieldIndex
                 Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
             Else
                 Return Nothing
@@ -146,7 +181,7 @@ Public Class CStatList
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(fieldIndex As Integer, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1)
+    Public Function GetFields(fieldIndex As Integer, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1) As String()
         If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
         End If
@@ -174,7 +209,7 @@ Public Class CStatList
     ''' <param name="field"></param>
     ''' <param name="fieldAimValue"></param>
     ''' <returns></returns>
-    Public Function GetIndexOfFirstItemWhere(field As String, fieldAimValue As String)
+    Public Function GetIndexOfFirstItemWhere(field As String, fieldAimValue As String) As Integer
         Dim fieldIndex = FindFieldIndex(field)
         For i As Integer = 0 To _items.Count - 1
             If (_items(i)(fieldIndex) = fieldAimValue) Then
@@ -183,7 +218,53 @@ Public Class CStatList
         Next
         Return -1
     End Function
-    Public Function GetIndexOfFirstItemWhereDate(dateValue As String, Optional condition As String = "=", Optional delimiter As String = "-", Optional dateFieldName As String = "Date")
+
+    Public Function DeleteFieldFromItems(fieldName As String) As CStatList
+        Dim fieldIndex = FindFieldIndex(fieldName)
+        Dim newFieldsNumber = _fieldsNumber - 1
+        Dim newFields(_fieldsNumber - 2) As String
+        Dim newInputIndex(_fieldsNumber - 2) As Integer
+        Dim newInputIndexMax As Integer = 0
+        Dim i = 0
+        Dim c = 0
+
+        While (i < _fieldsNumber)
+            If (i <> fieldIndex) Then
+                newFields(c) = _fields(i)
+                newInputIndex(c) = _inputIndex(i)
+                If (newInputIndex(c) > newInputIndexMax) Then
+                    newInputIndexMax = newInputIndex(c)
+                End If
+                c += 1
+            End If
+            i += 1
+        End While
+        _fields = newFields
+        _inputIndex = newInputIndex
+        _inputIndexMax = newInputIndexMax
+
+        For itemNumber As Integer = 0 To _items.Count - 1
+            Dim newItem(_fieldsNumber - 2) As String
+            i = 0
+            c = 0
+            While (i < _fieldsNumber)
+                If (i <> fieldIndex) Then
+                    newItem(c) = _items(itemNumber)(i)
+                    c += 1
+                End If
+                i += 1
+            End While
+            _items(itemNumber) = newItem
+        Next
+
+        _fieldsNumber = _fieldsNumber - 1
+        Return Me
+    End Function
+    Public Function RenameField(fieldName As String, newFieldName As String) As CStatList
+        _fields(FindFieldIndex(fieldName)) = newFieldName
+        Return Me
+    End Function
+    Public Function GetIndexOfFirstItemWhereDate(dateValue As String, Optional condition As String = "=", Optional delimiter As String = "-", Optional dateFieldName As String = "Date") As Integer
         Dim fieldIndex As Integer = FindFieldIndex(dateFieldName)
         If (condition = "=") Then
             For i As Integer = 0 To _items.Count
@@ -254,6 +335,20 @@ Public Class CStatList
             End If
         Next
         Return Me
+    End Function
+
+    Public Function AddItemDirectly(newItem As String()) As CStatList
+        _items.Add(newItem)
+        Return Me
+    End Function
+    Public Function AddItemsDirectly(newItems As List(Of String())) As CStatList
+        For Each newItem In newItems
+            _items.Add(newItem)
+        Next
+        Return Me
+    End Function
+    Public Function GetItemsDirectly() As List(Of String())
+        Return _items
     End Function
     ''' <summary>
     ''' Used to remove item from <see cref="CStatList"/> using its index
@@ -336,8 +431,7 @@ Public Class CStatList
         Dim keyIndex As Integer = FindFieldIndex(header)
         Dim newItemsList As New List(Of String())
         For i As Integer = 0 To Count - 1
-            Dim thisItem = _items(i).GetValue(keyIndex)
-            If (_items(i).GetValue(keyIndex) = keyValue) Then
+            If (_items(i)(keyIndex) = keyValue) Then
                 newItemsList.Add(_items(i))
             End If
         Next
@@ -401,11 +495,21 @@ Public Class CStatList
     ''' </summary>
     Private Sub New(headers As String(), headersNumber As Integer,
         inputIndex As Integer(), inputIndexMax As Integer, items As List(Of String()))
-        _fields = headers
+        Dim newFields(headersNumber - 1) As String
+        headers.CopyTo(newFields, 0)
+        _fields = newFields
         _fieldsNumber = headersNumber
-        _inputIndex = inputIndex
+        Dim newInputIndex(headersNumber - 1) As Integer
+        inputIndex.CopyTo(newInputIndex, 0)
+        _inputIndex = newInputIndex
         _inputIndexMax = inputIndexMax
-        _items = items
+        Dim newItems As New List(Of String())
+        For Each item In items
+            Dim temp(headersNumber - 1) As String
+            item.CopyTo(temp, 0)
+            newItems.Add(temp)
+        Next
+        _items = newItems
     End Sub
     Public Function FindFieldIndex(objectKey As String) As Integer
         For i As Integer = 0 To _fieldsNumber - 1
