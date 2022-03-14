@@ -110,13 +110,13 @@ Public Class CStatList
         End Get
     End Property
     ''' <summary>
-    ''' Used to get myltiple items fields as array of strings.
+    ''' Used to get multiple items fields as array of strings.
     ''' </summary>
     ''' <param name="field"></param>
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(field As String, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1)
+    Public Function GetFields(field As String, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1) As String()
         Dim fieldIndex As Integer = FindFieldIndex(field)
         If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
@@ -146,14 +146,16 @@ Public Class CStatList
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(fieldIndex As Integer, indexFrom As Integer, Optional numberOfItems As Integer = -1)
-        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _fieldsNumber) Then
+    Public Function GetFields(fieldIndex As Integer, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1)
+        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
         End If
         If (numberOfItems = -1) Then
-            Dim result(_items.Count - 1) As String
+            Dim result(_items.Count - 1 - indexFrom) As String
+            Dim c As Integer = 0
             For i As Integer = indexFrom To _items.Count - 1
-                result(i) = _items(i)(fieldIndex)
+                result(c) = _items(i)(fieldIndex)
+                c += 1
             Next
             Return result
         Else
@@ -228,38 +230,6 @@ Public Class CStatList
         Return Nothing
     End Function
     ''' <summary>
-    ''' Used to add new item in <see cref="CStatList"/> using single string as input
-    ''' </summary>
-    ''' <param name="newItemString"></param>
-    ''' <param name="delimiter"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemString As String, delimiter As String) As CStatList
-        Dim splitted As String() = newItemString.Split(delimiter)
-        Dim newItem(_fieldsNumber - 1) As String
-        Dim i As Integer = 0
-        For Each index As Integer In _inputIndex
-            newItem(i) = splitted(index)
-            i = i + 1
-        Next
-        _items.Add(newItem)
-        Return Me
-    End Function
-    ''' <summary>
-    ''' Used to add new item in <see cref="CStatList"/> using single string array as input
-    ''' </summary>
-    ''' <param name="newItemArray"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemArray() As String) As CStatList
-        Dim newItem(_fieldsNumber - 1) As String
-        Dim i As Integer = 0
-        For Each index As Integer In _inputIndex
-            newItem(i) = newItemArray(index)
-            i = i + 1
-        Next
-        _items.Add(newItem)
-        Return Me
-    End Function
-    ''' <summary>
     ''' Used to add new items in <see cref="CStatList"/> using multiple strings array as input
     ''' </summary>
     ''' <param name="newItemStrings"></param>
@@ -277,29 +247,6 @@ Public Class CStatList
                     Dim newItem(l) As String
                     For Each index As Integer In _inputIndex
                         newItem(i) = splitted(index)
-                        i = i + 1
-                    Next
-                    _items.Add(newItem)
-                End If
-            End If
-        Next
-        Return Me
-    End Function
-    ''' <summary>
-    ''' Used to add new items in <see cref="CStatList"/> using array of multiple arrays of strings as input
-    ''' </summary>
-    ''' <param name="newItemsArray"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemsArray(,) As String) As CStatList
-        Dim l As Integer = _fieldsNumber - 1
-        Dim i As Integer = 0
-        For Each newItemArray As String In newItemsArray
-            If (newItemArray IsNot Nothing) Then
-                If (newItemArray.Length > _inputIndexMax) Then
-                    i = 0
-                    Dim newItem(l) As String
-                    For Each index As Integer In _inputIndex
-                        newItem(i) = newItemArray(index)
                         i = i + 1
                     Next
                     _items.Add(newItem)
@@ -374,7 +321,7 @@ Public Class CStatList
         If (newItemsList.Count > 0) Then
             _items = newItemsList
         Else
-            _items = Nothing
+            Return Nothing
         End If
         Return Me
     End Function

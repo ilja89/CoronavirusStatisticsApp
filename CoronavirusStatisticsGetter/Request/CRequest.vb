@@ -264,82 +264,84 @@ Public Class CRequest
         statList.Add(data, ",")
         Return statList
     End Function
-    Private Function ParseCSVToCStatObject(rawCSV As String, fields As Array) As CStatObject
-        Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
-        Dim headers As String() = data(0).Split(",")
-        Dim i As Integer = 0
-        Dim objectsCollection As New CStatObject
-        Dim aimFields(fields.Length - 1) As Collection
 
-        ' Build key-value objects for each of aim fields
-        While (i < fields.Length)
-            Dim newAimField As New Collection
-            If (fields(i).Contains("||")) Then
-                Dim splitted = fields(i).Split("||")
-                newAimField.Add(splitted(0), "aimName")
-                newAimField.Add(splitted(2), "saveAs")
-            Else
-                newAimField.Add(fields(i), "aimName")
-                newAimField.Add(fields(i), "saveAs")
-            End If
-            aimFields(i) = newAimField
-            i = i + 1
-        End While
-        i = 0
-
-        ' Add aim headers indexes into correspondings aimFields
-        While (i < headers.Length)
-            For Each aimField As Collection In aimFields
-                If (headers(i) = aimField.Item("aimName")) Then
-                    aimField.Add(i, "index")
-                    Exit For
-                End If
-            Next
-            i = i + 1
-        End While
-        i = 1
-
-        While (i < data.Length - 1)
-            Dim newObject As New Collection
-            Dim objectData As String() = data(i).Split(",")
-            For Each aimField As Collection In aimFields
-                newObject.Add(objectData(aimField.Item("index")), aimField.Item("saveAs"))
-            Next
-            objectsCollection.Add(newObject)
-            i = i + 1
-        End While
-        Return objectsCollection
-    End Function
-    Private Function ParseJSONToStatObject(rawJson As String, fields As Array) As CStatObject
-        rawJson = "{""body"":" + rawJson + "}"
-        Dim json As JArray = JObject.Parse(rawJson).Exists("body")
-        Dim i = 0
-        Dim objectCollection As New CStatObject
-        While (i < json.Count)
-            Dim newObject As New Collection
-            Dim dontSave As Boolean = False
-            For Each field As String In fields
-                Dim saveAs As String
-                Dim parameter As String
-                If (field.Contains("||")) Then
-                    Dim splitted = field.Split("||")
-                    saveAs = splitted(2)
-                    parameter = json(i).Exists(splitted(0)).ToString
-                Else
-                    saveAs = field
-                    parameter = json(i).Exists(field).ToString
-                End If
-                If (parameter IsNot Nothing) Then
-                    newObject.Add(parameter, saveAs)
-                Else
-                    dontSave = True
-                End If
-            Next
-            If (dontSave = False) Then
-                objectCollection.Add(newObject)
-            End If
-            i = i + 1
-        End While
-        Return objectCollection
-    End Function
+    ' Obsolete
+    'Private Function ParseCSVToCStatObject(rawCSV As String, fields As Array) As CStatObject
+    'Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
+    'Dim headers As String() = data(0).Split(",")
+    'Dim i As Integer = 0
+    'Dim objectsCollection As New CStatObject
+    'Dim aimFields(fields.Length - 1) As Collection
+    '
+    ' Build key-value objects for each of aim fields
+    'While (i < fields.Length)
+    'Dim newAimField As New Collection
+    'If (fields(i).Contains("||")) Then
+    'Dim splitted = fields(i).Split("||")
+    '            newAimField.Add(splitted(0), "aimName")
+    '            newAimField.Add(splitted(2), "saveAs")
+    '        Else
+    '            newAimField.Add(fields(i), "aimName")
+    '            newAimField.Add(fields(i), "saveAs")
+    '        End If
+    '        aimFields(i) = newAimField
+    '        i = i + 1
+    '    End While
+    '    i = 0
+    '
+    '    ' Add aim headers indexes into correspondings aimFields
+    '    While (i < headers.Length)
+    'For Each aimField As Collection In aimFields
+    'If (headers(i) = aimField.Item("aimName")) Then
+    '                aimField.Add(i, "index")
+    '                Exit For
+    'End If
+    'Next
+    '        i = i + 1
+    '    End While
+    '    i = 1
+    '
+    '    While (i < data.Length - 1)
+    'Dim newObject As New Collection
+    'Dim objectData As String() = Data(i).Split(",")
+    'For Each aimField As Collection In aimFields
+    '            newObject.Add(objectData(aimField.Item("index")), aimField.Item("saveAs"))
+    '        Next
+    '        objectsCollection.Add(newObject)
+    '        i = i + 1
+    '    End While
+    'Return objectsCollection
+    'End Function
+    'Private Function ParseJSONToStatObject(rawJson As String, fields As Array) As CStatObject
+    '    rawJson = "{""body"":" + rawJson + "}"
+    '    Dim json As JArray = JObject.Parse(rawJson).Exists("body")
+    '    Dim i = 0
+    '    Dim objectCollection As New CStatObject
+    '    While (i < json.Count)
+    '        Dim newObject As New Collection
+    '        Dim dontSave As Boolean = False
+    '        For Each field As String In fields
+    '            Dim saveAs As String
+    '            Dim parameter As String
+    '            If (field.Contains("||")) Then
+    '                Dim splitted = field.Split("||")
+    '                saveAs = splitted(2)
+    '                parameter = json(i).Exists(splitted(0)).ToString
+    '            Else
+    '                saveAs = field
+    '                parameter = json(i).Exists(field).ToString
+    '            End If
+    '            If (parameter IsNot Nothing) Then
+    '                newObject.Add(parameter, saveAs)
+    '            Else
+    '                dontSave = True
+    '            End If
+    '        Next
+    '        If (dontSave = False) Then
+    '            objectCollection.Add(newObject)
+    '        End If
+    '        i = i + 1
+    '    End While
+    '    Return objectCollection
+    'End Function
 End Class
