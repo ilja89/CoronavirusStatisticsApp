@@ -8,5 +8,7 @@ Public Class Form1
     Private result As CStatList
     Private Async Sub test2() Handles Me.Load
         Dim a = Await request.GetSick()
+        a.AddField("newField")
+        a.AddField("anotherField", "qwerty")
     End Sub
 End Class

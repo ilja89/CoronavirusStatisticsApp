@@ -282,7 +282,7 @@ Public Class CRequest
             data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) + CInt(data(i)(dailyFieldNumber))
             data(i)(sickFieldNumber) = CInt(data(i)(sickFieldNumber)) - CInt(data(i - period)(dailyFieldNumber))
         End If
-        data.DeleteFieldFromItems("DailyCases")
+        data.DeleteFieldFromList("DailyCases")
         Return data
     End Function
 
@@ -321,8 +321,8 @@ Public Class CRequest
         For Each county In counties
             list.AddItemsDirectly(county.GetItemsDirectly)
         Next
-        list.DeleteFieldFromItems("Result")
-        list.DeleteFieldFromItems("DailyTests")
+        list.DeleteFieldFromList("Result")
+        list.DeleteFieldFromList("DailyTests")
         Return list
     End Function
     Private Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
