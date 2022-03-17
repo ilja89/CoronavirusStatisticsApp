@@ -10,24 +10,34 @@ Public Class CStatList
     Private _inputIndexMax As Integer                   ' Maximal raw splitted input string index
     Private _lastItemAccessedIndex As Integer = 0       ' Index of last item accessed
     Private _lastItemFieldAccessedIndex As Integer = 0  ' Index of last field accessed of last item acessed
+    Private _canAddFreely As Boolean = True
     ''' <summary>
     ''' Get <see cref="CStatList"/> item by index
     ''' </summary>
     ''' <param name="index"></param>
     ''' <returns>String()</returns>
-    Default Public ReadOnly Property Element(index As Integer) As String()
+    Default Public Property Element(index As Integer) As String()
         Get
             _lastItemAccessedIndex = index
             Return _items(index)
         End Get
+        Set(value As String())
+            _lastItemAccessedIndex = index
+            _items(index) = value
+        End Set
     End Property
     ''' <summary>
     ''' Get <see cref="CStatList"/> headers as array of strings
     ''' </summary>
     ''' <returns>String()</returns>
-    Public ReadOnly Property Headers As String()
+    Public ReadOnly Property Fields As String()
         Get
             Return _fields
+        End Get
+    End Property
+    Public ReadOnly Property FieldsNumber As Integer
+        Get
+            Return _fields.Length
         End Get
     End Property
     ''' <summary>
@@ -37,6 +47,11 @@ Public Class CStatList
     Public ReadOnly Property Count As Integer
         Get
             Return _items.Count
+        End Get
+    End Property
+    Public ReadOnly Property CanAddFreely As Boolean
+        Get
+            Return _canAddFreely
         End Get
     End Property
     ''' <summary>
@@ -49,6 +64,20 @@ Public Class CStatList
             If (index <= _items.Count - 1) Then
                 _lastItemAccessedIndex = index
                 _lastItemFieldAccessedIndex = FindFieldIndex(field)
+                _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex) = value
+            End If
+        End Set
+    End Property
+    ''' <summary>
+    ''' Used to set value of field with index of <paramref name="fieldIndex"/> of element of <see cref="CStatList"/> with index <paramref name="index"/>
+    ''' </summary>
+    ''' <param name="index"></param>
+    ''' <param name="fieldIndex"></param>
+    Public WriteOnly Property SetField(index As Integer, fieldIndex As Integer) As String
+        Set(value As String)
+            If (index <= _items.Count - 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = fieldIndex
                 _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex) = value
             End If
         End Set
@@ -72,6 +101,23 @@ Public Class CStatList
             If (_items.Count >= 1) Then
                 _lastItemAccessedIndex = index
                 _lastItemFieldAccessedIndex = FindFieldIndex(field)
+                Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
+            Else
+                Return Nothing
+            End If
+        End Get
+    End Property
+    ''' <summary>
+    ''' Used to get value of field with index of <paramref name="fieldIndex"/> of element of <see cref="CStatList"/> with index <paramref name="index"/>
+    ''' </summary>
+    ''' <param name="index"></param>
+    ''' <param name="fieldIndex"></param>
+    ''' <returns>Field as <see cref="String"/></returns>
+    Public ReadOnly Property GetField(index As Integer, fieldIndex As Integer) As String
+        Get
+            If (_items.Count >= 1) Then
+                _lastItemAccessedIndex = index
+                _lastItemFieldAccessedIndex = fieldIndex
                 Return _items(_lastItemAccessedIndex)(_lastItemFieldAccessedIndex)
             Else
                 Return Nothing
@@ -110,13 +156,13 @@ Public Class CStatList
         End Get
     End Property
     ''' <summary>
-    ''' Used to get myltiple items fields as array of strings.
+    ''' Used to get multiple items fields as array of strings.
     ''' </summary>
     ''' <param name="field"></param>
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(field As String, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1)
+    Public Function GetFields(field As String, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1) As String()
         Dim fieldIndex As Integer = FindFieldIndex(field)
         If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
@@ -146,14 +192,16 @@ Public Class CStatList
     ''' <param name="indexFrom"></param>
     ''' <param name="numberOfItems"></param>
     ''' <returns>Array of <see cref="String"/></returns>
-    Public Function GetFields(fieldIndex As Integer, indexFrom As Integer, Optional numberOfItems As Integer = -1)
-        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _fieldsNumber) Then
+    Public Function GetFields(fieldIndex As Integer, Optional indexFrom As Integer = 0, Optional numberOfItems As Integer = -1) As String()
+        If (fieldIndex < 0 Or fieldIndex >= _fieldsNumber Or indexFrom < 0 Or indexFrom >= _items.Count) Then
             Return Nothing
         End If
         If (numberOfItems = -1) Then
-            Dim result(_items.Count - 1) As String
+            Dim result(_items.Count - 1 - indexFrom) As String
+            Dim c As Integer = 0
             For i As Integer = indexFrom To _items.Count - 1
-                result(i) = _items(i)(fieldIndex)
+                result(c) = _items(i)(fieldIndex)
+                c += 1
             Next
             Return result
         Else
@@ -172,7 +220,7 @@ Public Class CStatList
     ''' <param name="field"></param>
     ''' <param name="fieldAimValue"></param>
     ''' <returns></returns>
-    Public Function GetIndexOfFirstItemWhere(field As String, fieldAimValue As String)
+    Public Function GetIndexOfFirstItemWhere(field As String, fieldAimValue As String) As Integer
         Dim fieldIndex = FindFieldIndex(field)
         For i As Integer = 0 To _items.Count - 1
             If (_items(i)(fieldIndex) = fieldAimValue) Then
@@ -181,7 +229,111 @@ Public Class CStatList
         Next
         Return -1
     End Function
-    Public Function GetIndexOfFirstItemWhereDate(dateValue As String, Optional condition As String = "=", Optional delimiter As String = "-", Optional dateFieldName As String = "Date")
+    ''' <summary>
+    ''' Delete field from instance of <see cref="CStatList"/><br/>
+    ''' Deleted this field from header and from all items
+    ''' </summary>
+    ''' <param name="fieldName">Name of field what have to be deleted</param>
+    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
+    Public Function DeleteFieldFromList(fieldName As String) As CStatList
+        Dim fieldIndex = FindFieldIndex(fieldName)
+        Dim newFieldsNumber = _fieldsNumber - 1
+        Dim newFields(_fieldsNumber - 2) As String
+        Dim newInputIndex(_fieldsNumber - 2) As Integer
+        Dim newInputIndexMax As Integer = 0
+        Dim i = 0
+        Dim c = 0
+
+        While (i < _fieldsNumber)
+            If (i <> fieldIndex) Then
+                newFields(c) = _fields(i)
+                newInputIndex(c) = _inputIndex(i)
+                If (newInputIndex(c) > newInputIndexMax) Then
+                    newInputIndexMax = newInputIndex(c)
+                End If
+                c += 1
+            End If
+            i += 1
+        End While
+        _fields = newFields
+        _inputIndex = newInputIndex
+        _inputIndexMax = newInputIndexMax
+
+        For itemNumber As Integer = 0 To _items.Count - 1
+            Dim newItem(_fieldsNumber - 2) As String
+            i = 0
+            c = 0
+            While (i < _fieldsNumber)
+                If (i <> fieldIndex) Then
+                    newItem(c) = _items(itemNumber)(i)
+                    c += 1
+                End If
+                i += 1
+            End While
+            _items(itemNumber) = newItem
+        Next
+
+        _fieldsNumber = _fieldsNumber - 1
+        Return Me
+    End Function
+    ''' <summary>
+    ''' Renames field with original name of <paramref name="fieldName"/><br/>
+    ''' Blocks possibility to add new items in this <see cref="CStatList"/> using unparsed strings
+    ''' </summary>
+    ''' <param name="fieldName">Original field name</param>
+    ''' <param name="newFieldName">New field name</param>
+    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
+    Public Function RenameField(fieldName As String, newFieldName As String) As CStatList
+        _canAddFreely = False
+        _inputIndex = Nothing
+        _inputIndexMax = Nothing
+        _fields(FindFieldIndex(fieldName)) = newFieldName
+        Return Me
+    End Function
+    ''' <summary>
+    ''' Adds new field into this <see cref="CStatList"/><br/>
+    ''' Blocks possibility to add new items in this <see cref="CStatList"/> using unparsed strings
+    ''' </summary>
+    ''' <param name="fieldName">Name of new field</param>
+    ''' <param name="defaultValue">Default value for this field in items</param>
+    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
+    Public Function AddField(fieldName As String, Optional defaultValue As String = Nothing) As CStatList
+        _canAddFreely = False
+        Dim newFieldsNumber = _fieldsNumber + 1
+        Dim newFields(_fieldsNumber) As String
+        Dim newInputIndex(_fieldsNumber) As Integer
+        Dim i = 0
+
+        While (i < _fieldsNumber)
+            newFields(i) = _fields(i)
+            i += 1
+        End While
+        newFields(i) = fieldName
+        _fields = newFields
+        _inputIndex = Nothing
+        _inputIndexMax = Nothing
+
+        For itemNumber As Integer = 0 To _items.Count - 1
+            Dim newItem(_fieldsNumber) As String
+            For c As Integer = 0 To _items(itemNumber).Length - 1
+                newItem(c) = _items(itemNumber)(c)
+            Next
+            newItem(_fieldsNumber) = defaultValue
+            _items(itemNumber) = newItem
+        Next
+
+        _fieldsNumber = _fieldsNumber + 1
+        Return Me
+    End Function
+    ''' <summary>
+    ''' Get index of first item where date fulfil condition
+    ''' </summary>
+    ''' <param name="dateValue">Value of date field. For example "2022-02-02"</param>
+    ''' <param name="condition">Condition: &lt;,&lt;=,&gt;,&gt;=,=,&lt;&gt;</param>
+    ''' <param name="delimiter">Delimiter inside date string.</param>
+    ''' <param name="dateFieldName">Name of Date field. If field name is not "Date"</param>
+    ''' <returns></returns>
+    Public Function GetIndexOfFirstItemWhereDate(dateValue As String, Optional condition As String = "=", Optional delimiter As String = "-", Optional dateFieldName As String = "Date") As Integer
         Dim fieldIndex As Integer = FindFieldIndex(dateFieldName)
         If (condition = "=") Then
             For i As Integer = 0 To _items.Count
@@ -228,85 +380,61 @@ Public Class CStatList
         Return Nothing
     End Function
     ''' <summary>
-    ''' Used to add new item in <see cref="CStatList"/> using single string as input
-    ''' </summary>
-    ''' <param name="newItemString"></param>
-    ''' <param name="delimiter"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemString As String, delimiter As String) As CStatList
-        Dim splitted As String() = newItemString.Split(delimiter)
-        Dim newItem(_fieldsNumber - 1) As String
-        Dim i As Integer = 0
-        For Each index As Integer In _inputIndex
-            newItem(i) = splitted(index)
-            i = i + 1
-        Next
-        _items.Add(newItem)
-        Return Me
-    End Function
-    ''' <summary>
-    ''' Used to add new item in <see cref="CStatList"/> using single string array as input
-    ''' </summary>
-    ''' <param name="newItemArray"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemArray() As String) As CStatList
-        Dim newItem(_fieldsNumber - 1) As String
-        Dim i As Integer = 0
-        For Each index As Integer In _inputIndex
-            newItem(i) = newItemArray(index)
-            i = i + 1
-        Next
-        _items.Add(newItem)
-        Return Me
-    End Function
-    ''' <summary>
     ''' Used to add new items in <see cref="CStatList"/> using multiple strings array as input
     ''' </summary>
     ''' <param name="newItemStrings"></param>
     ''' <param name="delimiter"></param>
     ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
     Public Function Add(newItemStrings() As String, Optional delimiter As String = ",") As CStatList
-        Dim l As Integer = _fieldsNumber - 1
-        Dim splitted As String()
-        Dim i As Integer = 0
-        For Each newItemString As String In newItemStrings
-            If (newItemString IsNot Nothing) Then
-                splitted = newItemString.Split(delimiter)
-                If (splitted.Length > _inputIndexMax) Then
-                    i = 0
-                    Dim newItem(l) As String
-                    For Each index As Integer In _inputIndex
-                        newItem(i) = splitted(index)
-                        i = i + 1
-                    Next
-                    _items.Add(newItem)
+        If (CanAddFreely) Then
+            Dim l As Integer = _fieldsNumber - 1
+            Dim splitted As String()
+            Dim i As Integer = 0
+            For Each newItemString As String In newItemStrings
+                If (newItemString IsNot Nothing) Then
+                    splitted = newItemString.Split(delimiter)
+                    If (splitted.Length > _inputIndexMax) Then
+                        i = 0
+                        Dim newItem(l) As String
+                        For Each index As Integer In _inputIndex
+                            newItem(i) = splitted(index)
+                            i = i + 1
+                        Next
+                        _items.Add(newItem)
+                    End If
                 End If
-            End If
+            Next
+        End If
+        Return Me
+    End Function
+
+    Public Function AddItemDirectly(newItem As String()) As CStatList
+        _items.Add(newItem)
+        Return Me
+    End Function
+    Public Function AddItemsDirectly(newItems As List(Of String())) As CStatList
+        For Each newItem In newItems
+            _items.Add(newItem)
         Next
         Return Me
     End Function
-    ''' <summary>
-    ''' Used to add new items in <see cref="CStatList"/> using array of multiple arrays of strings as input
-    ''' </summary>
-    ''' <param name="newItemsArray"></param>
-    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
-    Public Function Add(newItemsArray(,) As String) As CStatList
-        Dim l As Integer = _fieldsNumber - 1
-        Dim i As Integer = 0
-        For Each newItemArray As String In newItemsArray
-            If (newItemArray IsNot Nothing) Then
-                If (newItemArray.Length > _inputIndexMax) Then
-                    i = 0
-                    Dim newItem(l) As String
-                    For Each index As Integer In _inputIndex
-                        newItem(i) = newItemArray(index)
-                        i = i + 1
-                    Next
-                    _items.Add(newItem)
-                End If
+    Public Function GetItemsDirectly() As List(Of String())
+        Return _items
+    End Function
+    Public Function GetItemsDirectly(indexFrom As Integer, Optional itemsNumber As Integer = 0) As List(Of String())
+        Dim returnableItems As New List(Of String())
+        If (_items.Count > 0) Then
+            If (itemsNumber > 0) Then
+                For i As Integer = indexFrom To Min(indexFrom + itemsNumber - 1, _items.Count - 1)
+                    returnableItems.Add(_items(i))
+                Next
+            Else
+                For i As Integer = indexFrom To _items.Count - 1
+                    returnableItems.Add(_items(i))
+                Next
             End If
-        Next
-        Return Me
+        End If
+        Return returnableItems
     End Function
     ''' <summary>
     ''' Used to remove item from <see cref="CStatList"/> using its index
@@ -374,7 +502,7 @@ Public Class CStatList
         If (newItemsList.Count > 0) Then
             _items = newItemsList
         Else
-            _items = Nothing
+            Return Nothing
         End If
         Return Me
     End Function
@@ -389,8 +517,7 @@ Public Class CStatList
         Dim keyIndex As Integer = FindFieldIndex(header)
         Dim newItemsList As New List(Of String())
         For i As Integer = 0 To Count - 1
-            Dim thisItem = _items(i).GetValue(keyIndex)
-            If (_items(i).GetValue(keyIndex) = keyValue) Then
+            If (_items(i)(keyIndex) = keyValue) Then
                 newItemsList.Add(_items(i))
             End If
         Next
@@ -454,11 +581,21 @@ Public Class CStatList
     ''' </summary>
     Private Sub New(headers As String(), headersNumber As Integer,
         inputIndex As Integer(), inputIndexMax As Integer, items As List(Of String()))
-        _fields = headers
+        Dim newFields(headersNumber - 1) As String
+        headers.CopyTo(newFields, 0)
+        _fields = newFields
         _fieldsNumber = headersNumber
-        _inputIndex = inputIndex
+        Dim newInputIndex(headersNumber - 1) As Integer
+        inputIndex.CopyTo(newInputIndex, 0)
+        _inputIndex = newInputIndex
         _inputIndexMax = inputIndexMax
-        _items = items
+        Dim newItems As New List(Of String())
+        For Each item In items
+            Dim temp(headersNumber - 1) As String
+            item.CopyTo(temp, 0)
+            newItems.Add(temp)
+        Next
+        _items = newItems
     End Sub
     Public Function FindFieldIndex(objectKey As String) As Integer
         For i As Integer = 0 To _fieldsNumber - 1

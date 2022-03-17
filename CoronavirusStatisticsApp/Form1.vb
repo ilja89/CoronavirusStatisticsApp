@@ -7,6 +7,8 @@ Public Class Form1
     Private request As New CRequest
     Private result As CStatList
     Private Async Sub test2() Handles Me.Load
-        Dim a = request.GetAverageHospitalizationTime
+        Dim a = Await request.GetSick()
+        a.AddField("newField")
+        a.AddField("anotherField", "qwerty")
     End Sub
 End Class
