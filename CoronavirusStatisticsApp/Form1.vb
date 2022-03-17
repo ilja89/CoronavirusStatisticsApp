@@ -6,9 +6,9 @@ Imports System.Runtime.InteropServices
 Public Class Form1
     Private request As New CRequest
     Private result As CStatList
+    Private functions As New CStatFunctions
     Private Async Sub test2() Handles Me.Load
-        Dim a = Await request.GetSick()
-        a.AddField("newField")
-        a.AddField("anotherField", "qwerty")
+        Dim a = Await request.GetTestStatPositiveGeneral
+        Dim b = functions.Forecast(a, "DailyCases",, 3, 15).GetFields("DailyCases", a.Count)
     End Sub
 End Class

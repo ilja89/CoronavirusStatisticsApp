@@ -156,6 +156,18 @@ Public Class CStatList
         End Get
     End Property
     ''' <summary>
+    ''' Makes copy of existing item
+    ''' </summary>
+    ''' <param name="index">Index of existing item in list</param>
+    ''' <returns>Copy of original item</returns>
+    Public Function GetItemCopy(index As Integer) As String()
+        Dim itemCopy(FieldsNumber - 1) As String
+        For i As Integer = 0 To FieldsNumber - 1
+            itemCopy(i) = _items(index)(i)
+        Next
+        Return itemCopy
+    End Function
+    ''' <summary>
     ''' Used to get multiple items fields as array of strings.
     ''' </summary>
     ''' <param name="field"></param>
