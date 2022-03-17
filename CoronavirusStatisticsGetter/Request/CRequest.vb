@@ -73,8 +73,28 @@ Public Class CRequest
         Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
         Dim data As CStatList = ParseCSVToCStatList(
             csv,
-            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage"})
-        Return data.Where("VaccinationSeries", "1")
+            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
+        data.Where("VaccinationSeries", "1")
+        Dim vaccinatedPercentageIndex As Integer = data.FindFieldIndex("VaccinatedPercentage")
+        Dim locationPopulationIndex As Integer = data.FindFieldIndex("EstoniaPopulation")
+        Dim totalCountIndex As Integer = data.FindFieldIndex("TotalCount")
+        For i As Integer = 0 To data.Count - 1
+            If (data.GetField(i, vaccinatedPercentageIndex) = "") Then
+                data.SetField(i, vaccinatedPercentageIndex) = (data.GetField(i, totalCountIndex) / data.GetField(i, locationPopulationIndex)) * 100
+            End If
+        Next
+        data.AddField("UnvaccinatedCount")
+        data.AddField("UnvaccinatedPercentage")
+        Dim typeIndex As Integer = data.FindFieldIndex("Type")
+        Dim unvaccinatedCountIndex As Integer = data.FindFieldIndex("UnvaccinatedCount")
+        Dim unvaccinatedPercentageIndex As Integer = data.FindFieldIndex("UnvaccinatedPercentage")
+        For i As Integer = 0 To data.Count - 1
+            If (data(i)(typeIndex) <> "DosesAdministered") Then
+                data(i)(unvaccinatedCountIndex) = data(i)(locationPopulationIndex) - data(i)(totalCountIndex)
+                data(i)(unvaccinatedPercentageIndex) = 100 - Val(data(i)(vaccinatedPercentageIndex))
+            End If
+        Next
+        Return data
     End Function
     ''' <summary>
     ''' Total number of positive COVID-19 cases and positive cases in last 14 days and same as ratio per 100k.<br/>

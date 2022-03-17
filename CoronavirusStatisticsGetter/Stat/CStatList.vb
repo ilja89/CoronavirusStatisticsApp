@@ -156,6 +156,44 @@ Public Class CStatList
         End Get
     End Property
     ''' <summary>
+    ''' Get sum of field values of multiple items
+    ''' </summary>
+    ''' <param name="firstItemIndex">Index of first item from what to start</param>
+    ''' <param name="itemsNumber">Amount of items what must be summed from <paramref name="firstItemIndex"/></param>
+    ''' <param name="fieldName">Name of field value inside what must be summed</param>
+    ''' <returns>Sum of field <paramref name="fieldName"/> values of items from <paramref name="firstItemIndex"/> to <paramref name="firstItemIndex"/> + <paramref name="itemsNumber"/></returns>
+    Public Function GetFieldsSum(firstItemIndex As Integer, itemsNumber As Integer, fieldName As String) As Integer
+        Dim result As Integer = 0
+        Dim fieldIndex = FindFieldIndex(fieldName)
+        If (fieldIndex <> -1) Then
+            For i As Integer = 0 To itemsNumber - 1
+                result += GetField(firstItemIndex + i, fieldIndex)
+            Next
+        Else
+            result = 0
+        End If
+        Return result
+    End Function
+    ''' <summary>
+    ''' Get average value of field values of multiple items
+    ''' </summary>
+    ''' <param name="firstItemIndex">Index of first item from what to start</param>
+    ''' <param name="itemsNumber">Amount of items for what average must be calculated, from <paramref name="firstItemIndex"/></param>
+    ''' <param name="fieldName">Name of field values of items inside what must be averaged</param>
+    ''' <returns>Average value of field values of multiple items</returns>
+    Public Function GetFieldsAverage(firstItemIndex As Integer, itemsNumber As Integer, fieldName As String) As Double
+        Dim result As Integer = 0
+        Dim fieldIndex = FindFieldIndex(fieldName)
+        If (fieldIndex <> -1) Then
+            For i As Integer = 0 To itemsNumber - 1
+                result += GetField(firstItemIndex + i, fieldIndex)
+            Next
+            Return CDbl(result) / itemsNumber
+        Else
+            Return 0
+        End If
+    End Function
+    ''' <summary>
     ''' Makes copy of existing item
     ''' </summary>
     ''' <param name="index">Index of existing item in list</param>
@@ -249,43 +287,45 @@ Public Class CStatList
     ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
     Public Function DeleteFieldFromList(fieldName As String) As CStatList
         Dim fieldIndex = FindFieldIndex(fieldName)
-        Dim newFieldsNumber = _fieldsNumber - 1
-        Dim newFields(_fieldsNumber - 2) As String
-        Dim newInputIndex(_fieldsNumber - 2) As Integer
-        Dim newInputIndexMax As Integer = 0
-        Dim i = 0
-        Dim c = 0
+        If (fieldIndex <> -1) Then
+            Dim newFieldsNumber = _fieldsNumber - 1
+            Dim newFields(_fieldsNumber - 2) As String
+            Dim newInputIndex(_fieldsNumber - 2) As Integer
+            Dim newInputIndexMax As Integer = 0
+            Dim i = 0
+            Dim c = 0
 
-        While (i < _fieldsNumber)
-            If (i <> fieldIndex) Then
-                newFields(c) = _fields(i)
-                newInputIndex(c) = _inputIndex(i)
-                If (newInputIndex(c) > newInputIndexMax) Then
-                    newInputIndexMax = newInputIndex(c)
-                End If
-                c += 1
-            End If
-            i += 1
-        End While
-        _fields = newFields
-        _inputIndex = newInputIndex
-        _inputIndexMax = newInputIndexMax
-
-        For itemNumber As Integer = 0 To _items.Count - 1
-            Dim newItem(_fieldsNumber - 2) As String
-            i = 0
-            c = 0
             While (i < _fieldsNumber)
                 If (i <> fieldIndex) Then
-                    newItem(c) = _items(itemNumber)(i)
+                    newFields(c) = _fields(i)
+                    newInputIndex(c) = _inputIndex(i)
+                    If (newInputIndex(c) > newInputIndexMax) Then
+                        newInputIndexMax = newInputIndex(c)
+                    End If
                     c += 1
                 End If
                 i += 1
             End While
-            _items(itemNumber) = newItem
-        Next
+            _fields = newFields
+            _inputIndex = newInputIndex
+            _inputIndexMax = newInputIndexMax
 
-        _fieldsNumber = _fieldsNumber - 1
+            For itemNumber As Integer = 0 To _items.Count - 1
+                Dim newItem(_fieldsNumber - 2) As String
+                i = 0
+                c = 0
+                While (i < _fieldsNumber)
+                    If (i <> fieldIndex) Then
+                        newItem(c) = _items(itemNumber)(i)
+                        c += 1
+                    End If
+                    i += 1
+                End While
+                _items(itemNumber) = newItem
+            Next
+
+            _fieldsNumber = _fieldsNumber - 1
+        End If
         Return Me
     End Function
     ''' <summary>

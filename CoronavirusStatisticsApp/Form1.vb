@@ -8,7 +8,6 @@ Public Class Form1
     Private result As CStatList
     Private functions As New CStatFunctions
     Private Async Sub test2() Handles Me.Load
-        Dim a = Await request.GetTestStatPositiveGeneral
-        Dim b = functions.Forecast(a, "DailyCases",, 3, 15).GetFields("DailyCases", a.Count)
+        Dim a = Await request.GetVaccinationStatGeneral
     End Sub
 End Class
