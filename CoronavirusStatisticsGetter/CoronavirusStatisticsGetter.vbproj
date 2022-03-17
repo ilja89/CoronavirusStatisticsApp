@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Request\HelperWebClient.vb" />
+    <Compile Include="Stat\CStatFunctions.vb" />
     <Compile Include="Stat\CStatList.vb" />
     <Compile Include="Stat\CStatObject.vb" />
     <Compile Include="Functional Extensions\MFunctionalExtensions.vb" />
