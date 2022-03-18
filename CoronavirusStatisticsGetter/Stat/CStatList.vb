@@ -162,15 +162,54 @@ Public Class CStatList
     ''' <param name="itemsNumber">Amount of items what must be summed from <paramref name="firstItemIndex"/></param>
     ''' <param name="fieldName">Name of field value inside what must be summed</param>
     ''' <returns>Sum of field <paramref name="fieldName"/> values of items from <paramref name="firstItemIndex"/> to <paramref name="firstItemIndex"/> + <paramref name="itemsNumber"/></returns>
-    Public Function GetFieldsSum(firstItemIndex As Integer, itemsNumber As Integer, fieldName As String) As Integer
+    Public Function GetFieldsSum(fieldName As String, Optional firstItemIndex As Integer = 0, Optional itemsNumber As Integer = -1) As Integer
         Dim result As Integer = 0
         Dim fieldIndex = FindFieldIndex(fieldName)
         If (fieldIndex <> -1) Then
-            For i As Integer = 0 To itemsNumber - 1
-                result += GetField(firstItemIndex + i, fieldIndex)
-            Next
+            If (itemsNumber <> -1) Then
+                For i As Integer = 0 To itemsNumber - 1
+                    result += GetField(firstItemIndex + i, fieldIndex)
+                Next
+            Else
+                For i As Integer = 0 To Count - 1
+                    result += GetField(firstItemIndex + i, fieldIndex)
+                Next
+            End If
         Else
             result = 0
+        End If
+        Return result
+    End Function
+    ''' <summary>
+    ''' Get sum of field <paramref name="fieldName"/> for all items from <paramref name="fromDate"/> to
+    ''' <paramref name="fromDate"/> + <paramref name="days"/><br/><br/>
+    ''' For example, to get sum for a week after <paramref name="fromDate"/>, use <paramref name="days"/> = 7.<br/>
+    ''' For a week before <paramref name="fromDate"/>, use <paramref name="days"/> = -7 etc.
+    ''' </summary>
+    ''' <param name="fromDate">Date point from what date period will be counted</param>
+    ''' <param name="fieldName">Name of field what have to be summed</param>
+    ''' <param name="days">Number of days to sum for. To sum up week after <paramref name="fromDate"/> use days = 7,
+    ''' for week before use days = -7 etc.</param>
+    ''' <param name="dateFieldName">Name of date field. "Date" by default.</param>
+    ''' <returns></returns>
+    Public Function GetFieldsSumForPeriod(fromDate As String, fieldName As String,
+                                          Optional days As Integer = 7,
+                                          Optional dateFieldName As String = "Date") As Integer
+        Dim result As Integer
+        Dim fieldIndex = FindFieldIndex(fieldName)
+        If (fieldIndex <> -1) Then
+            Dim list As CStatList = AsNew()
+            If (days < 0) Then
+                result = list.WhereDate(fromDate, "<",, dateFieldName).
+                    WhereDate(DateTime.Parse(fromDate).AddDays(days).ToString("yyyy-MM-dd"), ">=",, dateFieldName).
+                    GetFieldsSum(fieldName)
+            Else
+                result = list.WhereDate(fromDate, ">",, dateFieldName).
+                    WhereDate(DateTime.Parse(fromDate).AddDays(days).ToString("yyyy-MM-dd"), "<=",, dateFieldName).
+                    GetFieldsSum(fieldName)
+            End If
+        Else
+                result = -1
         End If
         Return result
     End Function
@@ -181,17 +220,25 @@ Public Class CStatList
     ''' <param name="itemsNumber">Amount of items for what average must be calculated, from <paramref name="firstItemIndex"/></param>
     ''' <param name="fieldName">Name of field values of items inside what must be averaged</param>
     ''' <returns>Average value of field values of multiple items</returns>
-    Public Function GetFieldsAverage(firstItemIndex As Integer, itemsNumber As Integer, fieldName As String) As Double
-        Dim result As Integer = 0
-        Dim fieldIndex = FindFieldIndex(fieldName)
-        If (fieldIndex <> -1) Then
-            For i As Integer = 0 To itemsNumber - 1
-                result += GetField(firstItemIndex + i, fieldIndex)
-            Next
-            Return CDbl(result) / itemsNumber
-        Else
-            Return 0
-        End If
+    Public Function GetFieldsAverage(fieldName As String, Optional firstItemIndex As Integer = 0, Optional itemsNumber As Integer = -1) As Integer
+        Return GetFieldsSum(fieldName, firstItemIndex, itemsNumber) / itemsNumber
+    End Function
+    ''' <summary>
+    ''' Get average of field <paramref name="fieldName"/> for all items from <paramref name="fromDate"/> to
+    ''' <paramref name="fromDate"/> + <paramref name="days"/><br/><br/>
+    ''' For example, to get average for a week after <paramref name="fromDate"/>, use <paramref name="days"/> = 7.<br/>
+    ''' For a week before <paramref name="fromDate"/>, use <paramref name="days"/> = -7 etc.
+    ''' </summary>
+    ''' <param name="fromDate">Date point from what date period will be counted</param>
+    ''' <param name="fieldName">Name of field what have to be averaged</param>
+    ''' <param name="days">Number of days to calculate average for. To get average of week after <paramref name="fromDate"/>
+    ''' use days = 7, for week before use days = -7 etc.</param>
+    ''' <param name="dateFieldName">Name of date field. "Date" by default.</param>
+    ''' <returns></returns>
+    Public Function GetFieldsAverageForPeriod(fromDate As String, fieldName As String,
+                                          Optional days As Integer = 7,
+                                          Optional dateFieldName As String = "Date") As Integer
+        Return GetFieldsSumForPeriod(fromDate, fieldName, days, dateFieldName) / Abs(days)
     End Function
     ''' <summary>
     ''' Makes copy of existing item
@@ -286,11 +333,13 @@ Public Class CStatList
     ''' <param name="fieldName">Name of field what have to be deleted</param>
     ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
     Public Function DeleteFieldFromList(fieldName As String) As CStatList
+        _canAddFreely = False
+        _inputIndex = Nothing
+        _inputIndexMax = Nothing
         Dim fieldIndex = FindFieldIndex(fieldName)
         If (fieldIndex <> -1) Then
             Dim newFieldsNumber = _fieldsNumber - 1
             Dim newFields(_fieldsNumber - 2) As String
-            Dim newInputIndex(_fieldsNumber - 2) As Integer
             Dim newInputIndexMax As Integer = 0
             Dim i = 0
             Dim c = 0
@@ -298,17 +347,11 @@ Public Class CStatList
             While (i < _fieldsNumber)
                 If (i <> fieldIndex) Then
                     newFields(c) = _fields(i)
-                    newInputIndex(c) = _inputIndex(i)
-                    If (newInputIndex(c) > newInputIndexMax) Then
-                        newInputIndexMax = newInputIndex(c)
-                    End If
                     c += 1
                 End If
                 i += 1
             End While
             _fields = newFields
-            _inputIndex = newInputIndex
-            _inputIndexMax = newInputIndexMax
 
             For itemNumber As Integer = 0 To _items.Count - 1
                 Dim newItem(_fieldsNumber - 2) As String
@@ -551,11 +594,7 @@ Public Class CStatList
                 End If
             Next
         End If
-        If (newItemsList.Count > 0) Then
-            _items = newItemsList
-        Else
-            Return Nothing
-        End If
+        _items = newItemsList
         Return Me
     End Function
     ''' <summary>
@@ -638,9 +677,13 @@ Public Class CStatList
         _fields = newFields
         _fieldsNumber = headersNumber
         Dim newInputIndex(headersNumber - 1) As Integer
-        inputIndex.CopyTo(newInputIndex, 0)
-        _inputIndex = newInputIndex
-        _inputIndexMax = inputIndexMax
+        If (inputIndex IsNot Nothing) Then
+            inputIndex.CopyTo(newInputIndex, 0)
+            _inputIndex = newInputIndex
+        End If
+        If (inputIndexMax <> Nothing) Then
+            _inputIndexMax = inputIndexMax
+        End If
         Dim newItems As New List(Of String())
         For Each item In items
             Dim temp(headersNumber - 1) As String

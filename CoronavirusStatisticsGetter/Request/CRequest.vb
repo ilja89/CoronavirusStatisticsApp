@@ -280,6 +280,15 @@ Public Class CRequest
         Return list
     End Function
 
+    ''' <summary>
+    ''' Get number of people currently sick at selected date. <br/>
+    ''' Calculated as total number of positive cases in last <paramref name="period"/> days.<br/>
+    ''' Fields:<br/>
+    ''' "Date"<br/>
+    ''' "Sick" - number of people currently sick at selected date.
+    ''' </summary>
+    ''' <param name="period"></param>
+    ''' <returns></returns>
     Public Async Function GetSick(Optional period As Integer = 14) As Task(Of CStatList)
         period = Max(0, period - 1)
         Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
@@ -305,13 +314,25 @@ Public Class CRequest
         data.DeleteFieldFromList("DailyCases")
         Return data
     End Function
-
-    Public Async Function GetSickCounty(Optional period As Integer = 14, Optional aimCounty As String = "all") As Task(Of CStatList)
+    ''' <summary>
+    ''' Get number of people currently sick at selected date by county. <br/>
+    ''' Calculated as total number of positive cases in last <paramref name="period"/> days.<br/>
+    ''' Fields:<br/>
+    ''' "Date"<br/>
+    ''' "Sick" - number of people currently sick at selected date.<br/>
+    ''' "County"
+    ''' </summary>
+    ''' <param name="period"></param>
+    ''' <param name="aimCounty"></param>
+    ''' <returns></returns>
+    Public Async Function GetSickCounty(Optional period As Integer = 14, Optional aimCounty As String = Nothing) As Task(Of CStatList)
         period = Max(0, period - 1)
         Dim list As CStatList = Await GetTestStatCounty()
         Dim counties As New List(Of CStatList)
         Dim sickFieldNumber, dailyFieldNumber As Integer
-        list.Where("County", aimCounty)
+        If (aimCounty IsNot Nothing) Then
+            list.Where("County", aimCounty)
+        End If
         list.RenameField("TotalTests", "Sick")
         While (list.Count > 0)
             ' Add all entries with this county as independent CStatList

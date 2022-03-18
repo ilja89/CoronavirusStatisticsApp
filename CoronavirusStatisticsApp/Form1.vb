@@ -8,6 +8,6 @@ Public Class Form1
     Private result As CStatList
     Private functions As New CStatFunctions
     Private Async Sub test2() Handles Me.Load
-        Dim a = Await request.GetVaccinationStatGeneral
+        Dim a = (Await request.GetSickCounty).GetFieldsAverageForPeriod("2022-02-02", "Sick", 7)
     End Sub
 End Class
