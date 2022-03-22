@@ -6,9 +6,8 @@ Imports System.Runtime.InteropServices
 Public Class Form1
     Private request As New CRequest
     Private result As CStatList
+    Private functions As New CStatFunctions
     Private Async Sub test2() Handles Me.Load
-        Dim a = Await request.GetSick()
-        a.AddField("newField")
-        a.AddField("anotherField", "qwerty")
+        Dim a = (Await request.GetSickCounty).GetFieldsAverageForPeriod("2022-02-02", "Sick", 7)
     End Sub
 End Class
