@@ -5,7 +5,7 @@ Imports System
 Imports System.Runtime.InteropServices
 Imports System.Drawing
 Imports System.Math
-Public Class Form1
+Public Class Map
     Private request As New CRequest
     Private result As CStatList
     Private polygons As New List(Of Polygon)

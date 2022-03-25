@@ -9,7 +9,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CoronavirusStatisticsGetter
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CoronavirusStatisticsGetter_UnitTests", "CoronavirusStatisticsGetter_UnitTests\CoronavirusStatisticsGetter_UnitTests.vbproj", "{407923F0-4CC0-40FD-8210-FA3BC504C489}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WindowsApp1", "WindowsApp1\WindowsApp1.vbproj", "{FFC502AB-2B93-471D-AB4E-24134706F942}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Map", "Map\Map.vbproj", "{D9EC6D3F-7949-414D-95D1-BF26A5D75F48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{407923F0-4CC0-40FD-8210-FA3BC504C489}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{407923F0-4CC0-40FD-8210-FA3BC504C489}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{407923F0-4CC0-40FD-8210-FA3BC504C489}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFC502AB-2B93-471D-AB4E-24134706F942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFC502AB-2B93-471D-AB4E-24134706F942}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFC502AB-2B93-471D-AB4E-24134706F942}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFC502AB-2B93-471D-AB4E-24134706F942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9EC6D3F-7949-414D-95D1-BF26A5D75F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9EC6D3F-7949-414D-95D1-BF26A5D75F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9EC6D3F-7949-414D-95D1-BF26A5D75F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9EC6D3F-7949-414D-95D1-BF26A5D75F48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
