@@ -36,6 +36,14 @@ Public Class CPolygons
         Next
         Return Nothing
     End Function
+    Public Sub SetGradientWhereName(aimName As String, gradient As Gradient)
+        For Each polygon As CPolygon In polygons
+            If (polygon.Name = aimName) Then
+                polygon.GradientBrushCenterColor = gradient.CenterColor
+                polygon.GradientBrushSideColor = gradient.SideColor
+            End If
+        Next
+    End Sub
     Public Sub DrawAll(pb As PictureBox,
                        Optional fill As Boolean = False,
                        Optional newCenterColor As Color = Nothing,
@@ -56,7 +64,7 @@ Public Class CPolygons
             End If
             If (newSideColor <> Nothing) Then
                 For Each polygon As CPolygon In polygons
-                    polygon.GradientBrushCenterColor = newSideColor
+                    polygon.GradientBrushSideColor = newSideColor
                 Next
             End If
             For Each polygon As CPolygon In polygons

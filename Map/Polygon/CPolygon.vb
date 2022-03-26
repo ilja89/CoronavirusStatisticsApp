@@ -91,11 +91,13 @@ Public Class CPolygon
             Return _fillGradientBrush.SurroundColors(0)
         End Get
         Set(value As Color)
+            Dim colors(_points.Length - 1) As Color
             Dim i As Integer = 0
             While (i < _points.Length)
-                _fillGradientBrush.SurroundColors(i) = value
+                colors(i) = value
                 i = i + 1
             End While
+            _fillGradientBrush.SurroundColors = colors
         End Set
     End Property
 

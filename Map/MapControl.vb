@@ -13,6 +13,7 @@ Imports System.Math
 Public Class MapControl
     Private polygons As New CPolygons(New Size(1920, 1200))
     Public Event Clicked(clickPosition As Point, polygonName As String)
+    Private _mapFont As New Font("Times New Roman", 50, FontStyle.Bold Or FontStyle.Italic)
     Private Sub WhenLoaded() Handles Me.Load
         mapPictureBox.Size = Me.Size
         polygons.Add(New CPolygon(stringToPoints(
@@ -85,15 +86,55 @@ Public Class MapControl
         463,1475,420,1500,410,1530,325,1530,280
         "), mapPictureBox, "Ida-Virumaa",,, New Pen(Brushes.Black, 4), New PointF(1670, 304)))
 
-        polygons.DrawAll(mapPictureBox, True,,, New Font("Times New Roman", 50, FontStyle.Bold Or FontStyle.Italic))
+        polygons.DrawAll(mapPictureBox, True,,, _mapFont)
     End Sub
-    Public Sub WhenResized() Handles Me.Resize
+    Private Sub WhenResized() Handles Me.Resize
         mapPictureBox.Size = Me.Size
     End Sub
-    Public Sub Gradient(pair As KeyValuePair(Of String, Integer))
-
+    Public Sub _DrawEmpty()
+        polygons.DrawAll(mapPictureBox,,,, _mapFont)
     End Sub
-    Public Sub WhenPictureBoxClicked(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.Click
+    Public Sub _DrawAllColor(color As Color)
+        polygons.DrawAll(mapPictureBox, True, color, color, _mapFont)
+    End Sub
+    Public Sub _DrawAllGradient(gradient As Gradient)
+        polygons.DrawAll(mapPictureBox, True, gradient.CenterColor, gradient.SideColor, _mapFont)
+    End Sub
+    Public Sub _DrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
+                             gradientLow As Gradient,
+                             gradientMedium As Gradient,
+                             gradientHigh As Gradient,
+                             gradientDefault As Gradient)
+        Dim maxValue As Integer = Integer.MinValue
+        Dim minValue As Integer = Integer.MaxValue
+        Dim mediumLow, mediumHigh As Integer
+        For Each item As KeyValuePair(Of String, Integer) In pair
+            If (item.Value > maxValue) Then
+                maxValue = item.Value
+            End If
+            If (item.Value < minValue) Then
+                minValue = item.Value
+            End If
+        Next
+        mediumLow = minValue + (maxValue - minValue) / 3
+        mediumHigh = minValue + (maxValue - minValue) * 0.666
+        For i As Integer = 0 To polygons.Count - 1
+            polygons(i).GradientBrushCenterColor = gradientDefault.CenterColor
+            polygons(i).GradientBrushSideColor = gradientDefault.SideColor
+        Next
+
+        For Each item As KeyValuePair(Of String, Integer) In pair
+            If (item.Value >= minValue AndAlso item.Value < mediumLow) Then
+                polygons.SetGradientWhereName(item.Key, gradientLow)
+            ElseIf (item.Value >= mediumLow AndAlso item.Value <= mediumHigh) Then
+                polygons.SetGradientWhereName(item.Key, gradientMedium)
+            ElseIf (item.Value > mediumHigh AndAlso item.Value <= maxValue) Then
+                polygons.SetGradientWhereName(item.Key, gradientHigh)
+            End If
+        Next
+        polygons.DrawAll(mapPictureBox, True,,, _mapFont)
+    End Sub
+    Private Sub WhenPictureBoxClicked(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.Click
         Dim clickPoint As New Point(
         e.X * (mapPictureBox.Image.Width / mapPictureBox.Width),
         e.Y * (mapPictureBox.Image.Height / mapPictureBox.Height))
