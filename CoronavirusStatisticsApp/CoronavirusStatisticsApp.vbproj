@@ -131,6 +131,10 @@
       <Project>{e1a5f7d2-0285-429a-899a-d29be7d3826d}</Project>
       <Name>CoronavirusStatisticsGetter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Map\Map.vbproj">
+      <Project>{d9ec6d3f-7949-414d-95d1-bf26a5d75f48}</Project>
+      <Name>Map</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TelegramInteraction\TelegramInteraction.vbproj">
       <Project>{282771c9-d0b4-45ab-a29f-e1c94ff18f80}</Project>
       <Name>TelegramInteraction</Name>

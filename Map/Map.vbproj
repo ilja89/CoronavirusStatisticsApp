@@ -70,7 +70,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Polygon.vb" />
+    <Compile Include="Polygon\CPolygons.vb" />
+    <Compile Include="Polygon\CPolygon.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -86,16 +87,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Map.Designer.vb">
-      <DependentUpon>Map.vb</DependentUpon>
+    <Compile Include="MapControl.Designer.vb">
+      <DependentUpon>MapControl.vb</DependentUpon>
     </Compile>
-    <Compile Include="Map.vb">
+    <Compile Include="MapControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Map.resx">
-      <DependentUpon>Map.vb</DependentUpon>
+    <EmbeddedResource Include="MapControl.resx">
+      <DependentUpon>MapControl.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -117,16 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CoronavirusStatisticsApp\CoronavirusStatisticsApp.vbproj">
-      <Project>{47e18833-c504-4c15-9642-9e02175ba2cf}</Project>
-      <Name>CoronavirusStatisticsApp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CoronavirusStatisticsGetter\CoronavirusStatisticsGetter.vbproj">
-      <Project>{e1a5f7d2-0285-429a-899a-d29be7d3826d}</Project>
-      <Name>CoronavirusStatisticsGetter</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

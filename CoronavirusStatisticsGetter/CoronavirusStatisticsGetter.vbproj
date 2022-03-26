@@ -77,7 +77,6 @@
     <Compile Include="Stat\CStatList.vb" />
     <Compile Include="Functional Extensions\MFunctionalExtensions.vb" />
     <Compile Include="Request\CRequest.vb" />
-    <Compile Include="Request\IRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -1,7 +1,7 @@
-﻿' FILENAME: CTelegramBot.vb
+﻿' FILENAME: CRequest.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 02.03.2022
-' CHANGED: 05.03.2022
+' CHANGED: 20.03.2022
 '
 ' DESCRIPTION: See below↓↓↓
 

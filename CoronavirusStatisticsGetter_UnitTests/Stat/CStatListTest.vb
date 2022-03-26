@@ -1,4 +1,12 @@
-﻿Imports System.Text
+﻿' FILENAME: CStatListTest.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 15.03.2022
+' CHANGED: 18.03.2022
+'
+' DESCRIPTION: See below↓↓↓
+
+' Related components: CStatList
+Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class CStatListTest
