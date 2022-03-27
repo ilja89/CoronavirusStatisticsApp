@@ -19,12 +19,14 @@ Public Class MapControl
     Private _defPolygonBackgroundBrush As Brush = Brushes.Gray
     Private _simpleDraw As Boolean = False
     Private _fillPolygons As Boolean = True
-    Private _defBackgroundImage As Image = Nothing
 
-    Public ReadOnly Property DefBackgroundImage As Image
+    Public Property BaseImage As Image
         Get
-            Return _defBackgroundImage
+            Return polygons.BaseImage
         End Get
+        Set(value As Image)
+            polygons.BaseImage = value
+        End Set
     End Property
     Public Property DefBorderPen As Pen
         Get
@@ -89,9 +91,6 @@ Public Class MapControl
     End Property
     Private Sub WhenLoaded() Handles Me.Load
         mapPictureBox.Size = Me.Size
-        If (_defBackgroundImage IsNot Nothing) Then
-            mapPictureBox.Image = _defBackgroundImage
-        End If
         polygons.Add(New CPolygon(stringToPoints(
             "280,360,310,370,313,405,365,415,385,433,420,500,385,500,358,524,325,540,305,575,273,580,247,566,
             238,491,220,468,166,475,125,447,126,438,175,433,202,435,222,447,253,398
@@ -194,13 +193,13 @@ Public Class MapControl
             _defGradient.CenterColor,
             _defGradient.SideColor, _defPolygonBackgroundBrush, _defBorderPen, New PointF(1670, 304)))
 
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw, _defBackgroundImage)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
     End Sub
     Private Sub WhenResized() Handles Me.Resize
         mapPictureBox.Size = Me.Size
     End Sub
     Public Sub _Update()
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw, _defBackgroundImage)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
     End Sub
     Public Sub _UpdatePolygonsWhereName(aimName As String)
         For i As Integer = 0 To polygons.Count - 1
@@ -228,10 +227,10 @@ Public Class MapControl
         Next
     End Sub
     Public Sub _DrawAllColor(color As Color)
-        polygons.DrawAll(mapPictureBox, _fillPolygons, color,, _mapFont, _drawNames, _simpleDraw, _defBackgroundImage)
+        polygons.DrawAll(mapPictureBox, _fillPolygons, color,, _mapFont, _drawNames, _simpleDraw)
     End Sub
     Public Sub _DrawAllGradient(gradient As Gradient)
-        polygons.DrawAll(mapPictureBox, _fillPolygons, gradient.CenterColor, gradient.SideColor, _mapFont, DrawNames, _simpleDraw, _defBackgroundImage)
+        polygons.DrawAll(mapPictureBox, _fillPolygons, gradient.CenterColor, gradient.SideColor, _mapFont, DrawNames, _simpleDraw)
     End Sub
     Public Sub _DrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
                              levelGradients As Array,
@@ -258,7 +257,7 @@ Public Class MapControl
                 polygons.SetGradientWhereKey(item.Key, levelGradients(n))
             Next
         End If
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw, _defBackgroundImage)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
     End Sub
     Private Sub WhenPictureBoxClicked(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.Click
         Dim clickPoint As New Point(

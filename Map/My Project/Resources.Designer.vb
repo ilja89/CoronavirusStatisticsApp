@@ -73,16 +73,6 @@ Namespace My.Resources
         '''<summary>
         '''  Поиск локализованного ресурса типа System.Drawing.Bitmap.
         '''</summary>
-        Friend ReadOnly Property Defmap1() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("Defmap1", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        '''</summary>
         Friend ReadOnly Property EsoniaPointsMapRaw() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("EsoniaPointsMapRaw", resourceCulture)

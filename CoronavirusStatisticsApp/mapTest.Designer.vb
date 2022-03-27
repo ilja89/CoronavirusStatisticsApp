@@ -22,8 +22,8 @@ Partial Class mapTest
     'Не изменяйте ее в редакторе исходного кода.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(mapTest))
         Dim Gradient2 As Map.Gradient = New Map.Gradient()
-        Me.MapControl1 = New Map.MapControl()
         Me.colorComboBox = New System.Windows.Forms.ComboBox()
         Me.simpleCheckBox = New System.Windows.Forms.CheckBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
@@ -35,21 +35,8 @@ Partial Class mapTest
         Me.fontButton = New System.Windows.Forms.Button()
         Me.drawEmptyButton = New System.Windows.Forms.Button()
         Me.gradientButton = New System.Windows.Forms.Button()
+        Me.MapControl1 = New Map.MapControl()
         Me.SuspendLayout()
-        '
-        'MapControl1
-        '
-        Gradient2.CenterColor = System.Drawing.Color.Green
-        Gradient2.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = Gradient2
-        Me.MapControl1.DrawNames = True
-        Me.MapControl1.FillPolygons = True
-        Me.MapControl1.Location = New System.Drawing.Point(12, 12)
-        Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-        Me.MapControl1.Name = "MapControl1"
-        Me.MapControl1.SimpleDraw = False
-        Me.MapControl1.Size = New System.Drawing.Size(1169, 723)
-        Me.MapControl1.TabIndex = 0
         '
         'colorComboBox
         '
@@ -85,7 +72,7 @@ Partial Class mapTest
         '
         Me.borderWidthTextBox.Location = New System.Drawing.Point(355, 742)
         Me.borderWidthTextBox.Name = "borderWidthTextBox"
-        Me.borderWidthTextBox.Size = New System.Drawing.Size(100, 20)
+        Me.borderWidthTextBox.Size = New System.Drawing.Size(113, 20)
         Me.borderWidthTextBox.TabIndex = 4
         '
         'applyAllButton
@@ -110,9 +97,9 @@ Partial Class mapTest
         '
         Me.borderWidthButton.Location = New System.Drawing.Point(355, 768)
         Me.borderWidthButton.Name = "borderWidthButton"
-        Me.borderWidthButton.Size = New System.Drawing.Size(100, 26)
+        Me.borderWidthButton.Size = New System.Drawing.Size(113, 26)
         Me.borderWidthButton.TabIndex = 7
-        Me.borderWidthButton.Text = "Select Text Size"
+        Me.borderWidthButton.Text = "Select Border Size"
         Me.borderWidthButton.UseVisualStyleBackColor = True
         '
         'fontButton
@@ -142,6 +129,21 @@ Partial Class mapTest
         Me.gradientButton.Text = "Gradient"
         Me.gradientButton.UseVisualStyleBackColor = True
         '
+        'MapControl1
+        '
+        Me.MapControl1.BaseImage = CType(resources.GetObject("MapControl1.BaseImage"), System.Drawing.Image)
+        Gradient2.CenterColor = System.Drawing.Color.Green
+        Gradient2.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = Gradient2
+        Me.MapControl1.DrawNames = True
+        Me.MapControl1.FillPolygons = True
+        Me.MapControl1.Location = New System.Drawing.Point(12, 12)
+        Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.MapControl1.Name = "MapControl1"
+        Me.MapControl1.SimpleDraw = True
+        Me.MapControl1.Size = New System.Drawing.Size(1169, 723)
+        Me.MapControl1.TabIndex = 0
+        '
         'mapTest
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -164,8 +166,6 @@ Partial Class mapTest
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents MapControl1 As Map.MapControl
     Friend WithEvents colorComboBox As ComboBox
     Friend WithEvents simpleCheckBox As CheckBox
     Friend WithEvents RichTextBox1 As RichTextBox
@@ -177,4 +177,5 @@ Partial Class mapTest
     Friend WithEvents fontButton As Button
     Friend WithEvents drawEmptyButton As Button
     Friend WithEvents gradientButton As Button
+    Friend WithEvents MapControl1 As Map.MapControl
 End Class

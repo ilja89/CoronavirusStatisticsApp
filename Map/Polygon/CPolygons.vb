@@ -11,6 +11,7 @@ Public Class CPolygons
     Private _polygons As List(Of CPolygon)
     Private _bitmapSize As Size
     Private _bitmapDefaultGradient As Gradient
+    Private _baseImage As Image
 
     Default Public Property Element(index As Integer) As CPolygon
         Get
@@ -24,6 +25,14 @@ Public Class CPolygons
         Get
             Return _polygons.Count
         End Get
+    End Property
+    Public Property BaseImage As Image
+        Get
+            Return _baseImage
+        End Get
+        Set(value As Image)
+            _baseImage = value
+        End Set
     End Property
 
     Public Sub Add(newPolygon As CPolygon)
@@ -59,11 +68,10 @@ Public Class CPolygons
                        Optional newSideColor As Color = Nothing,
                        Optional textFont As Font = Nothing,
                        Optional withNames As Boolean = True,
-                       Optional simpleDraw As Boolean = False,
-                       Optional baseImage As Image = Nothing)
-        If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
+                       Optional simpleDraw As Boolean = False)
+        If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or _baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
-            If (baseImage Is Nothing) Then
+            If (_baseImage Is Nothing) Then
                 If (simpleDraw) Then
                     bmp = New Bitmap(_bitmapSize.Width, _bitmapSize.Height)
                     Dim g As Graphics = Graphics.FromImage(bmp)
@@ -91,7 +99,7 @@ Public Class CPolygons
                     g.Dispose()
                 End If
             Else
-                bmp = New Bitmap(baseImage)
+                bmp = New Bitmap(DirectCast(_baseImage.Clone, Image))
             End If
 
             If (textFont Is Nothing) Then

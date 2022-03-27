@@ -62,7 +62,6 @@ Public Class mapTest
                 (New Gradient).Red
                 }, (New Gradient).Gray)
     End Sub
-
     Private Sub borderColorButton_Click(sender As Object, e As EventArgs) Handles borderColorButton.Click
         If (colorComboBox.Text <> " ") Then
             Dim newGradient As New Gradient
@@ -74,7 +73,6 @@ Public Class mapTest
             MapControl1._Update()
         End If
     End Sub
-
     Private Sub borderWidthButton_Click(sender As Object, e As EventArgs) Handles borderWidthButton.Click
         If (Val(borderWidthTextBox.Text) > 0) Then
             MapControl1.DefBorderPen = New Pen(MapControl1.DefBorderPen.Brush,
@@ -84,7 +82,6 @@ Public Class mapTest
             MapControl1._Update()
         End If
     End Sub
-
     Private Sub fontButton_Click(sender As Object, e As EventArgs) Handles fontButton.Click
         If FontDialog1.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
             MapControl1.MapFont = FontDialog1.Font
@@ -92,7 +89,6 @@ Public Class mapTest
             MapControl1._Update()
         End If
     End Sub
-
     Private Sub drawEmptyButton_Click(sender As Object, e As EventArgs) Handles drawEmptyButton.Click
         MapControl1.FillPolygons = False
         MapControl1._Update()
