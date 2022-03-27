@@ -207,6 +207,8 @@ Public Class MapControl
             If (polygons(i).Name = aimName) Then
                 polygons(i).Draw(mapPictureBox, _fillPolygons,,,, _simpleDraw)
             End If
+        Next
+        For i As Integer = 0 To polygons.Count - 1
             polygons(i).DrawPolygonName(mapPictureBox, _mapFont)
         Next
     End Sub
