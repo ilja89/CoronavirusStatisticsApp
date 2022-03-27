@@ -70,6 +70,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gradients\Argb.vb" />
     <Compile Include="Gradients\Gradient.vb" />
     <Compile Include="Polygon\CPolygons.vb" />
     <Compile Include="Polygon\CPolygon.vb" />

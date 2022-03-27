@@ -16,8 +16,10 @@ Public Class CPolygon
     Private _maxY As Integer
     Private _fillGradientBrush As PathGradientBrush = Nothing
     Private _fillGradientBrushPath As GraphicsPath = Nothing
+    Private _bgBrush As Brush = Nothing
     Private _borderPen As Pen = Nothing
     Private _polygonName As String = ""
+    Private _polygonKey As String = ""
     Private _namePoint As PointF
     Private _drawName As Boolean
 
@@ -39,11 +41,6 @@ Public Class CPolygon
     Public ReadOnly Property MaxY As Integer
         Get
             Return _maxY
-        End Get
-    End Property
-    Public ReadOnly Property GradientBrush As PathGradientBrush
-        Get
-            Return _fillGradientBrush
         End Get
     End Property
     Public Property BorderPen As Pen
@@ -69,6 +66,11 @@ Public Class CPolygon
         Set(value As PointF)
             _namePoint = value
         End Set
+    End Property
+    Public ReadOnly Property Key As String
+        Get
+            Return _polygonKey
+        End Get
     End Property
     Public Property DrawName As Boolean
         Get
@@ -103,8 +105,10 @@ Public Class CPolygon
 
     Public Sub New(input_points() As Point, pb As PictureBox,
                    Optional new_polygonName As String = "",
+                   Optional new_polygonKey As String = "",
                    Optional new_fillGradientCenterColor As Color = Nothing,
                    Optional new_fillGradientSideColor As Color = Nothing,
+                   Optional new_bgBrush As Brush = Nothing,
                    Optional new_borderPen As Pen = Nothing,
                    Optional new_namePoint As PointF = Nothing,
                    Optional new_drawName As Boolean = True)
@@ -112,6 +116,11 @@ Public Class CPolygon
         _borderPen = new_borderPen
         _points = input_points
         _polygonName = new_polygonName
+        If (new_polygonKey = "") Then
+            _polygonKey = _polygonName
+        Else
+            _polygonKey = new_polygonKey
+        End If
         If (_borderPen Is Nothing) Then
             _borderPen = New Pen(Brushes.Black, 3)
         End If
@@ -154,6 +163,10 @@ Public Class CPolygon
             colors(i) = new_fillGradientSideColor
             i = i + 1
         End While
+        If (new_bgBrush Is Nothing) Then
+            new_bgBrush = Brushes.Gray
+        End If
+        _bgBrush = new_bgBrush
         _fillGradientBrush.SurroundColors = colors
     End Sub
 
@@ -179,7 +192,8 @@ Public Class CPolygon
                     Optional fill As Boolean = False,
                     Optional drawBorderPen As Pen = Nothing,
                     Optional newCenterColor As Color = Nothing,
-                    Optional newSideColor As Color = Nothing)
+                    Optional newSideColor As Color = Nothing,
+                    Optional simpleDraw As Boolean = False)
         If pb.Image IsNot Nothing Then
             If (drawBorderPen Is Nothing) Then
                 drawBorderPen = _borderPen
@@ -195,38 +209,19 @@ Public Class CPolygon
                 End While
             End If
             Using g As Graphics = Graphics.FromImage(pb.Image)
-                    Dim i As Integer = 0
-                    Dim j As Integer = _points.Count - 1
-                    If (fill) Then
-                        g.FillPath(_fillGradientBrush, _fillGradientBrushPath)
-                    End If
-                    While (i < _points.Count)
-                        Dim point1, point2 As New Point
-                        Dim moveX1 As Integer = _points(i).X / pb.Image.Width + _borderPen.Width / 5
-                        Dim moveX2 As Integer = _points(j).X / pb.Image.Width + _borderPen.Width / 5
-                        Dim moveY1 As Integer = _points(i).Y / pb.Image.Height + _borderPen.Width / 5
-                        Dim moveY2 As Integer = _points(j).Y / pb.Image.Height + _borderPen.Width / 5
-                        If (_points(i).X > _points(j).X) Then
-                            point1.X = _points(i).X + Max(1, moveX1)
-                            point2.X = _points(j).X - Max(1, moveX2)
-                        Else
-                            point1.X = _points(i).X - Max(1, moveX1)
-                            point2.X = _points(j).X + Max(1, moveX2)
-                        End If
-                        If (_points(i).Y > _points(j).Y) Then
-                            point1.Y = _points(i).Y + Max(1, moveY1)
-                            point2.Y = _points(j).Y - Max(1, moveY2)
-                        Else
-                            point1.Y = _points(i).Y - Max(1, moveY1)
-                            point2.Y = _points(j).Y + Max(1, moveY2)
-                        End If
-                        g.DrawLine(drawBorderPen, point1, point2)
-                        j = i
-                        i = i + 1
-                    End While
-                End Using
-                pb.Invalidate()
-            End If
+                Dim i As Integer = 0
+                Dim j As Integer = _points.Count - 1
+
+                g.FillPolygon(_bgBrush, _points)
+                If (simpleDraw And fill) Then
+                    g.FillPolygon(New SolidBrush(_fillGradientBrush.CenterColor), _points)
+                ElseIf (Not simpleDraw And fill) Then
+                    g.FillPath(_fillGradientBrush, _fillGradientBrushPath)
+                End If
+                g.DrawPolygon(drawBorderPen, _points)
+            End Using
+            pb.Invalidate()
+        End If
     End Sub
 
     Public Sub DrawPolygonName(pb As PictureBox, textFont As Font)
@@ -238,5 +233,6 @@ Public Class CPolygon
                 _namePoint.Y - stringSize.Height / 2)
             g.DrawString(_polygonName, textFont, Brushes.Black, drawPoint)
         End If
+        pb.Invalidate()
     End Sub
 End Class
