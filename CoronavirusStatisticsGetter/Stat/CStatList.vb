@@ -1,4 +1,12 @@
-﻿Imports System.Math
+﻿' FILENAME: CStatList.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 02.03.2022
+' CHANGED: 20.03.2022
+'
+' DESCRIPTION: See below↓↓↓
+
+' Related components: CStatFunctions
+Imports System.Math
 ''' <summary>
 ''' Class used to comfortably work with statistics data, received from network in CSV format.
 ''' </summary>

@@ -1,4 +1,12 @@
-﻿Imports System.Net
+﻿' FILENAME: HelperWebClient.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 07.03.2022
+' CHANGED: 07.03.2022
+'
+' DESCRIPTION: Just parallel data downloading, maybe will be useful
+
+' Related components: CStatFunctions
+Imports System.Net
 Public Class HelperWebClient
 
     Public Async Function DownloadDataAsync(urls As List(Of String)) As Task(Of List(Of DownloadedData))

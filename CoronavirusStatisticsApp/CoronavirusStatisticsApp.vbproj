@@ -73,17 +73,16 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="mapTest.Designer.vb">
+      <DependentUpon>mapTest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="mapTest.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="test2.Designer.vb">
       <DependentUpon>test2.vb</DependentUpon>
     </Compile>
     <Compile Include="test2.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="test1.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="test1.Designer.vb">
-      <DependentUpon>test1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -104,8 +103,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="test1.resx">
-      <DependentUpon>test1.vb</DependentUpon>
+    <EmbeddedResource Include="mapTest.resx">
+      <DependentUpon>mapTest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -130,6 +129,10 @@
     <ProjectReference Include="..\CoronavirusStatisticsGetter\CoronavirusStatisticsGetter.vbproj">
       <Project>{e1a5f7d2-0285-429a-899a-d29be7d3826d}</Project>
       <Name>CoronavirusStatisticsGetter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Map\Map.vbproj">
+      <Project>{d9ec6d3f-7949-414d-95d1-bf26a5d75f48}</Project>
+      <Name>Map</Name>
     </ProjectReference>
     <ProjectReference Include="..\TelegramInteraction\TelegramInteraction.vbproj">
       <Project>{282771c9-d0b4-45ab-a29f-e1c94ff18f80}</Project>

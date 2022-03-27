@@ -1,7 +1,7 @@
-﻿' FILENAME: CTelegramBot.vb
+﻿' FILENAME: CRequest.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 02.03.2022
-' CHANGED: 05.03.2022
+' CHANGED: 20.03.2022
 '
 ' DESCRIPTION: See below↓↓↓
 
@@ -33,7 +33,7 @@ Public Class CRequest
             csv,
             {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation",
             "DailyCount", "TotalCount"})
-        Return data.Where("VaccinationSeries", "1").WhereNot("County", "null")
+        Return data.Where("VaccinationSeries", "1").WhereNot("County", "null").WhereNot("County", "")
     End Function
     ''' <summary>
     ''' Get Covid-19 vaccination statistics by age group.<br/>

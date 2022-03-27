@@ -1,4 +1,12 @@
-﻿Imports System.Runtime
+﻿' FILENAME: CStatFunctions.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 25.03.2022
+' CHANGED: 25.03.2022
+'
+' DESCRIPTION: See below↓↓↓
+
+' Related components: CStatList
+Imports System.Runtime
 Public Class CStatFunctions
     ''' <summary>
     ''' Extends existing list with linear trend prediction based on sample of last entries in list
