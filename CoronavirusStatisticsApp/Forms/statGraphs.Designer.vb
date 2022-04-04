@@ -26,9 +26,9 @@ Partial Class statGraphs
         Me.totalVact = New LiveCharts.WinForms.SolidGauge()
         Me.totalPos = New LiveCharts.WinForms.SolidGauge()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -77,18 +77,20 @@ Partial Class statGraphs
         Me.Panel1.Size = New System.Drawing.Size(1042, 495)
         Me.Panel1.TabIndex = 3
         '
-        'Label1
+        'Label3
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(122, 338)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(107, 18)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Kokku haige"
+        Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(772, 338)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(205, 18)
+        Me.Label3.TabIndex = 5
+        Me.Label3.Text = "Kokku positiivsed testid"
         '
         'Label2
         '
+        Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.Location = New System.Drawing.Point(441, 338)
@@ -97,15 +99,16 @@ Partial Class statGraphs
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Kokku vaktsineeritud"
         '
-        'Label3
+        'Label1
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(772, 338)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(205, 18)
-        Me.Label3.TabIndex = 5
-        Me.Label3.Text = "Kokku positiivsed testid"
+        Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(122, 338)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(107, 18)
+        Me.Label1.TabIndex = 3
+        Me.Label1.Text = "Kokku haige"
         '
         'statGraphs
         '
