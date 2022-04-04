@@ -19,14 +19,21 @@ Public Class Main
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
+    Public covidTestPosGen As CStatList
+    Public covidVactGen As CStatList
+    Public covidSickGen As CStatList
+    'Dim statGraphs As New statWin
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MapControl1.Visible = False
-
+        'StatWin1.Visible = False
 
         covidTest = Await request.GetTestStatCounty()
         covidVact = Await request.GetVaccinationStatByCounty()
         covidSick = Await request.GetSickCounty()
+        covidTestPosGen = Await request.GetTestStatPositiveGeneral()
+        covidVactGen = Await request.GetVaccinationStatGeneral()
+        covidSickGen = Await request.GetSick()
         Dim a = MapControl1
 
 
@@ -121,7 +128,9 @@ Public Class Main
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
         MapControl1.Visible = True
-        ActivateButton(sender, Color.FromArgb(205, 205, 13))
+        MapControl1.BringToFront()
+        ActivateButton(sender, Color.Green)
+        'StatWin1.Visible = False
 
     End Sub
 
@@ -129,14 +138,17 @@ Public Class Main
         If MapControl1 IsNot Nothing Then
             MapControl1.Visible = False
         End If
-        ActivateButton(sender, Color.MediumVioletRed)
-        Dim statGraphs As New statWin
-        Controls.Add(statGraphs)
+        ActivateButton(sender, Color.Cyan)
+        OpenChildForm(New statGraphs)
+
+
+        'StatWin1.Visible = True
+
 
     End Sub
 
     Private Sub btnTelegramm_Click(sender As Object, e As EventArgs) Handles btnTelegramm.Click
-        ActivateButton(sender, Color.Cyan)
+        ActivateButton(sender, Color.MediumVioletRed)
 
     End Sub
 
@@ -146,7 +158,7 @@ Public Class Main
     End Sub
 
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
-        ActivateButton(sender, Color.Green)
+        ActivateButton(sender, Color.FromArgb(205, 205, 13))
 
     End Sub
 

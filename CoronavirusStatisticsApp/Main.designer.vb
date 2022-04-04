@@ -39,8 +39,8 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MapControl1 = New Map.MapControl()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -260,7 +260,7 @@ Partial Class Main
         '
         'PanelDesktop
         '
-        Me.PanelDesktop.BackColor = System.Drawing.Color.DimGray
+        Me.PanelDesktop.BackColor = System.Drawing.Color.Gray
         Me.PanelDesktop.Controls.Add(Me.MapControl1)
         Me.PanelDesktop.Controls.Add(Me.PictureBox1)
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
@@ -268,18 +268,6 @@ Partial Class Main
         Me.PanelDesktop.Name = "PanelDesktop"
         Me.PanelDesktop.Size = New System.Drawing.Size(1058, 534)
         Me.PanelDesktop.TabIndex = 2
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PictureBox1.Location = New System.Drawing.Point(354, 165)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(332, 180)
-        Me.PictureBox1.TabIndex = 1
-        Me.PictureBox1.TabStop = False
         '
         'MapControl1
         '
@@ -300,7 +288,19 @@ Partial Class Main
         Me.MapControl1.Size = New System.Drawing.Size(1058, 534)
         Me.MapControl1.TabIndex = 2
         '
-        'Form1
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.PictureBox1.Location = New System.Drawing.Point(354, 165)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(332, 180)
+        Me.PictureBox1.TabIndex = 1
+        Me.PictureBox1.TabStop = False
+        '
+        'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -309,7 +309,7 @@ Partial Class Main
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)
         Me.MinimumSize = New System.Drawing.Size(1160, 542)
-        Me.Name = "Form1"
+        Me.Name = "Main"
         Me.Text = "CovidTrackr"
         Me.MenuPanel.ResumeLayout(False)
         Me.PanelLogo.ResumeLayout(False)
