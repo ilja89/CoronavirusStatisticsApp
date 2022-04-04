@@ -22,14 +22,12 @@ Partial Class MapControl
     'Не изменяйте ее в редакторе исходного кода.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MapControl))
         Me.mapPictureBox = New System.Windows.Forms.PictureBox()
         CType(Me.mapPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'mapPictureBox
         '
-        Me.mapPictureBox.Image = CType(resources.GetObject("mapPictureBox.Image"), System.Drawing.Image)
         Me.mapPictureBox.Location = New System.Drawing.Point(0, 0)
         Me.mapPictureBox.Name = "mapPictureBox"
         Me.mapPictureBox.Size = New System.Drawing.Size(1920, 1200)

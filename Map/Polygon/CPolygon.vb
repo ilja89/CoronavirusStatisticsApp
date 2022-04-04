@@ -102,6 +102,11 @@ Public Class CPolygon
             _fillGradientBrush.SurroundColors = colors
         End Set
     End Property
+    Public ReadOnly Property Points As Point()
+        Get
+            Return _points
+        End Get
+    End Property
 
     Public Sub New(input_points() As Point, pb As PictureBox,
                    Optional new_polygonName As String = "",
@@ -191,22 +196,25 @@ Public Class CPolygon
     Public Sub Draw(pb As PictureBox,
                     Optional fill As Boolean = False,
                     Optional drawBorderPen As Pen = Nothing,
-                    Optional newCenterColor As Color = Nothing,
-                    Optional newSideColor As Color = Nothing,
+                    Optional withCenterColor As Color = Nothing,
+                    Optional withSideColor As Color = Nothing,
                     Optional simpleDraw As Boolean = False)
+        Dim drawGradient As PathGradientBrush = _fillGradientBrush.Clone
         If pb.Image IsNot Nothing Then
             If (drawBorderPen Is Nothing) Then
                 drawBorderPen = _borderPen
             End If
-            If (newCenterColor <> Nothing) Then
-                _fillGradientBrush.CenterColor = newCenterColor
+            If (withCenterColor <> Nothing) Then
+                drawGradient.CenterColor = withCenterColor
             End If
-            If (newSideColor <> Nothing) Then
+            If (withSideColor <> Nothing) Then
                 Dim i As Integer = 0
+                Dim colors(_points.Length - 1) As Color
                 While (i < _points.Length)
-                    _fillGradientBrush.SurroundColors(i) = newSideColor
+                    colors(i) = withSideColor
                     i = i + 1
                 End While
+                drawGradient.SurroundColors = colors
             End If
             Using g As Graphics = Graphics.FromImage(pb.Image)
                 Dim i As Integer = 0
@@ -214,9 +222,9 @@ Public Class CPolygon
 
                 g.FillPolygon(_bgBrush, _points)
                 If (simpleDraw And fill) Then
-                    g.FillPolygon(New SolidBrush(_fillGradientBrush.CenterColor), _points)
+                    g.FillPolygon(New SolidBrush(drawGradient.CenterColor), _points)
                 ElseIf (Not simpleDraw And fill) Then
-                    g.FillPath(_fillGradientBrush, _fillGradientBrushPath)
+                    g.FillPath(drawGradient, _fillGradientBrushPath)
                 End If
                 g.DrawPolygon(drawBorderPen, _points)
             End Using

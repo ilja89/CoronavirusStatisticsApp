@@ -11,14 +11,16 @@ Imports System.Drawing
 Imports System.Math
 Public Class MapControl
     Private polygons As New CPolygons(New Size(1920, 1200))
-    Public Event Clicked(clickPosition As Point, polygonName As String)
+    Public Event Clicked(clickPosition As Point, polygonName As String, polygonKey As String)
     Private _mapFont As New Font("Times New Roman", 50, FontStyle.Bold Or FontStyle.Italic)
     Private _drawNames As Boolean = True
     Private _defBorderPen As Pen = New Pen(Brushes.Black, 4)
     Private _defGradient As Gradient = (New Gradient()).Green
     Private _defPolygonBackgroundBrush As Brush = Brushes.Gray
-    Private _simpleDraw As Boolean = False
+    Private _simplePolygonsDraw As Boolean = False
     Private _fillPolygons As Boolean = True
+    Private _simpleBackgroundDraw As Boolean = False
+    Private _lastHoveredPolygon As CPolygon = Nothing
 
     Public Property BaseImage As Image
         Get
@@ -73,12 +75,20 @@ Public Class MapControl
             Return polygons
         End Get
     End Property
-    Public Property SimpleDraw As Boolean
+    Public Property SimplePolygonsDraw As Boolean
         Get
-            Return _simpleDraw
+            Return _simplePolygonsDraw
         End Get
         Set(value As Boolean)
-            _simpleDraw = value
+            _simplePolygonsDraw = value
+        End Set
+    End Property
+    Public Property SimpleBackgroundDraw As Boolean
+        Get
+            Return _simpleBackgroundDraw
+        End Get
+        Set(value As Boolean)
+            _simpleBackgroundDraw = value
         End Set
     End Property
     Public Property FillPolygons As Boolean
@@ -87,6 +97,26 @@ Public Class MapControl
         End Get
         Set(value As Boolean)
             _fillPolygons = value
+        End Set
+    End Property
+    Public Property DefBgCenterColor As Color
+        Get
+            Return polygons.DefBgGradient.CenterColor
+        End Get
+        Set(value As Color)
+            If (value <> Nothing) Then
+                polygons.DefBgGradient.CenterColor = value
+            End If
+        End Set
+    End Property
+    Public Property DefBgSideColor As Color
+        Get
+            Return polygons.DefBgGradient.SideColor
+        End Get
+        Set(value As Color)
+            If (value <> Nothing) Then
+                polygons.DefBgGradient.SideColor = value
+            End If
         End Set
     End Property
     Private Sub WhenLoaded() Handles Me.Load
@@ -193,18 +223,18 @@ Public Class MapControl
             _defGradient.CenterColor,
             _defGradient.SideColor, _defPolygonBackgroundBrush, _defBorderPen, New PointF(1670, 304)))
 
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
     Private Sub WhenResized() Handles Me.Resize
         mapPictureBox.Size = Me.Size
     End Sub
     Public Sub _Update()
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
     Public Sub _UpdatePolygonsWhereName(aimName As String)
         For i As Integer = 0 To polygons.Count - 1
             If (polygons(i).Name = aimName) Then
-                polygons(i).Draw(mapPictureBox, _fillPolygons,,,, _simpleDraw)
+                polygons(i).Draw(mapPictureBox, _fillPolygons,,,, _simplePolygonsDraw)
             End If
         Next
         For i As Integer = 0 To polygons.Count - 1
@@ -227,10 +257,10 @@ Public Class MapControl
         Next
     End Sub
     Public Sub _DrawAllColor(color As Color)
-        polygons.DrawAll(mapPictureBox, _fillPolygons, color,, _mapFont, _drawNames, _simpleDraw)
+        polygons.DrawAll(mapPictureBox, _fillPolygons, color,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
     Public Sub _DrawAllGradient(gradient As Gradient)
-        polygons.DrawAll(mapPictureBox, _fillPolygons, gradient.CenterColor, gradient.SideColor, _mapFont, DrawNames, _simpleDraw)
+        polygons.DrawAll(mapPictureBox, _fillPolygons, gradient.CenterColor, gradient.SideColor, _mapFont, DrawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
     Public Sub _DrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
                              levelGradients As Array,
@@ -257,20 +287,66 @@ Public Class MapControl
                 polygons.SetGradientWhereKey(item.Key, levelGradients(n))
             Next
         End If
-        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simpleDraw)
+        polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
     Private Sub WhenPictureBoxClicked(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.Click
         Dim clickPoint As New Point(
         e.X * (mapPictureBox.Image.Width / mapPictureBox.Width),
         e.Y * (mapPictureBox.Image.Height / mapPictureBox.Height))
         Dim clickedPolygonName As String = Nothing
+        Dim clickedPolygonKey As String = Nothing
         For i As Integer = 0 To polygons.Count - 1
             If (polygons(i).IsPointInside(clickPoint)) Then
                 clickedPolygonName = polygons(i).Name
+                clickedPolygonKey = polygons(i).Key
                 Exit For
             End If
         Next
-        RaiseEvent Clicked(clickPoint, clickedPolygonName)
+        RaiseEvent Clicked(clickPoint, clickedPolygonName, clickedPolygonKey)
+    End Sub
+    Private Sub WhenPictureBoxHovered(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.MouseMove
+        Dim hoverPoint As New Point(
+        e.X * (mapPictureBox.Image.Width / mapPictureBox.Width),
+        e.Y * (mapPictureBox.Image.Height / mapPictureBox.Height))
+        Dim hoveredPolygon As CPolygon = Nothing
+        For i As Integer = 0 To polygons.Count - 1
+            If (polygons(i).IsPointInside(hoverPoint)) Then
+                hoveredPolygon = polygons(i)
+                Exit For
+            End If
+        Next
+        If (hoveredPolygon IsNot Nothing) Then
+            If (_lastHoveredPolygon IsNot hoveredPolygon) Then
+                Dim splittedCenter As String() = hoveredPolygon.GradientBrushCenterColor.ToString.Replace("Color [", "").Replace("]", "").
+                    Replace(" ", "").Replace("A", "").Replace("R", "").Replace("G", "").Replace("B", "").Replace("=", "").Split(",")
+                Dim withCenterColor = Color.FromArgb(Min(255, splittedCenter(0) + 20),
+                                                     Min(255, splittedCenter(1) + 20),
+                                                     Min(255, splittedCenter(2) + 20),
+                                                     Min(255, splittedCenter(3) + 20))
+                Dim splittedSide As String() = hoveredPolygon.GradientBrushSideColor.ToString.Replace("Color [", "").Replace("]", "").
+                    Replace(" ", "").Replace("A", "").Replace("R", "").Replace("G", "").Replace("B", "").Replace("=", "").Split(",")
+                Dim withSideColor = Color.FromArgb(Min(255, splittedSide(0) + 20),
+                                                     Min(255, splittedSide(1) + 20),
+                                                     Min(255, splittedSide(2) + 20),
+                                                     Min(255, splittedSide(3) + 20))
+                hoveredPolygon.Draw(mapPictureBox, _fillPolygons, _defBorderPen, withCenterColor, withSideColor, _simplePolygonsDraw)
+                If (_lastHoveredPolygon IsNot Nothing) Then
+                    _lastHoveredPolygon.Draw(mapPictureBox, _fillPolygons, _defBorderPen,,, _simplePolygonsDraw)
+                End If
+                For i As Integer = 0 To polygons.Count - 1
+                    polygons(i).DrawPolygonName(mapPictureBox, _mapFont)
+                Next
+                _lastHoveredPolygon = hoveredPolygon
+            End If
+        Else
+            If (_lastHoveredPolygon IsNot Nothing) Then
+                _lastHoveredPolygon.Draw(mapPictureBox, _fillPolygons, _defBorderPen,,, _simplePolygonsDraw)
+                For i As Integer = 0 To polygons.Count - 1
+                    polygons(i).DrawPolygonName(mapPictureBox, _mapFont)
+                Next
+                _lastHoveredPolygon = Nothing
+            End If
+        End If
     End Sub
     Private Function stringToPoints(input As String) As Point()
         Dim pointsList As New List(Of Point)

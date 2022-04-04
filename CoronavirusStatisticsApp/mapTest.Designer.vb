@@ -23,7 +23,7 @@ Partial Class mapTest
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(mapTest))
-        Dim Gradient2 As Map.Gradient = New Map.Gradient()
+        Dim Gradient1 As Map.Gradient = New Map.Gradient()
         Me.colorComboBox = New System.Windows.Forms.ComboBox()
         Me.simpleCheckBox = New System.Windows.Forms.CheckBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
@@ -132,15 +132,15 @@ Partial Class mapTest
         'MapControl1
         '
         Me.MapControl1.BaseImage = CType(resources.GetObject("MapControl1.BaseImage"), System.Drawing.Image)
-        Gradient2.CenterColor = System.Drawing.Color.Green
-        Gradient2.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = Gradient2
+        Gradient1.CenterColor = System.Drawing.Color.Green
+        Gradient1.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = Gradient1
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True
         Me.MapControl1.Location = New System.Drawing.Point(12, 12)
         Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
         Me.MapControl1.Name = "MapControl1"
-        Me.MapControl1.SimpleDraw = True
+        Me.MapControl1.SimplePolygonsDraw = True
         Me.MapControl1.Size = New System.Drawing.Size(1169, 723)
         Me.MapControl1.TabIndex = 0
         '

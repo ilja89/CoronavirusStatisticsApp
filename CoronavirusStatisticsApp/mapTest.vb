@@ -7,7 +7,7 @@ Imports System.Drawing
 Imports System.Math
 Imports Map
 Public Class mapTest
-    Private Sub MapControl1_Click(clickPosition As Point, polygonName As String) Handles MapControl1.Clicked
+    Private Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
         RichTextBox1.Text =
                 "X: " + clickPosition.X.ToString + vbCrLf +
                 "Y: " + clickPosition.Y.ToString + vbCrLf +
@@ -16,7 +16,7 @@ Public Class mapTest
             Dim newGradient As New Gradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.MapPolygons.SetGradientWhereName(polygonName, newGradient)
-            MapControl1.SimpleDraw = simpleCheckBox.Checked
+            MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
             MapControl1._UpdatePolygonsWhereName(polygonName)
         End If
     End Sub
@@ -27,12 +27,12 @@ Public Class mapTest
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.DefGradient = newGradient
             MapControl1._SetAllPolygonsToDefault()
-            MapControl1.SimpleDraw = simpleCheckBox.Checked
+            MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
             MapControl1._Update()
         End If
     End Sub
     Private Sub simpleCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles simpleCheckBox.CheckedChanged
-        MapControl1.SimpleDraw = simpleCheckBox.Checked
+        MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
         MapControl1._Update()
     End Sub
 
@@ -69,7 +69,7 @@ Public Class mapTest
             MapControl1.DefBorderPen = New Pen(New SolidBrush(newGradient.CenterColor),
                                                    MapControl1.DefBorderPen.Width)
             MapControl1._SetAllPolygonsToDefault(True, False, False)
-            MapControl1.SimpleDraw = simpleCheckBox.Checked
+            MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
             MapControl1._Update()
         End If
     End Sub
@@ -78,14 +78,14 @@ Public Class mapTest
             MapControl1.DefBorderPen = New Pen(MapControl1.DefBorderPen.Brush,
                                                    CSng(Val(borderWidthTextBox.Text)))
             MapControl1._SetAllPolygonsToDefault(, False, False)
-            MapControl1.SimpleDraw = simpleCheckBox.Checked
+            MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
             MapControl1._Update()
         End If
     End Sub
     Private Sub fontButton_Click(sender As Object, e As EventArgs) Handles fontButton.Click
         If FontDialog1.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
             MapControl1.MapFont = FontDialog1.Font
-            MapControl1.SimpleDraw = simpleCheckBox.Checked
+            MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
             MapControl1._Update()
         End If
     End Sub
@@ -93,5 +93,9 @@ Public Class mapTest
         MapControl1.FillPolygons = False
         MapControl1._Update()
         MapControl1.FillPolygons = True
+    End Sub
+
+    Private Sub mapTest_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
     End Sub
 End Class

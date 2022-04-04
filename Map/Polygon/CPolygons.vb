@@ -34,6 +34,19 @@ Public Class CPolygons
             _baseImage = value
         End Set
     End Property
+    Public Property DefBgGradient As Gradient
+        Get
+            Return _bitmapDefaultGradient
+        End Get
+        Set(value As Gradient)
+            If (value.CenterColor <> Nothing) Then
+                _bitmapDefaultGradient.CenterColor = value.CenterColor
+            End If
+            If (value.SideColor <> Nothing) Then
+                _bitmapDefaultGradient.SideColor = value.SideColor
+            End If
+        End Set
+    End Property
 
     Public Sub Add(newPolygon As CPolygon)
         _polygons.Add(newPolygon)
@@ -68,11 +81,12 @@ Public Class CPolygons
                        Optional newSideColor As Color = Nothing,
                        Optional textFont As Font = Nothing,
                        Optional withNames As Boolean = True,
-                       Optional simpleDraw As Boolean = False)
+                       Optional simplePolygonsDraw As Boolean = False,
+                       Optional simpleDefaultBackgroundDraw As Boolean = False)
         If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or _baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
             If (_baseImage Is Nothing) Then
-                If (simpleDraw) Then
+                If (simpleDefaultBackgroundDraw) Then
                     bmp = New Bitmap(_bitmapSize.Width, _bitmapSize.Height)
                     Dim g As Graphics = Graphics.FromImage(bmp)
                     g.FillRectangle(
@@ -121,7 +135,7 @@ Public Class CPolygons
                 Next
             End If
             For Each polygon As CPolygon In _polygons
-                polygon.Draw(pb, fill,,,, simpleDraw)
+                polygon.Draw(pb, fill,,,, simplePolygonsDraw)
             Next
             If (withNames) Then
                 For Each polygon As CPolygon In _polygons
