@@ -23,7 +23,7 @@ Partial Class mapTest
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(mapTest))
-        Dim Gradient2 As Map.Gradient = New Map.Gradient()
+        Dim Gradient1 As Map.Gradient = New Map.Gradient()
         Me.colorComboBox = New System.Windows.Forms.ComboBox()
         Me.simpleCheckBox = New System.Windows.Forms.CheckBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
@@ -42,9 +42,10 @@ Partial Class mapTest
         '
         Me.colorComboBox.FormattingEnabled = True
         Me.colorComboBox.Items.AddRange(New Object() {" ", "White", "Black", "Gray", "Red", "Green", "Blue", "Yellow", "Orange", "Purple", "BrightGreen", "BrightBlue"})
-        Me.colorComboBox.Location = New System.Drawing.Point(12, 741)
+        Me.colorComboBox.Location = New System.Drawing.Point(18, 1140)
+        Me.colorComboBox.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.colorComboBox.Name = "colorComboBox"
-        Me.colorComboBox.Size = New System.Drawing.Size(121, 21)
+        Me.colorComboBox.Size = New System.Drawing.Size(180, 28)
         Me.colorComboBox.TabIndex = 1
         Me.colorComboBox.Text = " "
         '
@@ -53,78 +54,87 @@ Partial Class mapTest
         Me.simpleCheckBox.AutoSize = True
         Me.simpleCheckBox.Checked = True
         Me.simpleCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.simpleCheckBox.Location = New System.Drawing.Point(12, 768)
+        Me.simpleCheckBox.Location = New System.Drawing.Point(18, 1182)
+        Me.simpleCheckBox.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.simpleCheckBox.Name = "simpleCheckBox"
-        Me.simpleCheckBox.Size = New System.Drawing.Size(85, 17)
+        Me.simpleCheckBox.Size = New System.Drawing.Size(124, 24)
         Me.simpleCheckBox.TabIndex = 2
         Me.simpleCheckBox.Text = "Draw Simple"
         Me.simpleCheckBox.UseVisualStyleBackColor = True
         '
         'RichTextBox1
         '
-        Me.RichTextBox1.Location = New System.Drawing.Point(956, 741)
+        Me.RichTextBox1.Location = New System.Drawing.Point(1434, 1140)
+        Me.RichTextBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(225, 153)
+        Me.RichTextBox1.Size = New System.Drawing.Size(336, 233)
         Me.RichTextBox1.TabIndex = 3
         Me.RichTextBox1.Text = ""
         '
         'borderWidthTextBox
         '
-        Me.borderWidthTextBox.Location = New System.Drawing.Point(355, 742)
+        Me.borderWidthTextBox.Location = New System.Drawing.Point(532, 1142)
+        Me.borderWidthTextBox.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.borderWidthTextBox.Name = "borderWidthTextBox"
-        Me.borderWidthTextBox.Size = New System.Drawing.Size(113, 20)
+        Me.borderWidthTextBox.Size = New System.Drawing.Size(168, 26)
         Me.borderWidthTextBox.TabIndex = 4
         '
         'applyAllButton
         '
-        Me.applyAllButton.Location = New System.Drawing.Point(139, 742)
+        Me.applyAllButton.Location = New System.Drawing.Point(208, 1142)
+        Me.applyAllButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.applyAllButton.Name = "applyAllButton"
-        Me.applyAllButton.Size = New System.Drawing.Size(75, 23)
+        Me.applyAllButton.Size = New System.Drawing.Size(112, 35)
         Me.applyAllButton.TabIndex = 5
         Me.applyAllButton.Text = "Apply To All"
         Me.applyAllButton.UseVisualStyleBackColor = True
         '
         'borderColorButton
         '
-        Me.borderColorButton.Location = New System.Drawing.Point(220, 742)
+        Me.borderColorButton.Location = New System.Drawing.Point(330, 1142)
+        Me.borderColorButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.borderColorButton.Name = "borderColorButton"
-        Me.borderColorButton.Size = New System.Drawing.Size(101, 23)
+        Me.borderColorButton.Size = New System.Drawing.Size(152, 35)
         Me.borderColorButton.TabIndex = 6
         Me.borderColorButton.Text = "Apply To Border"
         Me.borderColorButton.UseVisualStyleBackColor = True
         '
         'borderWidthButton
         '
-        Me.borderWidthButton.Location = New System.Drawing.Point(355, 768)
+        Me.borderWidthButton.Location = New System.Drawing.Point(532, 1182)
+        Me.borderWidthButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.borderWidthButton.Name = "borderWidthButton"
-        Me.borderWidthButton.Size = New System.Drawing.Size(113, 26)
+        Me.borderWidthButton.Size = New System.Drawing.Size(170, 40)
         Me.borderWidthButton.TabIndex = 7
         Me.borderWidthButton.Text = "Select Border Size"
         Me.borderWidthButton.UseVisualStyleBackColor = True
         '
         'fontButton
         '
-        Me.fontButton.Location = New System.Drawing.Point(12, 956)
+        Me.fontButton.Location = New System.Drawing.Point(18, 1471)
+        Me.fontButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.fontButton.Name = "fontButton"
-        Me.fontButton.Size = New System.Drawing.Size(75, 23)
+        Me.fontButton.Size = New System.Drawing.Size(112, 35)
         Me.fontButton.TabIndex = 8
         Me.fontButton.Text = "Select Font"
         Me.fontButton.UseVisualStyleBackColor = True
         '
         'drawEmptyButton
         '
-        Me.drawEmptyButton.Location = New System.Drawing.Point(139, 771)
+        Me.drawEmptyButton.Location = New System.Drawing.Point(208, 1186)
+        Me.drawEmptyButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.drawEmptyButton.Name = "drawEmptyButton"
-        Me.drawEmptyButton.Size = New System.Drawing.Size(75, 23)
+        Me.drawEmptyButton.Size = New System.Drawing.Size(112, 35)
         Me.drawEmptyButton.TabIndex = 9
         Me.drawEmptyButton.Text = "Draw Empty"
         Me.drawEmptyButton.UseVisualStyleBackColor = True
         '
         'gradientButton
         '
-        Me.gradientButton.Location = New System.Drawing.Point(139, 800)
+        Me.gradientButton.Location = New System.Drawing.Point(208, 1231)
+        Me.gradientButton.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.gradientButton.Name = "gradientButton"
-        Me.gradientButton.Size = New System.Drawing.Size(75, 23)
+        Me.gradientButton.Size = New System.Drawing.Size(112, 35)
         Me.gradientButton.TabIndex = 10
         Me.gradientButton.Text = "Gradient"
         Me.gradientButton.UseVisualStyleBackColor = True
@@ -132,23 +142,24 @@ Partial Class mapTest
         'MapControl1
         '
         Me.MapControl1.BaseImage = CType(resources.GetObject("MapControl1.BaseImage"), System.Drawing.Image)
-        Gradient2.CenterColor = System.Drawing.Color.Green
-        Gradient2.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = Gradient2
+        Gradient1.CenterColor = System.Drawing.Color.Green
+        Gradient1.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = Gradient1
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True
-        Me.MapControl1.Location = New System.Drawing.Point(12, 12)
+        Me.MapControl1.Location = New System.Drawing.Point(18, 18)
         Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
+        Me.MapControl1.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
         Me.MapControl1.Name = "MapControl1"
         Me.MapControl1.SimpleDraw = True
-        Me.MapControl1.Size = New System.Drawing.Size(1169, 723)
+        Me.MapControl1.Size = New System.Drawing.Size(1754, 1112)
         Me.MapControl1.TabIndex = 0
         '
         'mapTest
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1371, 991)
+        Me.ClientSize = New System.Drawing.Size(1924, 1050)
         Me.Controls.Add(Me.gradientButton)
         Me.Controls.Add(Me.drawEmptyButton)
         Me.Controls.Add(Me.fontButton)
@@ -160,6 +171,7 @@ Partial Class mapTest
         Me.Controls.Add(Me.simpleCheckBox)
         Me.Controls.Add(Me.colorComboBox)
         Me.Controls.Add(Me.MapControl1)
+        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.Name = "mapTest"
         Me.Text = "mapTest"
         Me.ResumeLayout(False)

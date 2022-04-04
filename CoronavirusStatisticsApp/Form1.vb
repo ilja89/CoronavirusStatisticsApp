@@ -98,4 +98,7 @@ Public Class Form1
         ActivateButton(sender, Color.Gray)
     End Sub
 
+    Private Sub btnStatistics_Click(sender As Object, e As EventArgs) Handles btnStatistics.Click
+        Statistics.Visible = True
+    End Sub
 End Class
