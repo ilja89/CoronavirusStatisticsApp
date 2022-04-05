@@ -69,7 +69,7 @@
   <ItemGroup>
     <Compile Include="CommandObject\CCommandObject.vb" />
     <Compile Include="InlineKeyboard\CInlineKeyboardButtonBuilder.vb" />
-    <Compile Include="CFunctionalExtensions.vb" />
+    <Compile Include="MFunctionalExtensions.vb" />
     <Compile Include="CommandObject\CCommandObjectCollection.vb" />
     <Compile Include="CTelegramResponse.vb" />
     <Compile Include="CMarkup.vb" />

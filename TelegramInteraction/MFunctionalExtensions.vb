@@ -12,7 +12,7 @@ Imports System.Runtime.CompilerServices
 ''' <summary>
 ''' Used to extend some classes functionality
 ''' </summary>
-Public Module CFunctionalExtensions
+Public Module MFunctionalExtensions
 
     ''' <summary>
     ''' Returns array of strings <paramref name="arr"/> as single string with elements of array divided by delimiter

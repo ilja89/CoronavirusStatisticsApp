@@ -10,7 +10,7 @@ Imports System.Math
 ''' <summary>
 ''' Class used to comfortably work with statistics data, received from network in CSV format.
 ''' </summary>
-Public Class CStatList
+<Serializable()> Public Class CStatList
     Private _items As New List(Of String())             ' List of items
     Private _fields As String()                         ' Headers of these items fields
     Private _fieldsNumber As Integer                    ' Number of these headers
@@ -217,7 +217,7 @@ Public Class CStatList
                     GetFieldsSum(fieldName)
             End If
         Else
-                result = -1
+            result = -1
         End If
         Return result
     End Function

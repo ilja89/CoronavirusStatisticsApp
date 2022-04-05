@@ -34,9 +34,12 @@ Public Class Main
         covidTestPosGen = Await request.GetTestStatPositiveGeneral()
         covidVactGen = Await request.GetVaccinationStatGeneral()
         covidSickGen = Await request.GetSick()
-        Dim a = MapControl1
 
-
+        ' Instead of DateTime.Now must load date from saved file
+        If (Not CStatSaveLoad.IsUpToDate(DateTime.Now)) Then
+            ' Update Data
+            ' Save current date into file
+        End If
     End Sub
 
     'Constructor
