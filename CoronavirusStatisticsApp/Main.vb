@@ -166,14 +166,22 @@ Public Class Main
 
     End Sub
     Private Async Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
-        Dim positions() As KeyValuePair(Of String, Point) = {New KeyValuePair(Of String, Point)("Harju maakond", New Point(426, 79)),
-        New KeyValuePair(Of String, Point)("Ida-Viru maakond", New Point(801, 87)), New KeyValuePair(Of String, Point)("Lääne-Viru maakond", New Point(620, 70)),
- New KeyValuePair(Of String, Point)("Järva maakond", New Point(526, 149)), New KeyValuePair(Of String, Point)("Jõgeva maakond", New Point(625, 190)),
-New KeyValuePair(Of String, Point)("Võru maakond", New Point(709, 370)), New KeyValuePair(Of String, Point)("Põlva maakond", New Point(742, 310)),
-New KeyValuePair(Of String, Point)("Valga maakond", New Point(593, 329)), New KeyValuePair(Of String, Point)("Tartu maakond", New Point(680, 250)),
-New KeyValuePair(Of String, Point)("Pärnu maakond", New Point(366, 239)), New KeyValuePair(Of String, Point)("Rapla maakond", New Point(392, 149)),
-New KeyValuePair(Of String, Point)("Lääne maakond", New Point(260, 149)), New KeyValuePair(Of String, Point)("Saare maakond", New Point(88, 250)),
-New KeyValuePair(Of String, Point)("Hiiu maakond", New Point(106, 149))}
+        Dim positions() As KeyValuePair(Of String, Point) = {
+            New KeyValuePair(Of String, Point)("Harju maakond", New Point(426, 79)),
+            New KeyValuePair(Of String, Point)("Ida-Viru maakond", New Point(801, 87)),
+            New KeyValuePair(Of String, Point)("Lääne-Viru maakond", New Point(620, 70)),
+            New KeyValuePair(Of String, Point)("Järva maakond", New Point(526, 149)),
+            New KeyValuePair(Of String, Point)("Jõgeva maakond", New Point(625, 190)),
+            New KeyValuePair(Of String, Point)("Võru maakond", New Point(709, 370)),
+            New KeyValuePair(Of String, Point)("Põlva maakond", New Point(742, 310)),
+            New KeyValuePair(Of String, Point)("Valga maakond", New Point(593, 329)),
+            New KeyValuePair(Of String, Point)("Tartu maakond", New Point(680, 250)),
+            New KeyValuePair(Of String, Point)("Pärnu maakond", New Point(366, 239)),
+            New KeyValuePair(Of String, Point)("Rapla maakond", New Point(392, 149)),
+            New KeyValuePair(Of String, Point)("Lääne maakond", New Point(260, 149)),
+            New KeyValuePair(Of String, Point)("Saare maakond", New Point(88, 250)),
+            New KeyValuePair(Of String, Point)("Hiiu maakond", New Point(106, 149)),
+            New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
         Dim popup As New popupWin
         Controls.Add(popup)

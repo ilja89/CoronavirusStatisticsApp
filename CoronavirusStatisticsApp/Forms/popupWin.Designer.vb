@@ -102,7 +102,7 @@ Partial Class popupWin
         '
         'Panel2
         '
-        Me.Panel2.BackColor = System.Drawing.Color.Gray
+        Me.Panel2.BackColor = System.Drawing.Color.Silver
         Me.Panel2.Controls.Add(Me.Label3)
         Me.Panel2.Controls.Add(Me.Label2)
         Me.Panel2.Controls.Add(Me.Label1)
