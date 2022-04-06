@@ -37,11 +37,11 @@ Public Class CStatSaveLoad
             (lastUpdateDate.Day = now.AddDays(-1).Day And now.Hour >= 13)) Then
             Return False
         End If
-        Return False
+        Return True
     End Function
 
     Public Shared Async Function UpdateData(path As String) As Task(Of Boolean)
-        Dim r As New CRequest
+        Dim newDataDownload As New CDataDownload
         Dim fileNames() As String = {
             "VaccinationStatByCounty",
             "VaccinationStatByAgeGroup",
@@ -54,17 +54,17 @@ Public Class CStatSaveLoad
             "AverageHospitalizationTime",
             "HospitalizationPatients",
             "Deceased",
-            "Sick",
-            "SickCounty"}
+            "Sick"}
         ' Check path
         If (Not IO.Directory.Exists(path)) Then
             IO.Directory.CreateDirectory(path)
         End If
+        CStatSaveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
 
         ' Check Date
-        If (IO.File.Exists(path + "lastCheckDate.bin") = False OrElse
+        If (Not IO.File.Exists(path + "lastCheckDate.bin") OrElse
             Not IsUpToDate(LoadFrom(path, "lastCheckDate"))) Then
-            '    Delete all old data
+            ' Delete all old data
             IO.File.Delete(path + "lastCheckDate.bin")
             For Each fileName In fileNames
                 IO.File.Delete(path + fileName)
@@ -72,12 +72,16 @@ Public Class CStatSaveLoad
 
             ' Update date
             CStatSaveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
-
-            ' Update data
-            For Each fileName In fileNames
-                SaveTo(Await CallByName(r, "get" + fileName, vbMethod), path, fileName)
-            Next
         End If
+
+        ' If there by some reason are no required data in cache, then download it.
+        ' Other case, if all data was deleted in previous condition functions.
+        For Each fileName In fileNames
+            If (Not IO.File.Exists(path + fileName + "Raw")) Then
+                SaveTo(Await CallByName(newDataDownload, "get" + fileName + "Raw", vbMethod), path, fileName + "Raw")
+            End If
+        Next
+
         Return True
     End Function
 End Class

@@ -14,8 +14,9 @@ Imports Newtonsoft.Json.Linq
 ''' Class used to receive information about coronavirus statistics from "https://opendata.digilugu.ee/"
 ''' </summary>
 Public Class CRequest
+    Dim cachePath As String = ""
     ''' <summary>
-    ''' get Covid-19 vaccination statistics grouped by county.<br/>
+    ''' get  Covid-19 vaccination statistics grouped by county.<br/>
     ''' Fields:<br/>
     ''' "Date" - date of entry<br/>
     ''' "County" - county of entry<br/>
@@ -26,13 +27,8 @@ Public Class CRequest
     ''' "TotalCount" - numeber of vaccinated per all time
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getVaccinationStatByCounty() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_location_county.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation",
-            "DailyCount", "TotalCount"})
+    Public Function getVaccinationStatByCounty() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatByCountyRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("County", "null").WhereNot("County", "")
     End Function
     ''' <summary>
@@ -48,13 +44,8 @@ Public Class CRequest
     ''' "AgeGroup"
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getVaccinationStatByAgeGroup() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_agegroup.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation||GroupSize",
-            "DailyCount", "TotalCount", "PopulationCoverage", "AgeGroup"})
+    Public Function getVaccinationStatByAgeGroup() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatByAgeGroupRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("AgeGroup", "null")
     End Function
     ''' <summary>
@@ -68,13 +59,8 @@ Public Class CRequest
     ''' "PopulationCoverage"<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getVaccinationStatGeneral() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
-        data.Where("VaccinationSeries", "1")
+    Public Function getVaccinationStatGeneral() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatGeneralRaw")
         Dim vaccinatedPercentageIndex As Integer = data.FindFieldIndex("VaccinatedPercentage")
         Dim locationPopulationIndex As Integer = data.FindFieldIndex("EstoniaPopulation")
         Dim totalCountIndex As Integer = data.FindFieldIndex("TotalCount")
@@ -105,12 +91,9 @@ Public Class CRequest
     ''' "Per100k" - coverage of population, ratio per 100k<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getTestStatPositiveGeneral() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
-        Return ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "DailyCases", "TotalCases", "PerPopulation||Per100k"})
+    Public Function getTestStatPositiveGeneral() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatPositiveGeneralRaw")
+        Return data
     End Function
     ''' <summary>
     ''' The data show the number of first tests (cases) as well as the total number of tests with repeat tests.<br/>
@@ -125,13 +108,8 @@ Public Class CRequest
     ''' "DailyTests" - daily number of tests<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getTestStatCounty(Optional countyName As String = "all", Optional positiveOnly As Boolean = True) As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_test_county_all.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
-        data.WhereNot("County", "")
+    Public Function getTestStatCounty(Optional countyName As String = "all", Optional positiveOnly As Boolean = True) As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatCountyRaw")
         If (positiveOnly) Then
             data.Where("Result", "P")
         End If
@@ -149,12 +127,8 @@ Public Class CRequest
     ''' "AverageAge" - average age of this group<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getTestStatByAverageAge(Optional positiveOnly As Boolean = True) As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_avg_age_by_result.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"ResultDate||Date", "Gender", "ResultValue||Result", "AverageAge"})
+    Public Function getTestStatByAverageAge(Optional positiveOnly As Boolean = True) As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatByAverageAgeRaw")
 
         If (positiveOnly) Then
             data.Where("Result", "P")
@@ -168,12 +142,8 @@ Public Class CRequest
     ''' "AverageAge" - average age of group<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getHospitalizationAveragePatientAgeCurrent() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_age.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"Gender", "AverageAge"})
+    Public Function getHospitalizationAveragePatientAgeCurrent() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationAveragePatientAgeCurrentRaw")
         Return data
     End Function
     ''' <summary>
@@ -184,12 +154,8 @@ Public Class CRequest
     ''' "PatientCount" - number of patients<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getHospitalizationPatientInfoCurrent() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_profile.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"Gender", "AgeGroup", "PatientCount"})
+    Public Function getHospitalizationPatientInfoCurrent() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationPatientInfoCurrentRaw")
         Return data
     End Function
     ''' <summary>
@@ -201,12 +167,8 @@ Public Class CRequest
     ''' "AverageDays"<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getAverageHospitalizationTime() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_days.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "AverageDays"})
+    Public Function getAverageHospitalizationTime() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "AverageHospitalizationTimeRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
         Next
@@ -236,15 +198,8 @@ Public Class CRequest
     ''' "TotalPatientsDischarged"<br/>
     ''' </summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Async Function getHospitalizationPatients() As Task(Of CStatList)
-        Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_timeline.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "Hospitalised", "ActivelyHospitalised",
-            "IsOnVentilation||OnVentilation", "IsInIntensive||InIntensive", "Discharged",
-            "NewCases", "TotalCases", "TotalCasesDischarged", "NewPatients",
-            "TotalPatients", "TotalPatientsDischarged"})
+    Public Function getHospitalizationPatients() As CStatList
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationPatientsRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
         Next
@@ -259,19 +214,10 @@ Public Class CRequest
     ''' <param name="accumulative">Should list be accumulative (each next by date entry is a sum of all deceased happened
     ''' in preious day)</param>
     ''' <returns></returns>
-    Public Async Function getDeceased(Optional accumulative As Boolean = False) As Task(Of CStatList)
-        Dim rawJson As String = Await (New WebClient).DownloadStringTaskAsync("https://koroonakaart.ee/data.json")
-        Dim json As JObject = JObject.Parse(rawJson)
-        Dim dates As JArray = json.Exists("dates2")
-        Dim deceasedNumber As JArray = json.Exists("deceased")
-        Dim list As New CStatList({{0, "Date", 0}, {0, "Deceased", 1}})
-        Dim i As Integer = Min(dates.Count, deceasedNumber.Count) - 1
-        While (i >= 0)
-            list.AddItemDirectly({dates(i).Value(Of String), deceasedNumber(i).Value(Of String)})
-            i -= 1
-        End While
+    Public Function getDeceased(Optional accumulative As Boolean = False) As CStatList
+        Dim list As CStatList = CStatSaveLoad.LoadFrom(cachePath, "DeceasedRaw")
+        Dim i As Integer = 0
         If (accumulative <> True) Then
-            i = 0
             While (i < list.Count - 1)
                 list.SetField(i, 1) = Max(list.GetField(i, 1) - list.GetField(i + 1, 1), 0)
                 i = i + 1
@@ -289,12 +235,9 @@ Public Class CRequest
     ''' </summary>
     ''' <param name="period"></param>
     ''' <returns></returns>
-    Public Async Function getSick(Optional period As Integer = 14) As Task(Of CStatList)
+    Public Function getSick(Optional period As Integer = 14) As CStatList
         period = Max(0, period - 1)
-        Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "DailyCases", "TotalCasesLast14D||Sick"})
+        Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "SickRaw")
         Dim sickFieldNumber = data.FindFieldIndex("Sick")
         Dim dailyFieldNumber = data.FindFieldIndex("DailyCases")
         Dim i = 0
@@ -325,9 +268,9 @@ Public Class CRequest
     ''' <param name="period"></param>
     ''' <param name="aimCounty"></param>
     ''' <returns></returns>
-    Public Async Function getSickCounty(Optional period As Integer = 14, Optional aimCounty As String = Nothing) As Task(Of CStatList)
+    Public Function getSickCounty(Optional period As Integer = 14, Optional aimCounty As String = Nothing) As CStatList
         period = Max(0, period - 1)
-        Dim list As CStatList = Await getTestStatCounty()
+        Dim list As CStatList = Me.getTestStatCounty()
         Dim counties As New List(Of CStatList)
         Dim sickFieldNumber, dailyFieldNumber As Integer
         If (aimCounty IsNot Nothing) Then
@@ -366,7 +309,7 @@ Public Class CRequest
         list.DeleteFieldFromList("DailyTests")
         Return list
     End Function
-    Private Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
+    Public Shared Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
         Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
         Dim headers As String() = data(0).Split(",")
         Dim parsedFields(fields.Length - 1, 2) As String
@@ -400,6 +343,10 @@ Public Class CRequest
         statList.Add(data, ",")
         Return statList
     End Function
+
+    Public Sub New(newCachePath As String)
+        cachePath = newCachePath
+    End Sub
 
     ' Obsolete
     'Private Function ParseCSVToCStatObject(rawCSV As String, fields As Array) As CStatObject

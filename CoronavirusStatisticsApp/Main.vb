@@ -15,7 +15,7 @@ Public Class Main
     Private leftBorderBtn As Panel
     Private currentChildForm As Form
     Private countyStat As CStatList
-    Public request As New CRequest
+    Public request As CRequest
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
@@ -27,17 +27,18 @@ Public Class Main
     'Dim statGraphs As New statWin
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        request = New CRequest(_cachePath)
         MapControl1.Visible = False
         'StatWin1.Visible = False
 
         ' Data updating
         If (Await CStatSaveLoad.UpdateData(_cachePath)) Then
-            covidTest = CStatSaveLoad.LoadFrom(_cachePath, "TestStatCounty")
-            covidVact = CStatSaveLoad.LoadFrom(_cachePath, "VaccinationStatByCounty")
-            covidSick = CStatSaveLoad.LoadFrom(_cachePath, "SickCounty")
-            covidTestPosGen = CStatSaveLoad.LoadFrom(_cachePath, "TestStatPositiveGeneral")
-            covidVactGen = CStatSaveLoad.LoadFrom(_cachePath, "VaccinationStatGeneral")
-            covidSickGen = CStatSaveLoad.LoadFrom(_cachePath, "Sick")
+            covidTest = request.getTestStatCounty
+            covidVact = request.getVaccinationStatByCounty
+            covidSick = request.getSickCounty
+            covidTestPosGen = request.getTestStatPositiveGeneral
+            covidVactGen = request.getVaccinationStatGeneral
+            covidSickGen = request.getSick
         End If
     End Sub
 
