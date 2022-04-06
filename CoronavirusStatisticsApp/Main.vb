@@ -22,23 +22,21 @@ Public Class Main
     Public covidTestPosGen As CStatList
     Public covidVactGen As CStatList
     Public covidSickGen As CStatList
+    Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     'Dim statGraphs As New statWin
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         MapControl1.Visible = False
         'StatWin1.Visible = False
 
-        covidTest = Await request.GetTestStatCounty()
-        covidVact = Await request.GetVaccinationStatByCounty()
-        covidSick = Await request.GetSickCounty()
-        covidTestPosGen = Await request.GetTestStatPositiveGeneral()
-        covidVactGen = Await request.GetVaccinationStatGeneral()
-        covidSickGen = Await request.GetSick()
-
-        ' Instead of DateTime.Now must load date from saved file
-        If (Not CStatSaveLoad.IsUpToDate(DateTime.Now)) Then
-            ' Update Data
-            ' Save current date into file
+        ' Data updating
+        If (Await CStatSaveLoad.UpdateData(_cachePath)) Then
+            covidTest = CStatSaveLoad.LoadFrom(_cachePath, "TestStatCounty")
+            covidVact = CStatSaveLoad.LoadFrom(_cachePath, "VaccinationStatByCounty")
+            covidSick = CStatSaveLoad.LoadFrom(_cachePath, "SickCounty")
+            covidTestPosGen = CStatSaveLoad.LoadFrom(_cachePath, "TestStatPositiveGeneral")
+            covidVactGen = CStatSaveLoad.LoadFrom(_cachePath, "VaccinationStatGeneral")
+            covidSickGen = CStatSaveLoad.LoadFrom(_cachePath, "Sick")
         End If
     End Sub
 
@@ -195,7 +193,6 @@ Public Class Main
             End If
         Next
 
-
         popup.Name = polygonName
         popup.BringToFront()
         Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
@@ -206,11 +203,6 @@ Public Class Main
         popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
         popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
         popup.countyName.Text = polygonName
-
-
-
-
-
     End Sub
 
 

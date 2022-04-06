@@ -39,8 +39,8 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
-        Me.MapControl1 = New Map.MapControl()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.MapControl1 = New Map.MapControl()
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,7 +52,7 @@ Partial Class Main
         '
         'MenuPanel
         '
-        Me.MenuPanel.BackColor = System.Drawing.Color.Gray
+        Me.MenuPanel.BackColor = System.Drawing.Color.DarkGray
         Me.MenuPanel.Controls.Add(Me.btnExit)
         Me.MenuPanel.Controls.Add(Me.btnSettings)
         Me.MenuPanel.Controls.Add(Me.btnExtra2)
@@ -62,15 +62,14 @@ Partial Class Main
         Me.MenuPanel.Controls.Add(Me.PanelLogo)
         Me.MenuPanel.Dock = System.Windows.Forms.DockStyle.Left
         Me.MenuPanel.Location = New System.Drawing.Point(0, 0)
-        Me.MenuPanel.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.MenuPanel.Name = "MenuPanel"
-        Me.MenuPanel.Size = New System.Drawing.Size(330, 929)
+        Me.MenuPanel.Size = New System.Drawing.Size(233, 604)
         Me.MenuPanel.TabIndex = 0
         '
         'btnExit
         '
         Me.btnExit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExit.BackColor = System.Drawing.Color.Gray
+        Me.btnExit.BackColor = System.Drawing.Color.DarkGray
         Me.btnExit.FlatAppearance.BorderSize = 0
         Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnExit.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -79,11 +78,10 @@ Partial Class Main
         Me.btnExit.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnExit.IconSize = 40
         Me.btnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExit.Location = New System.Drawing.Point(0, 832)
-        Me.btnExit.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnExit.Location = New System.Drawing.Point(0, 541)
         Me.btnExit.Name = "btnExit"
-        Me.btnExit.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnExit.Size = New System.Drawing.Size(330, 92)
+        Me.btnExit.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnExit.Size = New System.Drawing.Size(233, 63)
         Me.btnExit.TabIndex = 6
         Me.btnExit.Text = "Exit"
         Me.btnExit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -92,7 +90,7 @@ Partial Class Main
         '
         'btnSettings
         '
-        Me.btnSettings.BackColor = System.Drawing.Color.Gray
+        Me.btnSettings.BackColor = System.Drawing.Color.DarkGray
         Me.btnSettings.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnSettings.FlatAppearance.BorderSize = 0
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -102,11 +100,10 @@ Partial Class Main
         Me.btnSettings.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnSettings.IconSize = 40
         Me.btnSettings.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSettings.Location = New System.Drawing.Point(0, 583)
-        Me.btnSettings.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnSettings.Location = New System.Drawing.Point(0, 380)
         Me.btnSettings.Name = "btnSettings"
-        Me.btnSettings.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnSettings.Size = New System.Drawing.Size(330, 92)
+        Me.btnSettings.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnSettings.Size = New System.Drawing.Size(233, 60)
         Me.btnSettings.TabIndex = 5
         Me.btnSettings.Text = "Settings"
         Me.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -115,7 +112,7 @@ Partial Class Main
         '
         'btnExtra2
         '
-        Me.btnExtra2.BackColor = System.Drawing.Color.Gray
+        Me.btnExtra2.BackColor = System.Drawing.Color.DarkGray
         Me.btnExtra2.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnExtra2.FlatAppearance.BorderSize = 0
         Me.btnExtra2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -125,11 +122,10 @@ Partial Class Main
         Me.btnExtra2.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnExtra2.IconSize = 40
         Me.btnExtra2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExtra2.Location = New System.Drawing.Point(0, 491)
-        Me.btnExtra2.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnExtra2.Location = New System.Drawing.Point(0, 320)
         Me.btnExtra2.Name = "btnExtra2"
-        Me.btnExtra2.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnExtra2.Size = New System.Drawing.Size(330, 92)
+        Me.btnExtra2.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnExtra2.Size = New System.Drawing.Size(233, 60)
         Me.btnExtra2.TabIndex = 4
         Me.btnExtra2.Text = "Extra Button 2"
         Me.btnExtra2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -138,7 +134,7 @@ Partial Class Main
         '
         'btnTelegramm
         '
-        Me.btnTelegramm.BackColor = System.Drawing.Color.Gray
+        Me.btnTelegramm.BackColor = System.Drawing.Color.DarkGray
         Me.btnTelegramm.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnTelegramm.FlatAppearance.BorderSize = 0
         Me.btnTelegramm.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -148,11 +144,10 @@ Partial Class Main
         Me.btnTelegramm.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnTelegramm.IconSize = 40
         Me.btnTelegramm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnTelegramm.Location = New System.Drawing.Point(0, 399)
-        Me.btnTelegramm.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnTelegramm.Location = New System.Drawing.Point(0, 260)
         Me.btnTelegramm.Name = "btnTelegramm"
-        Me.btnTelegramm.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnTelegramm.Size = New System.Drawing.Size(330, 92)
+        Me.btnTelegramm.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnTelegramm.Size = New System.Drawing.Size(233, 60)
         Me.btnTelegramm.TabIndex = 3
         Me.btnTelegramm.Text = "Telegram"
         Me.btnTelegramm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -161,7 +156,7 @@ Partial Class Main
         '
         'btnStatistics
         '
-        Me.btnStatistics.BackColor = System.Drawing.Color.Gray
+        Me.btnStatistics.BackColor = System.Drawing.Color.DarkGray
         Me.btnStatistics.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnStatistics.FlatAppearance.BorderSize = 0
         Me.btnStatistics.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -171,11 +166,10 @@ Partial Class Main
         Me.btnStatistics.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnStatistics.IconSize = 40
         Me.btnStatistics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnStatistics.Location = New System.Drawing.Point(0, 307)
-        Me.btnStatistics.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnStatistics.Location = New System.Drawing.Point(0, 200)
         Me.btnStatistics.Name = "btnStatistics"
-        Me.btnStatistics.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnStatistics.Size = New System.Drawing.Size(330, 92)
+        Me.btnStatistics.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnStatistics.Size = New System.Drawing.Size(233, 60)
         Me.btnStatistics.TabIndex = 2
         Me.btnStatistics.Text = "Statistics"
         Me.btnStatistics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -184,7 +178,7 @@ Partial Class Main
         '
         'btnMap
         '
-        Me.btnMap.BackColor = System.Drawing.Color.Gray
+        Me.btnMap.BackColor = System.Drawing.Color.DarkGray
         Me.btnMap.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnMap.FlatAppearance.BorderSize = 0
         Me.btnMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -194,11 +188,10 @@ Partial Class Main
         Me.btnMap.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnMap.IconSize = 42
         Me.btnMap.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnMap.Location = New System.Drawing.Point(0, 215)
-        Me.btnMap.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.btnMap.Location = New System.Drawing.Point(0, 140)
         Me.btnMap.Name = "btnMap"
-        Me.btnMap.Padding = New System.Windows.Forms.Padding(15, 0, 30, 0)
-        Me.btnMap.Size = New System.Drawing.Size(330, 92)
+        Me.btnMap.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.btnMap.Size = New System.Drawing.Size(233, 60)
         Me.btnMap.TabIndex = 1
         Me.btnMap.Text = "Map"
         Me.btnMap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -207,23 +200,21 @@ Partial Class Main
         '
         'PanelLogo
         '
-        Me.PanelLogo.BackColor = System.Drawing.Color.Gray
+        Me.PanelLogo.BackColor = System.Drawing.Color.DarkGray
         Me.PanelLogo.Controls.Add(Me.BoxLogo)
         Me.PanelLogo.Dock = System.Windows.Forms.DockStyle.Top
         Me.PanelLogo.Location = New System.Drawing.Point(0, 0)
-        Me.PanelLogo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.PanelLogo.Name = "PanelLogo"
-        Me.PanelLogo.Size = New System.Drawing.Size(330, 215)
+        Me.PanelLogo.Size = New System.Drawing.Size(233, 140)
         Me.PanelLogo.TabIndex = 0
         '
         'BoxLogo
         '
-        Me.BoxLogo.BackColor = System.Drawing.Color.Transparent
+        Me.BoxLogo.BackColor = System.Drawing.Color.DarkGray
         Me.BoxLogo.BackgroundImage = CType(resources.GetObject("BoxLogo.BackgroundImage"), System.Drawing.Image)
-        Me.BoxLogo.Location = New System.Drawing.Point(16, 18)
-        Me.BoxLogo.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.BoxLogo.Location = New System.Drawing.Point(11, 12)
         Me.BoxLogo.Name = "BoxLogo"
-        Me.BoxLogo.Size = New System.Drawing.Size(303, 172)
+        Me.BoxLogo.Size = New System.Drawing.Size(202, 112)
         Me.BoxLogo.TabIndex = 0
         Me.BoxLogo.TabStop = False
         '
@@ -233,20 +224,18 @@ Partial Class Main
         Me.PanelBar.Controls.Add(Me.CurrentIconLabel)
         Me.PanelBar.Controls.Add(Me.CurrentIcon)
         Me.PanelBar.Dock = System.Windows.Forms.DockStyle.Top
-        Me.PanelBar.Location = New System.Drawing.Point(330, 0)
-        Me.PanelBar.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.PanelBar.Location = New System.Drawing.Point(233, 0)
         Me.PanelBar.Name = "PanelBar"
-        Me.PanelBar.Size = New System.Drawing.Size(1587, 108)
+        Me.PanelBar.Size = New System.Drawing.Size(1045, 70)
         Me.PanelBar.TabIndex = 1
         '
         'CurrentIconLabel
         '
         Me.CurrentIconLabel.AutoSize = True
         Me.CurrentIconLabel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CurrentIconLabel.Location = New System.Drawing.Point(86, 51)
-        Me.CurrentIconLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.CurrentIconLabel.Location = New System.Drawing.Point(57, 33)
         Me.CurrentIconLabel.Name = "CurrentIconLabel"
-        Me.CurrentIconLabel.Size = New System.Drawing.Size(70, 25)
+        Me.CurrentIconLabel.Size = New System.Drawing.Size(43, 16)
         Me.CurrentIconLabel.TabIndex = 1
         Me.CurrentIconLabel.Text = "Home"
         '
@@ -257,11 +246,9 @@ Partial Class Main
         Me.CurrentIcon.IconChar = FontAwesome.Sharp.IconChar.Home
         Me.CurrentIcon.IconColor = System.Drawing.SystemColors.ControlText
         Me.CurrentIcon.IconFont = FontAwesome.Sharp.IconFont.[Auto]
-        Me.CurrentIcon.IconSize = 48
-        Me.CurrentIcon.Location = New System.Drawing.Point(28, 35)
-        Me.CurrentIcon.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.CurrentIcon.Location = New System.Drawing.Point(19, 23)
         Me.CurrentIcon.Name = "CurrentIcon"
-        Me.CurrentIcon.Size = New System.Drawing.Size(48, 49)
+        Me.CurrentIcon.Size = New System.Drawing.Size(32, 32)
         Me.CurrentIcon.TabIndex = 0
         Me.CurrentIcon.TabStop = False
         '
@@ -277,11 +264,22 @@ Partial Class Main
         Me.PanelDesktop.Controls.Add(Me.MapControl1)
         Me.PanelDesktop.Controls.Add(Me.PictureBox1)
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.PanelDesktop.Location = New System.Drawing.Point(330, 108)
-        Me.PanelDesktop.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
+        Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
         Me.PanelDesktop.Name = "PanelDesktop"
-        Me.PanelDesktop.Size = New System.Drawing.Size(1587, 821)
+        Me.PanelDesktop.Size = New System.Drawing.Size(1045, 534)
         Me.PanelDesktop.TabIndex = 2
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
+        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.PictureBox1.Location = New System.Drawing.Point(347, 164)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(332, 180)
+        Me.PictureBox1.TabIndex = 1
+        Me.PictureBox1.TabStop = False
         '
         'MapControl1
         '
@@ -296,36 +294,22 @@ Partial Class Main
         Me.MapControl1.FillPolygons = True
         Me.MapControl1.Location = New System.Drawing.Point(0, 0)
         Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
-        Me.MapControl1.Margin = New System.Windows.Forms.Padding(6, 8, 6, 8)
+        Me.MapControl1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.MapControl1.Name = "MapControl1"
         Me.MapControl1.SimpleBackgroundDraw = True
         Me.MapControl1.SimplePolygonsDraw = False
-        Me.MapControl1.Size = New System.Drawing.Size(1587, 821)
+        Me.MapControl1.Size = New System.Drawing.Size(1045, 534)
         Me.MapControl1.TabIndex = 2
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PictureBox1.Location = New System.Drawing.Point(531, 253)
-        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(498, 277)
-        Me.PictureBox1.TabIndex = 1
-        Me.PictureBox1.TabStop = False
         '
         'Main
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1917, 929)
+        Me.ClientSize = New System.Drawing.Size(1278, 604)
         Me.Controls.Add(Me.PanelDesktop)
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)
-        Me.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.MinimumSize = New System.Drawing.Size(1729, 804)
+        Me.MinimumSize = New System.Drawing.Size(1158, 536)
         Me.Name = "Main"
         Me.Text = "CovidTrackr"
         Me.MenuPanel.ResumeLayout(False)
