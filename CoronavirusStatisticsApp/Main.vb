@@ -22,6 +22,7 @@ Public Class Main
     Public covidTestPosGen As CStatList
     Public covidVactGen As CStatList
     Public covidSickGen As CStatList
+    Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     'Dim statGraphs As New statWin
 
@@ -186,6 +187,7 @@ Public Class Main
 
         Dim popup As New popupWin
         Controls.Add(popup)
+        popup.Location = mouseCoords
         For Each position As KeyValuePair(Of String, Point) In positions
             If (position.Key = polygonKey) Then
                 popup.Location = position.Value
@@ -204,6 +206,4 @@ Public Class Main
         popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
         popup.countyName.Text = polygonName
     End Sub
-
-
 End Class

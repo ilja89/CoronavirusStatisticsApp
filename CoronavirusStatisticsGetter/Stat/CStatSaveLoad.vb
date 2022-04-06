@@ -42,42 +42,41 @@ Public Class CStatSaveLoad
 
     Public Shared Async Function UpdateData(path As String) As Task(Of Boolean)
         Dim r As New CRequest
+        Dim fileNames() As String = {
+            "VaccinationStatByCounty",
+            "VaccinationStatByAgeGroup",
+            "VaccinationStatGeneral",
+            "TestStatPositiveGeneral",
+            "TestStatCounty",
+            "TestStatByAverageAge",
+            "HospitalizationAveragePatientAgeCurrent",
+            "HospitalizationPatientInfoCurrent",
+            "AverageHospitalizationTime",
+            "HospitalizationPatients",
+            "Deceased",
+            "Sick",
+            "SickCounty"}
+        ' Check path
+        If (Not IO.Directory.Exists(path)) Then
+            IO.Directory.CreateDirectory(path)
+        End If
+
         ' Check Date
         If (IO.File.Exists(path + "lastCheckDate.bin") = False OrElse
-            Not IsUpToDate(DirectCast(CStatSaveLoad.LoadFrom(path, "lastCheckDate"), DateTime))) Then
-            ' Delete all old data
+            Not IsUpToDate(LoadFrom(path, "lastCheckDate"))) Then
+            '    Delete all old data
             IO.File.Delete(path + "lastCheckDate.bin")
-            IO.File.Delete(path + "VaccinationStatByCounty.bin")
-            IO.File.Delete(path + "VaccinationStatByAgeGroup.bin")
-            IO.File.Delete(path + "VaccinationStatGeneral.bin")
-            IO.File.Delete(path + "TestStatPositiveGeneral.bin")
-            IO.File.Delete(path + "TestStatCounty.bin")
-            IO.File.Delete(path + "TestStatByAverageAge.bin")
-            IO.File.Delete(path + "HospitalizationAveragePatientAgeCurrent.bin")
-            IO.File.Delete(path + "HospitalizationPatientInfoCurrent.bin")
-            IO.File.Delete(path + "AverageHospitalizationTime.bin")
-            IO.File.Delete(path + "HospitalizationPatients.bin")
-            IO.File.Delete(path + "Deceased.bin")
-            IO.File.Delete(path + "Sick.bin")
-            IO.File.Delete(path + "SickCounty.bin")
+            For Each fileName In fileNames
+                IO.File.Delete(path + fileName)
+            Next
 
             ' Update date
             CStatSaveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
 
             ' Update data
-            SaveTo(Await r.getVaccinationStatByCounty, path, "VaccinationStatByCounty")
-            SaveTo(Await r.getVaccinationStatByAgeGroup, path, "VaccinationStatByAgeGroup")
-            SaveTo(Await r.getVaccinationStatGeneral, path, "VaccinationStatGeneral")
-            SaveTo(Await r.getTestStatPositiveGeneral, path, "TestStatPositiveGeneral")
-            SaveTo(Await r.getTestStatCounty, path, "TestStatCounty")
-            SaveTo(Await r.getTestStatByAverageAge, path, "TestStatByAverageAge")
-            SaveTo(Await r.getHospitalizationAveragePatientAgeCurrent, path, "HospitalizationAveragePatientAgeCurrent")
-            SaveTo(Await r.getAverageHospitalizationTime, path, "AverageHospitalizationTime")
-            SaveTo(Await r.getHospitalizationPatients, path, "HospitalizationPatients")
-            SaveTo(Await r.getHospitalizationPatientInfoCurrent, path, "HospitalizationPatientInfoCurrent")
-            SaveTo(Await r.getDeceased, path, "Deceased")
-            SaveTo(Await r.getSick, path, "Sick")
-            SaveTo(Await r.getSickCounty, path, "SickCounty")
+            For Each fileName In fileNames
+                SaveTo(Await CallByName(r, "get" + fileName, vbMethod), path, fileName)
+            Next
         End If
         Return True
     End Function
