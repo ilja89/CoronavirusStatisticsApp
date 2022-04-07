@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim Gradient1 As Map.Gradient = New Map.Gradient()
+        Dim Gradient1 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()

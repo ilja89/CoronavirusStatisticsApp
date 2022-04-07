@@ -1,7 +1,7 @@
 ﻿' FILENAME: Map.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 25.03.2022
-' CHANGED: 25.03.2022
+' CHANGED: 04.04.2022
 '
 ' DESCRIPTION: See below↓↓↓
 
@@ -9,19 +9,27 @@
 
 Imports System.Drawing
 Imports System.Math
+''' <summary>
+''' Provides interactive Estonia map with separate counties.
+''' </summary>
 Public Class MapControl
     Private polygons As New CPolygons(New Size(1920, 1200))
     Public Event Clicked(clickPosition As Point, polygonName As String, polygonKey As String)
     Private _mapFont As New Font("Times New Roman", 50, FontStyle.Bold Or FontStyle.Italic)
     Private _drawNames As Boolean = True
     Private _defBorderPen As Pen = New Pen(Brushes.Black, 4)
-    Private _defGradient As Gradient = (New Gradient()).Green
+    Private _defGradient As CGradient = (New CGradient()).Green
     Private _defPolygonBackgroundBrush As Brush = Brushes.Gray
     Private _simplePolygonsDraw As Boolean = False
     Private _fillPolygons As Boolean = True
     Private _simpleBackgroundDraw As Boolean = False
     Private _lastHoveredPolygon As CPolygon = Nothing
 
+    ''' <summary>
+    ''' Default map background image.<br/>
+    ''' If empty, map will automatically draw background using gradient or single color.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property BaseImage As Image
         Get
             Return polygons.BaseImage
@@ -30,6 +38,10 @@ Public Class MapControl
             polygons.BaseImage = value
         End Set
     End Property
+    ''' <summary>
+    ''' Default pen used to draw borders
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DefBorderPen As Pen
         Get
             Return _defBorderPen
@@ -38,6 +50,10 @@ Public Class MapControl
             _defBorderPen = value
         End Set
     End Property
+    ''' <summary>
+    ''' Map counties names font
+    ''' </summary>
+    ''' <returns></returns>
     Public Property MapFont As Font
         Get
             Return _mapFont
@@ -46,6 +62,10 @@ Public Class MapControl
             _mapFont = value
         End Set
     End Property
+    ''' <summary>
+    ''' Should map draw counties names or not.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DrawNames As Boolean
         Get
             Return _drawNames
@@ -54,14 +74,23 @@ Public Class MapControl
             _drawNames = value
         End Set
     End Property
-    Public Property DefGradient As Gradient
+    ''' <summary>
+    ''' Default gradient used for polygons filling, if they by some reason don't have their own color set.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property DefGradient As CGradient
         Get
             Return _defGradient
         End Get
-        Set(value As Gradient)
+        Set(value As CGradient)
             _defGradient = value
         End Set
     End Property
+    ''' <summary>
+    ''' Default polygon background brush, what will be applied if polygon don't have its own brush.
+    ''' It is used to fill polygon with single color, if "SimplePolygonsDraw" property is True.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DefPolygonBackgroundBrush As Brush
         Get
             Return _defPolygonBackgroundBrush
@@ -70,11 +99,19 @@ Public Class MapControl
             _defPolygonBackgroundBrush = value
         End Set
     End Property
+    ''' <summary>
+    ''' Map polygons.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property MapPolygons As CPolygons
         Get
             Return polygons
         End Get
     End Property
+    ''' <summary>
+    ''' If True, polygons will be drawn with no gradient, but with single color.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property SimplePolygonsDraw As Boolean
         Get
             Return _simplePolygonsDraw
@@ -83,6 +120,11 @@ Public Class MapControl
             _simplePolygonsDraw = value
         End Set
     End Property
+    ''' <summary>
+    ''' If true, in case if map has no base image to use as background,
+    ''' background will be drawn using single color.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property SimpleBackgroundDraw As Boolean
         Get
             Return _simpleBackgroundDraw
@@ -91,6 +133,10 @@ Public Class MapControl
             _simpleBackgroundDraw = value
         End Set
     End Property
+    ''' <summary>
+    ''' If true, polygons will be filled when drawing them. If not, they will remain empty.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property FillPolygons As Boolean
         Get
             Return _fillPolygons
@@ -99,6 +145,10 @@ Public Class MapControl
             _fillPolygons = value
         End Set
     End Property
+    ''' <summary>
+    ''' Default center color of background gradient in case if "SimpleBackgroundDraw" property is False.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DefBgCenterColor As Color
         Get
             Return polygons.DefBgGradient.CenterColor
@@ -109,6 +159,10 @@ Public Class MapControl
             End If
         End Set
     End Property
+    ''' <summary>
+    ''' Default side color of background gradient in case if "SimpleBackgroundDraw" property is False.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DefBgSideColor As Color
         Get
             Return polygons.DefBgGradient.SideColor
@@ -228,9 +282,16 @@ Public Class MapControl
     Private Sub WhenResized() Handles Me.Resize
         mapPictureBox.Size = Me.Size
     End Sub
+    ''' <summary>
+    ''' Redraws whole map with updated map and polygons properties.
+    ''' </summary>
     Public Sub _Update()
         polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
+    ''' <summary>
+    ''' Updates exact polygon, what has name <paramref name="aimName"/>
+    ''' </summary>
+    ''' <param name="aimName">Name of aim polygon</param>
     Public Sub _UpdatePolygonsWhereName(aimName As String)
         For i As Integer = 0 To polygons.Count - 1
             If (polygons(i).Name = aimName) Then
@@ -241,6 +302,12 @@ Public Class MapControl
             polygons(i).DrawPolygonName(mapPictureBox, _mapFont)
         Next
     End Sub
+    ''' <summary>
+    ''' Resets all polygons individual settings to default.
+    ''' </summary>
+    ''' <param name="setBorderPen"></param>
+    ''' <param name="setGradientBrushCenterColor"></param>
+    ''' <param name="setGradientBrushSideColor"></param>
     Public Sub _SetAllPolygonsToDefault(Optional setBorderPen As Boolean = True,
                                         Optional setGradientBrushCenterColor As Boolean = True,
                                         Optional setGradientBrushSideColor As Boolean = True)
@@ -256,15 +323,35 @@ Public Class MapControl
             End If
         Next
     End Sub
+    ''' <summary>
+    ''' Draws all polygons with color <paramref name="color"/>
+    ''' </summary>
+    ''' <param name="color">Color what will be used to draw polygons</param>
     Public Sub _DrawAllColor(color As Color)
         polygons.DrawAll(mapPictureBox, _fillPolygons, color,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
-    Public Sub _DrawAllGradient(gradient As Gradient)
+    ''' <summary>
+    ''' Draws all polygons with gradient <paramref name="gradient"/>
+    ''' </summary>
+    ''' <param name="gradient">Gradient what will be used to draw polygons</param>
+    Public Sub _DrawAllGradient(gradient As CGradient)
         polygons.DrawAll(mapPictureBox, _fillPolygons, gradient.CenterColor, gradient.SideColor, _mapFont, DrawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
+    ''' <summary>
+    ''' Draw polygons in different color / gradient depending on their relative integer value level.<br/>
+    ''' In case if SimplePolygonsDraw is True, for filling polygons will be used center color of gradient.<br/>
+    ''' Uses <paramref name="levelGradients"/> for filling polygons. First gradient is used for polygon with smallest
+    ''' relative value, last for highest. Gradients between are used for intermediate values.
+    ''' </summary>
+    ''' <param name="pair">KeyValuePair(Of String, Integer) where String is polygon key and Integer is polygon statistics
+    ''' value (sick number, vaccinated number etc)</param>
+    ''' <param name="levelGradients">Gradients what will be used to fill polygons depending on their value.
+    ''' First is for smallest values polygons, last for biggest values, gradients between are used for intermediate values</param>
+    ''' <param name="gradientDefault">Default gradient what will be used to fill polygon in case if it is not presented
+    ''' in "pair" array</param>
     Public Sub _DrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
                              levelGradients As Array,
-                             Optional gradientDefault As Gradient = Nothing)
+                             Optional gradientDefault As CGradient = Nothing)
         Dim maxValue As Integer = Integer.MinValue
         Dim minValue As Integer = Integer.MaxValue
         If (gradientDefault IsNot Nothing) Then
@@ -289,6 +376,11 @@ Public Class MapControl
         End If
         polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw)
     End Sub
+    ''' <summary>
+    ''' Handes picturebox "Click" event. Sends component "Clicked" event
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub WhenPictureBoxClicked(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.Click
         Dim clickPoint As New Point(
         e.X * (mapPictureBox.Image.Width / mapPictureBox.Width),
@@ -304,6 +396,11 @@ Public Class MapControl
         Next
         RaiseEvent Clicked(clickPoint, clickedPolygonName, clickedPolygonKey)
     End Sub
+    ''' <summary>
+    ''' Handles cursor moving over picturebox. Used to highlight polygon where cursor currently is.
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub WhenPictureBoxHovered(sender As PictureBox, e As MouseEventArgs) Handles mapPictureBox.MouseMove
         Dim hoverPoint As New Point(
         e.X * (mapPictureBox.Image.Width / mapPictureBox.Width),

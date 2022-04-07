@@ -70,8 +70,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gradients\Argb.vb" />
-    <Compile Include="Gradients\Gradient.vb" />
+    <Compile Include="Gradients\CArgb.vb" />
+    <Compile Include="Gradients\CGradient.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

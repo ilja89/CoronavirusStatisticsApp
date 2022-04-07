@@ -13,7 +13,7 @@ Public Class mapTest
                 "Y: " + clickPosition.Y.ToString + vbCrLf +
                 "Polygon name: " + polygonName
         If (polygonName <> Nothing AndAlso colorComboBox.Text <> " ") Then
-            Dim newGradient As New Gradient
+            Dim newGradient As New CGradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.MapPolygons.SetGradientWhereName(polygonName, newGradient)
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
@@ -23,7 +23,7 @@ Public Class mapTest
 
     Private Sub applyToAllButton_Click(sender As Object, e As EventArgs) Handles applyAllButton.Click
         If (colorComboBox.Text <> " ") Then
-            Dim newGradient As New Gradient
+            Dim newGradient As New CGradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.DefGradient = newGradient
             MapControl1._SetAllPolygonsToDefault()
@@ -55,16 +55,16 @@ Public Class mapTest
                 New KeyValuePair(Of String, Integer)("Jõgeva maakond", rand.Next(0, 1000)),
                 New KeyValuePair(Of String, Integer)("Põlva maakond", rand.Next(0, 1000))
                 }, {
-                (New Gradient).BrightBlue,
-                (New Gradient).Green,
-                (New Gradient).Yellow,
-                (New Gradient).Orange,
-                (New Gradient).Red
-                }, (New Gradient).Gray)
+                (New CGradient).BrightBlue,
+                (New CGradient).Green,
+                (New CGradient).Yellow,
+                (New CGradient).Orange,
+                (New CGradient).Red
+                }, (New CGradient).Gray)
     End Sub
     Private Sub borderColorButton_Click(sender As Object, e As EventArgs) Handles borderColorButton.Click
         If (colorComboBox.Text <> " ") Then
-            Dim newGradient As New Gradient
+            Dim newGradient As New CGradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.DefBorderPen = New Pen(New SolidBrush(newGradient.CenterColor),
                                                    MapControl1.DefBorderPen.Width)

@@ -5,61 +5,64 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CStatList, CStatObject
+' Related components: CStatList, CStatObject, CDataDownload
 
 Imports System.Net
 Imports System.Math
 Imports Newtonsoft.Json.Linq
 ''' <summary>
-''' Class used to receive information about coronavirus statistics from "https://opendata.digilugu.ee/"
+''' Class used to process received information about coronavirus statistics from <see href="https://opendata.digilugu.ee/"/>
+''' and other sources.
 ''' </summary>
 Public Class CRequest
     Dim cachePath As String = ""
     ''' <summary>
-    ''' get  Covid-19 vaccination statistics grouped by county.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - date of entry<br/>
-    ''' "County" - county of entry<br/>
-    ''' "VaccinationSeries"<br/>
-    ''' "Type" - type of entry<br/>
-    ''' "LocationPopulation" - popilation of county<br/>
-    ''' "DailyCount" - number of vaccinated per day<br/>
-    ''' "TotalCount" - numeber of vaccinated per all time
-    ''' </summary>
+    ''' Get Covid-19 vaccination statistics grouped by county.<br/>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date of entry<br/></item>
+    ''' <item>"County" - county of entry<br/></item>
+    ''' <item>"VaccinationSeries"<br/></item>
+    ''' <item>"Type" - type of entry<br/></item>
+    ''' <item>"LocationPopulation" - popilation of county<br/></item>
+    ''' <item>"DailyCount" - number of vaccinated per day<br/></item>
+    ''' <item>"TotalCount" - numeber of vaccinated per all time</item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getVaccinationStatByCounty() As CStatList
+    Public Function GetVaccinationStatByCounty() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatByCountyRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("County", "null").WhereNot("County", "")
     End Function
     ''' <summary>
-    ''' get Covid-19 vaccination statistics by age group.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - day of entry<br/>
-    ''' "VaccinationSeries"<br/>
-    ''' "Type" - type of entry<br/>
-    ''' "GroupSize" - size of age group<br/>
-    ''' "DailyCount" - number of daily vaccinations in this group<br/>
-    ''' "TotalCount" - total number of vaccinations in this group<br/>
-    ''' "PopulationCoverage" - vaccination coverage of group<br/>
-    ''' "AgeGroup"
-    ''' </summary>
+    ''' Get Covid-19 vaccination statistics by age group.<br/>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - day of entry<br/></item>
+    ''' <item>"VaccinationSeries"<br/></item>
+    ''' <item>"Type" - type of entry<br/></item>
+    ''' <item>"GroupSize" - size of age group<br/></item>
+    ''' <item>"DailyCount" - number of daily vaccinations in this group<br/></item>
+    ''' <item>"TotalCount" - total number of vaccinations in this group<br/></item>
+    ''' <item>"PopulationCoverage" - vaccination coverage of group<br/></item>
+    ''' <item>"AgeGroup"</item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getVaccinationStatByAgeGroup() As CStatList
+    Public Function GetVaccinationStatByAgeGroup() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatByAgeGroupRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("AgeGroup", "null")
     End Function
     ''' <summary>
-    ''' get national statistics on vaccination against Covid-19.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - date of entry<br/>
-    ''' "VaccinationSeries"<br/>
-    ''' "Type" - entry type<br/>
-    ''' "DailyCount" - number of vaccinations this day<br/>
-    ''' "TotalCount" - total number of vaccinations<br/>
-    ''' "PopulationCoverage"<br/>
-    ''' </summary>
+    ''' Get national statistics on vaccination against Covid-19.<br/>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date of entry<br/></item>
+    ''' <item>"VaccinationSeries"<br/></item>
+    ''' <item>"Type" - entry type<br/></item>
+    ''' <item>"DailyCount" - number of vaccinations this day<br/></item>
+    ''' <item>"TotalCount" - total number of vaccinations<br/></item>
+    ''' <item>"PopulationCoverage"<br/></item>
+    ''' <item>"UnvaccinatedCount"<br/></item>
+    ''' <item>"UnvaccinatedPercentage"<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getVaccinationStatGeneral() As CStatList
+    Public Function GetVaccinationStatGeneral() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "VaccinationStatGeneralRaw")
         Dim vaccinatedPercentageIndex As Integer = data.FindFieldIndex("VaccinatedPercentage")
         Dim locationPopulationIndex As Integer = data.FindFieldIndex("EstoniaPopulation")
@@ -84,14 +87,14 @@ Public Class CRequest
     End Function
     ''' <summary>
     ''' Total number of positive COVID-19 cases and positive cases in last 14 days and same as ratio per 100k.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - entry date<br/>
-    ''' "DailyCases" - daily tests<br/>
-    ''' "TotalCases" - total number of tests<br/>
-    ''' "Per100k" - coverage of population, ratio per 100k<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - entry date<br/></item>
+    ''' <item>"DailyCases" - daily tests<br/></item>
+    ''' <item>"TotalCases" - total number of tests<br/></item>
+    ''' <item>"Per100k" - coverage of population, ratio per 100k<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getTestStatPositiveGeneral() As CStatList
+    Public Function GetTestStatPositiveGeneral() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatPositiveGeneralRaw")
         Return data
     End Function
@@ -100,15 +103,17 @@ Public Class CRequest
     ''' A case is considered to be a first positive or first negative test per person, ie. repeat tests are not considered.<br/>
     ''' Thus, there can be a maximum of 2 cases per person - one positive, one negative. <br/>
     ''' The ranges of both positive and negative cases at the county level are published.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - date of entry<br/>
-    ''' "County"<br/>
-    ''' "Result" - result of test "P" or "N"<br/>
-    ''' "TotalTests" - total number of tests<br/>
-    ''' "DailyTests" - daily number of tests<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date of entry<br/></item>
+    ''' <item>"County"<br/></item>
+    ''' <item>"Result" - result of test "P" or "N"<br/></item>
+    ''' <item>"TotalTests" - total number of tests<br/></item>
+    ''' <item>"DailyTests" - daily number of tests<br/></item>
+    ''' </list></summary>
+    ''' <param name="countyName">Name of county to filter by. If not "all", will return info about exact county</param>
+    ''' <param name="positiveOnly">If True, returns only positive results</param>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getTestStatCounty(Optional countyName As String = "all", Optional positiveOnly As Boolean = True) As CStatList
+    Public Function GetTestStatCounty(Optional countyName As String = "all", Optional positiveOnly As Boolean = True) As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatCountyRaw")
         If (positiveOnly) Then
             data.Where("Result", "P")
@@ -120,14 +125,15 @@ Public Class CRequest
     End Function
     ''' <summary>
     ''' Average age of people tested this day.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - date of entry<br/>
-    ''' "Gender" - group gender<br/>
-    ''' "Result" - result of test<br/>
-    ''' "AverageAge" - average age of this group<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date of entry<br/></item>
+    ''' <item>"Gender" - group gender<br/></item>
+    ''' <item>"Result" - result of test<br/></item>
+    ''' <item>"AverageAge" - average age of this group<br/></item>
+    ''' </list></summary>
+    ''' <param name="positiveOnly">If True, returns only positive results</param>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getTestStatByAverageAge(Optional positiveOnly As Boolean = True) As CStatList
+    Public Function GetTestStatByAverageAge(Optional positiveOnly As Boolean = True) As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "TestStatByAverageAgeRaw")
 
         If (positiveOnly) Then
@@ -137,24 +143,25 @@ Public Class CRequest
     End Function
     ''' <summary>
     ''' The average age and average age grouped by genders of hospitalized patients diagnosed with Covid-19. <br/>
-    ''' Fields:<br/>
-    ''' "Gender" - gender of group, gender of "" or null means what this is average value between male and female groups<br/>
-    ''' "AverageAge" - average age of group<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Gender" - gender of group, gender of "" or null means what this is average value 
+    ''' between male and female groups<br/></item>
+    ''' <item>"AverageAge" - average age of group<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getHospitalizationAveragePatientAgeCurrent() As CStatList
+    Public Function GetHospitalizationAveragePatientAgeCurrent() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationAveragePatientAgeCurrentRaw")
         Return data
     End Function
     ''' <summary>
     ''' Total number of patients per gender and age group hospitalized<br/>
-    ''' Fields:<br/>
-    ''' "Gender" - patient gender<br/>
-    ''' "AgeGroup" - patient age group<br/>
-    ''' "PatientCount" - number of patients<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Gender" - patient gender<br/></item>
+    ''' <item>"AgeGroup" - patient age group<br/></item>
+    ''' <item>"PatientCount" - number of patients<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getHospitalizationPatientInfoCurrent() As CStatList
+    Public Function GetHospitalizationPatientInfoCurrent() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationPatientInfoCurrentRaw")
         Return data
     End Function
@@ -162,12 +169,12 @@ Public Class CRequest
     ''' A time series is issued for the average number of days a patient is hospitalized.<br/>
     ''' The average number of days is based on the number of cases that ended, and the average duration of illness in patients on a specific date is calculated.<br/>
     ''' Timeline may not have data for every date if the patients' medical records on that date have not yet been completed.
-    ''' Fields:<br/>
-    ''' "Date" - entry date<br/>
-    ''' "AverageDays"<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - entry date<br/></item>
+    ''' <item>"AverageDays"<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getAverageHospitalizationTime() As CStatList
+    Public Function GetAverageHospitalizationTime() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "AverageHospitalizationTimeRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
@@ -183,22 +190,22 @@ Public Class CRequest
     ''' For technical and methodological reasons, timeline may show minor statistical deviations from previously published statistics.<br/>
     ''' This is due to the time recording of the timeline and the receipt of data or corrections for the current day.<br/>
     ''' The open data shall reflect the most recent state of knowledge, including revisions and data quality improvements.<br/>
-    ''' Fields:<br/>
-    ''' "Date" - date of entry<br/>
-    ''' "Hospitalised" - patients hospitalized<br/>
-    ''' "ActivelyHospitalised" - patients really hospitalized and not discharged<br/>
-    ''' "OnVentilation"<br/>
-    ''' "InIntensive"<br/>
-    ''' "Discharged" - patients who left the hospital<br/>
-    ''' "NewCases"<br/>
-    ''' "TotalCases"<br/>
-    ''' "TotalCasesDischarged"<br/>
-    ''' "NewPatients"<br/>
-    ''' "TotalPatients"<br/>
-    ''' "TotalPatientsDischarged"<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date of entry<br/></item>
+    ''' <item>"Hospitalised" - patients hospitalized<br/></item>
+    ''' <item>"ActivelyHospitalised" - patients really hospitalized and not discharged<br/></item>
+    ''' <item>"OnVentilation"<br/></item>
+    ''' <item>"InIntensive"<br/></item>
+    ''' <item>"Discharged" - patients who left the hospital<br/></item>
+    ''' <item>"NewCases"<br/></item>
+    ''' <item>"TotalCases"<br/></item>
+    ''' <item>"TotalCasesDischarged"<br/></item>
+    ''' <item>"NewPatients"<br/></item>
+    ''' <item>"TotalPatients"<br/></item>
+    ''' <item>"TotalPatientsDischarged"<br/></item>
+    ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
-    Public Function getHospitalizationPatients() As CStatList
+    Public Function GetHospitalizationPatients() As CStatList
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "HospitalizationPatientsRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
@@ -207,14 +214,14 @@ Public Class CRequest
     End Function
     ''' <summary>
     ''' Deceased number this day<br/>
-    ''' Fields:<br/>
-    ''' - Date:     date<br/>
-    ''' - Deceased: number of people died<br/>
-    ''' </summary>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date" - date<br/></item>
+    ''' <item>"Deceased" - number of people died<br/></item>
+    ''' </list></summary>
     ''' <param name="accumulative">Should list be accumulative (each next by date entry is a sum of all deceased happened
     ''' in preious day)</param>
-    ''' <returns></returns>
-    Public Function getDeceased(Optional accumulative As Boolean = False) As CStatList
+    ''' <returns>Instance of <see cref="CStatList"/></returns>
+    Public Function GetDeceased(Optional accumulative As Boolean = False) As CStatList
         Dim list As CStatList = CStatSaveLoad.LoadFrom(cachePath, "DeceasedRaw")
         Dim i As Integer = 0
         If (accumulative <> True) Then
@@ -227,15 +234,17 @@ Public Class CRequest
     End Function
 
     ''' <summary>
-    ''' get number of people currently sick at selected date. <br/>
+    ''' Get number of people currently sick at selected date. <br/>
     ''' Calculated as total number of positive cases in last <paramref name="period"/> days.<br/>
-    ''' Fields:<br/>
-    ''' "Date"<br/>
-    ''' "Sick" - number of people currently sick at selected date.
-    ''' </summary>
-    ''' <param name="period"></param>
-    ''' <returns></returns>
-    Public Function getSick(Optional period As Integer = 14) As CStatList
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date"<br/></item>
+    ''' <item>"Sick" - number of people currently sick at selected date.</item>
+    ''' </list></summary>
+    ''' <param name="period">Period during what people are counted "sick". Since there are no info about
+    ''' currently sick people, it is calculated sum of peoples sick at certain date, with period equal to average
+    ''' sickness period.</param>
+    ''' <returns>Instance of <see cref="CStatList"/></returns>
+    Public Function GetSick(Optional period As Integer = 14) As CStatList
         period = Max(0, period - 1)
         Dim data As CStatList = CStatSaveLoad.LoadFrom(cachePath, "SickRaw")
         Dim sickFieldNumber = data.FindFieldIndex("Sick")
@@ -258,19 +267,21 @@ Public Class CRequest
         Return data
     End Function
     ''' <summary>
-    ''' get number of people currently sick at selected date by county. <br/>
+    ''' Get number of people currently sick at selected date by county. <br/>
     ''' Calculated as total number of positive cases in last <paramref name="period"/> days.<br/>
-    ''' Fields:<br/>
-    ''' "Date"<br/>
-    ''' "Sick" - number of people currently sick at selected date.<br/>
-    ''' "County"
-    ''' </summary>
-    ''' <param name="period"></param>
-    ''' <param name="aimCounty"></param>
+    ''' Fields:<br/><list type="bullet">
+    ''' <item>"Date"<br/></item>
+    ''' <item>"Sick" - number of people currently sick at selected date.<br/></item>
+    ''' <item>"County"</item>
+    ''' </list></summary>
+    ''' <param name="period">Period during what people are counted "sick". Since there are no info about
+    ''' currently sick people, it is calculated sum of peoples sick at certain date, with period equal to average
+    ''' sickness period.</param>
+    ''' <param name="aimCounty">Aim county to filter with. If not Nothing, will return info about exact county</param>
     ''' <returns></returns>
-    Public Function getSickCounty(Optional period As Integer = 14, Optional aimCounty As String = Nothing) As CStatList
+    Public Function GetSickCounty(Optional period As Integer = 14, Optional aimCounty As String = Nothing) As CStatList
         period = Max(0, period - 1)
-        Dim list As CStatList = Me.getTestStatCounty()
+        Dim list As CStatList = Me.GetTestStatCounty()
         Dim counties As New List(Of CStatList)
         Dim sickFieldNumber, dailyFieldNumber As Integer
         If (aimCounty IsNot Nothing) Then
@@ -309,6 +320,12 @@ Public Class CRequest
         list.DeleteFieldFromList("DailyTests")
         Return list
     End Function
+    ''' <summary>
+    ''' Parses raw CSV statistics file received in <see cref="String"/> form into instance of <see cref="CStatList"/>
+    ''' </summary>
+    ''' <param name="rawCSV">Raw CSV file in <see cref="String"/> format</param>
+    ''' <param name="fields">Headers what must be parsed from CSV statistics file</param>
+    ''' <returns>Instance of <see cref="CStatList"/></returns>
     Public Shared Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
         Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
         Dim headers As String() = data(0).Split(",")
@@ -344,11 +361,15 @@ Public Class CRequest
         Return statList
     End Function
 
+    ''' <summary>
+    ''' Create new instance of CRequest
+    ''' </summary>
+    ''' <param name="newCachePath">Path to folder where statistics raw object saved</param>
     Public Sub New(newCachePath As String)
         cachePath = newCachePath
     End Sub
 
-    ' Obsolete
+    ' Obsolete but potentially useful
     'Private Function ParseCSVToCStatObject(rawCSV As String, fields As Array) As CStatObject
     'Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
     'Dim headers As String() = data(0).Split(",")

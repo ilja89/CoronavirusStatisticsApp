@@ -1,18 +1,25 @@
 ﻿' FILENAME: CPolygons.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 25.03.2022
-' CHANGED: 25.03.2022
+' CHANGED: 01.04.2022
 '
 ' DESCRIPTION: See below↓↓↓
 
 ' Related components: CPolygon
 Imports System.Drawing.Drawing2D
+''' <summary>
+''' Used to make a list of <see cref="CPolygon"/> and treat them in more convenient form
+''' </summary>
 Public Class CPolygons
     Private _polygons As List(Of CPolygon)
     Private _bitmapSize As Size
-    Private _bitmapDefaultGradient As Gradient
+    Private _bitmapDefaultGradient As CGradient
     Private _baseImage As Image
-
+    ''' <summary>
+    ''' Gets or sets polygon under requested <paramref name="index"/>
+    ''' </summary>
+    ''' <param name="index">Index of aim polygon</param>
+    ''' <returns></returns>
     Default Public Property Element(index As Integer) As CPolygon
         Get
             Return _polygons(index)
@@ -21,11 +28,19 @@ Public Class CPolygons
             _polygons(index) = value
         End Set
     End Property
+    ''' <summary>
+    ''' Returns number of polygons in list
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Count As Integer
         Get
             Return _polygons.Count
         End Get
     End Property
+    ''' <summary>
+    ''' Gets or sets base image of background where these polygons will be drawn
+    ''' </summary>
+    ''' <returns></returns>
     Public Property BaseImage As Image
         Get
             Return _baseImage
@@ -34,11 +49,15 @@ Public Class CPolygons
             _baseImage = value
         End Set
     End Property
-    Public Property DefBgGradient As Gradient
+    ''' <summary>
+    ''' Default background gradient. Used if there are no <seealso cref="BaseImage"/> selected
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property DefBgGradient As CGradient
         Get
             Return _bitmapDefaultGradient
         End Get
-        Set(value As Gradient)
+        Set(value As CGradient)
             If (value.CenterColor <> Nothing) Then
                 _bitmapDefaultGradient.CenterColor = value.CenterColor
             End If
@@ -47,10 +66,18 @@ Public Class CPolygons
             End If
         End Set
     End Property
-
+    ''' <summary>
+    ''' Adds new polygon in the end of list
+    ''' </summary>
+    ''' <param name="newPolygon"></param>
     Public Sub Add(newPolygon As CPolygon)
         _polygons.Add(newPolygon)
     End Sub
+    ''' <summary>
+    ''' Returns first polygon with requested name
+    ''' </summary>
+    ''' <param name="aimName">Name of aim polygon</param>
+    ''' <returns></returns>
     Public Function GetPolygonWhereName(aimName As String) As CPolygon
         For Each polygon As CPolygon In _polygons
             If (polygon.Name = aimName) Then
@@ -59,7 +86,12 @@ Public Class CPolygons
         Next
         Return Nothing
     End Function
-    Public Sub SetGradientWhereName(aimName As String, gradient As Gradient)
+    ''' <summary>
+    ''' Sets <see cref="CGradient"/> <paramref name="gradient"/> to all polygons in list, what have name <paramref name="aimName"/>
+    ''' </summary>
+    ''' <param name="aimName">Name of aim polygons</param>
+    ''' <param name="gradient">Gradient to use</param>
+    Public Sub SetGradientWhereName(aimName As String, gradient As CGradient)
         For Each polygon As CPolygon In _polygons
             If (polygon.Name = aimName) Then
                 polygon.GradientBrushCenterColor = gradient.CenterColor
@@ -67,7 +99,12 @@ Public Class CPolygons
             End If
         Next
     End Sub
-    Public Sub SetGradientWhereKey(aimKey As String, gradient As Gradient)
+    ''' <summary>
+    ''' Sets <see cref="CGradient"/> <paramref name="gradient"/> to all polygons in list, what have key <paramref name="aimKey"/>
+    ''' </summary>
+    ''' <param name="aimKey">Key of aim polygons</param>
+    ''' <param name="gradient">Gradient to use</param>
+    Public Sub SetGradientWhereKey(aimKey As String, gradient As CGradient)
         For Each polygon As CPolygon In _polygons
             If (polygon.Key = aimKey) Then
                 polygon.GradientBrushCenterColor = gradient.CenterColor
@@ -75,6 +112,18 @@ Public Class CPolygons
             End If
         Next
     End Sub
+    ''' <summary>
+    ''' Draws all polygons on image inside <see cref="PictureBox"/> <paramref name="pb"/>
+    ''' </summary>
+    ''' <param name="pb">PictureBox inside what polygons will be drawn</param>
+    ''' <param name="fill">If True, polygons will be drawn filled</param>
+    ''' <param name="newCenterColor">If not Nothing, will set all polygons gradients center colors to this color</param>
+    ''' <param name="newSideColor">If not Nothing, will set all polygons gradients side colors to this color</param>
+    ''' <param name="textFont">If not Nothing, will set all polygons fonts to this font</param>
+    ''' <param name="withNames">If True, polygons will be drawn with their names</param>
+    ''' <param name="simplePolygonsDraw">If True, polygons will be filled with single color instead of gradient</param>
+    ''' <param name="simpleDefaultBackgroundDraw">If True, background on what polygons will be drawn will be filled with single
+    ''' color instead of gradient</param>
     Public Sub DrawAll(pb As PictureBox,
                        Optional fill As Boolean = False,
                        Optional newCenterColor As Color = Nothing,
@@ -146,9 +195,9 @@ Public Class CPolygons
         End If
     End Sub
 
-    Public Sub New(imageSize As Size, Optional backgroundGradient As Gradient = Nothing)
+    Public Sub New(imageSize As Size, Optional backgroundGradient As CGradient = Nothing)
         If (backgroundGradient Is Nothing) Then
-            _bitmapDefaultGradient = (New Gradient).Blue
+            _bitmapDefaultGradient = (New CGradient).Blue
         Else
             _bitmapDefaultGradient = backgroundGradient
         End If

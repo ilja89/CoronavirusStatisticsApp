@@ -1,7 +1,7 @@
 ﻿' FILENAME: CPolygon.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 25.03.2022
-' CHANGED: 25.03.2022
+' CHANGED: 01.04.2022
 '
 ' DESCRIPTION: See below↓↓↓
 
@@ -22,27 +22,46 @@ Public Class CPolygon
     Private _polygonKey As String = ""
     Private _namePoint As PointF
     Private _drawName As Boolean
-
+    ''' <summary>
+    ''' Minimal X coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property MinX As Integer
         Get
             Return _minX
         End Get
     End Property
+    ''' <summary>
+    ''' Minimal Y coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property MinY As Integer
         Get
             Return _minY
         End Get
     End Property
+    ''' <summary>
+    ''' Maximal X coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property MaxX As Integer
         Get
             Return _maxX
         End Get
     End Property
+    ''' <summary>
+    ''' Maximal X coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property MaxY As Integer
         Get
             Return _maxY
         End Get
     End Property
+    ''' <summary>
+    ''' Border pen what will be used to draw polygon borders.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property BorderPen As Pen
         Get
             Return _borderPen
@@ -51,6 +70,10 @@ Public Class CPolygon
             _borderPen = value
         End Set
     End Property
+    ''' <summary>
+    ''' Gets or sets polygon name what will be shown when polygon is drawn on map.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Name As String
         Get
             Return _polygonName
@@ -59,6 +82,10 @@ Public Class CPolygon
             _polygonName = value
         End Set
     End Property
+    ''' <summary>
+    ''' Gets or sets coordinates of point where center of drawn polygon name will be located.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property NamePoint As PointF
         Get
             Return _namePoint
@@ -67,11 +94,19 @@ Public Class CPolygon
             _namePoint = value
         End Set
     End Property
+    ''' <summary>
+    ''' Special polygon indentifier what is used for simplier process of working with statistics.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Key As String
         Get
             Return _polygonKey
         End Get
     End Property
+    ''' <summary>
+    ''' Property what shows if polygon should draw its name on map. If False, polygon name won't be drawn.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property DrawName As Boolean
         Get
             Return _drawName
@@ -80,6 +115,10 @@ Public Class CPolygon
             _drawName = value
         End Set
     End Property
+    ''' <summary>
+    ''' Center color of gradient brush
+    ''' </summary>
+    ''' <returns></returns>
     Public Property GradientBrushCenterColor As Color
         Get
             Return _fillGradientBrush.CenterColor
@@ -88,6 +127,10 @@ Public Class CPolygon
             _fillGradientBrush.CenterColor = value
         End Set
     End Property
+    ''' <summary>
+    ''' Side color of gradient brush
+    ''' </summary>
+    ''' <returns></returns>
     Public Property GradientBrushSideColor As Color
         Get
             Return _fillGradientBrush.SurroundColors(0)
@@ -102,6 +145,10 @@ Public Class CPolygon
             _fillGradientBrush.SurroundColors = colors
         End Set
     End Property
+    ''' <summary>
+    ''' Points using what polygon is built
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Points As Point()
         Get
             Return _points
@@ -174,7 +221,11 @@ Public Class CPolygon
         _bgBrush = new_bgBrush
         _fillGradientBrush.SurroundColors = colors
     End Sub
-
+    ''' <summary>
+    ''' Returns True if <see cref="Point"/> <paramref name="point"/> is inside polygon.
+    ''' </summary>
+    ''' <param name="point"></param>
+    ''' <returns></returns>
     Public Function IsPointInside(point As Point)
         If (point.X < _minX Or point.X > _maxX Or point.Y < _minY Or point.Y > _maxY) Then
             Return False
@@ -192,7 +243,15 @@ Public Class CPolygon
         End While
         Return result
     End Function
-
+    ''' <summary>
+    ''' Draws this polygon in <paramref name="pb"/> <see cref="PictureBox"/> image
+    ''' </summary>
+    ''' <param name="pb">PictureBox inside what polygon must be draw</param>
+    ''' <param name="fill">If True, polygon will be filled with gradient or single color</param>
+    ''' <param name="drawBorderPen">Pen what will be used to draw polygon borders</param>
+    ''' <param name="withCenterColor">Center color of gradient what will be used to fill polygon</param>
+    ''' <param name="withSideColor">Side color of gradient what will be used to fill polygon</param>
+    ''' <param name="simpleDraw">If Truem polygon will be drawn with single color instead of gradient</param>
     Public Sub Draw(pb As PictureBox,
                     Optional fill As Boolean = False,
                     Optional drawBorderPen As Pen = Nothing,
@@ -231,7 +290,11 @@ Public Class CPolygon
             pb.Invalidate()
         End If
     End Sub
-
+    ''' <summary>
+    ''' Draws polygon name on <paramref name="pb"/> <see cref="PictureBox"/> image
+    ''' </summary>
+    ''' <param name="pb">PictureBox inside what polygon name must be drawn</param>
+    ''' <param name="textFont">Font what will be used to draw polygon name</param>
     Public Sub DrawPolygonName(pb As PictureBox, textFont As Font)
         If (pb.Image IsNot Nothing AndAlso _drawName) Then
             Dim g As Graphics = Graphics.FromImage(pb.Image)

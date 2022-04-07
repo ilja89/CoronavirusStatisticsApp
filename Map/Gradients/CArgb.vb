@@ -1,4 +1,16 @@
-﻿Public Class Argb
+﻿' FILENAME: CArgb.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 25.03.2022
+' CHANGED: 28.03.2022
+'
+' DESCRIPTION: See below↓↓↓
+
+' Related components: MapControl
+
+''' <summary>
+''' Used to somehow save ARGB color values separately.
+''' </summary>
+Public Class CArgb
     Public alpha As Integer
     Public red As Integer
     Public green As Integer

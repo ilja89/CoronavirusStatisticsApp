@@ -1,4 +1,15 @@
-﻿Public Class Gradient
+﻿' FILENAME: CGradient.vb
+' AUTHOR: El Plan : Ilja Kuznetsov.
+' CREATED: 25.03.2022
+' CHANGED: 29.03.2022
+'
+' DESCRIPTION: See below↓↓↓
+
+' Related components: MapControl, CArgb
+''' <summary>
+''' Used to save gradient colors.
+''' </summary>
+Public Class CGradient
     Private _centerColor As Color
     Private _sideColor As Color
     Public Property CenterColor() As Color
@@ -74,7 +85,7 @@
         Return Me
     End Function
 
-    Public Function FromARGB(centerARGB As Argb, sideARGB As Argb)
+    Public Function FromARGB(centerARGB As CArgb, sideARGB As CArgb)
         _centerColor = Color.FromArgb(
             centerARGB.alpha,
             centerARGB.red,
