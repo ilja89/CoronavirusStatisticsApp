@@ -195,9 +195,10 @@ Public Class Main
                 Exit For
             End If
         Next
-
-        popup.Name = polygonName
-        popup.BringToFront()
+        If (polygonName IsNot Nothing) Then
+            popup.Name = polygonName
+            popup.BringToFront()
+        End If
         Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
         Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
         Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
