@@ -28,6 +28,8 @@ Partial Class Statistics
         Me.Total_Vaccinated = New LiveCharts.WinForms.SolidGauge()
         Me.Total_infected = New LiveCharts.WinForms.SolidGauge()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label2
@@ -76,16 +78,37 @@ Partial Class Statistics
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(0, 0)
+        Me.Label1.Location = New System.Drawing.Point(636, 179)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(57, 20)
         Me.Label1.TabIndex = 21
         Me.Label1.Text = "Label1"
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Location = New System.Drawing.Point(507, 221)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(116, 24)
+        Me.CheckBox1.TabIndex = 22
+        Me.CheckBox1.Text = "CheckBox1"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(692, 210)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(8, 61)
+        Me.Button1.TabIndex = 23
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Statistics
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.Button1)
+        Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Total_infected)
         Me.Controls.Add(Me.Total_Vaccinated)
@@ -104,4 +127,6 @@ Partial Class Statistics
     Friend WithEvents Total_Vaccinated As LiveCharts.WinForms.SolidGauge
     Friend WithEvents Total_infected As LiveCharts.WinForms.SolidGauge
     Friend WithEvents Label1 As Label
+    Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Button1 As Button
 End Class
