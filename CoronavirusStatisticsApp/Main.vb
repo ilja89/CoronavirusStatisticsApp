@@ -34,14 +34,13 @@ Public Class Main
 
         ' Data updating
         If (Await CStatSaveLoad.UpdateData(_cachePath)) Then
-            covidTest = request.getTestStatCounty
-            covidVact = request.getVaccinationStatByCounty
-            covidSick = request.getSickCounty
-            covidTestPosGen = request.getTestStatPositiveGeneral
-            covidVactGen = request.getVaccinationStatGeneral
-            covidSickGen = request.getSick
+            covidTest = request.GetTestStatCounty
+            covidVact = request.GetVaccinationStatByCounty
+            covidSick = request.GetSickCounty
+            covidTestPosGen = request.GetTestStatPositiveGeneral
+            covidVactGen = request.GetVaccinationStatGeneral
+            covidSickGen = request.GetSick
         End If
-        Dim k = covidTest.GetIndexOfFirstItemWhere("Date", {})
     End Sub
 
     'Constructor
