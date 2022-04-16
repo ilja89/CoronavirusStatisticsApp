@@ -335,6 +335,28 @@ Imports System.Math
         Return -1
     End Function
     ''' <summary>
+    ''' Find index of first item in <see cref="CStatList"/> where any of <paramref name="fields"/> has value <paramref name="fieldAimValue"/> 
+    ''' </summary>
+    ''' <param name="fields"></param>
+    ''' <param name="fieldAimValue"></param>
+    ''' <returns></returns>
+    Public Function GetIndexOfFirstItemWhere(fields() As String, fieldAimValue As String) As Integer
+        If (fields.Length <> 0) Then
+            Dim fieldsIndex(fields.Length - 1) As Integer
+            For i As Integer = 0 To _fields.Length - 1
+                fieldsIndex(i) = FindFieldIndex(fields(i))
+            Next
+            For j As Integer = 0 To fields.Length - 1
+                For i As Integer = 0 To _items.Count - 1
+                    If (_items(i)(fieldsIndex(j)) = fieldAimValue) Then
+                        Return i
+                    End If
+                Next
+            Next
+        End If
+        Return -1
+    End Function
+    ''' <summary>
     ''' Delete field from instance of <see cref="CStatList"/><br/>
     ''' Deleted this field from header and from all items
     ''' </summary>
@@ -624,6 +646,29 @@ Imports System.Math
         Return Me
     End Function
     ''' <summary>
+    ''' Used to filter items in <see cref="CStatList"/> by their fields. Only items what have any of <paramref name="keyValues"/> in
+    ''' <paramref name="header"/> will remain.
+    ''' </summary>
+    ''' <param name="header"></param>
+    ''' <param name="keyValues"></param>
+    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
+    Public Function Where(header As String, keyValues() As String) As CStatList
+        If (keyValues.Length <> 0) Then
+            Dim keyIndex As Integer = FindFieldIndex(header)
+            Dim newItemsList As New List(Of String())
+            For i As Integer = 0 To Count - 1
+                For j As Integer = 0 To keyValues.Length - 1
+                    If (_items(i)(keyIndex) = keyValues(j)) Then
+                        newItemsList.Add(_items(i))
+                        Exit For
+                    End If
+                Next
+            Next
+            _items = newItemsList
+        End If
+        Return Me
+    End Function
+    ''' <summary>
     ''' Used to filter items in <see cref="CStatList"/> by their fields. Only items what have not same <paramref name="keyValue"/> of
     ''' <paramref name="header"/> will remain.
     ''' </summary>
@@ -634,12 +679,39 @@ Imports System.Math
         Dim keyIndex As Integer = FindFieldIndex(header)
         Dim newItemsList As New List(Of String())
         For i As Integer = 0 To Count - 1
-            Dim thisItem = _items(i).GetValue(keyIndex)
             If (_items(i).GetValue(keyIndex) <> keyValue) Then
                 newItemsList.Add(_items(i))
             End If
         Next
         _items = newItemsList
+        Return Me
+    End Function
+    ''' <summary>
+    ''' Used to filter items in <see cref="CStatList"/> by their fields. Only items what do not have any of <paramref name="keyValues"/> in
+    ''' <paramref name="header"/> will remain.
+    ''' </summary>
+    ''' <param name="header"></param>
+    ''' <param name="keyValues"></param>
+    ''' <returns>Edited instance of this <see cref="CStatList"/></returns>
+    Public Function WhereNot(header As String, keyValues() As String) As CStatList
+        If (keyValues.Length <> 0) Then
+            Dim keyIndex As Integer = FindFieldIndex(header)
+            Dim newItemsList As New List(Of String())
+            Dim notInArray As Boolean = True
+            For i As Integer = 0 To Count - 1
+                notInArray = True
+                For j As Integer = 0 To keyValues.Length - 1
+                    If (_items(i)(keyIndex) = keyValues(j)) Then
+                        notInArray = False
+                        Exit For
+                    End If
+                Next
+                If (notInArray) Then
+                    newItemsList.Add(_items(i))
+                End If
+            Next
+            _items = newItemsList
+        End If
         Return Me
     End Function
     ''' <summary>
