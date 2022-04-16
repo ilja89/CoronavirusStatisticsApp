@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim Gradient1 As Map.CGradient = New Map.CGradient()
+        Dim CGradient1 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -52,7 +52,7 @@ Partial Class Main
         '
         'MenuPanel
         '
-        Me.MenuPanel.BackColor = System.Drawing.Color.Gray
+        Me.MenuPanel.BackColor = System.Drawing.Color.DarkGray
         Me.MenuPanel.Controls.Add(Me.btnExit)
         Me.MenuPanel.Controls.Add(Me.btnSettings)
         Me.MenuPanel.Controls.Add(Me.btnExtra2)
@@ -69,7 +69,7 @@ Partial Class Main
         'btnExit
         '
         Me.btnExit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExit.BackColor = System.Drawing.Color.Gray
+        Me.btnExit.BackColor = System.Drawing.Color.DarkGray
         Me.btnExit.FlatAppearance.BorderSize = 0
         Me.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnExit.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -90,7 +90,7 @@ Partial Class Main
         '
         'btnSettings
         '
-        Me.btnSettings.BackColor = System.Drawing.Color.Gray
+        Me.btnSettings.BackColor = System.Drawing.Color.DarkGray
         Me.btnSettings.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnSettings.FlatAppearance.BorderSize = 0
         Me.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -112,7 +112,7 @@ Partial Class Main
         '
         'btnExtra2
         '
-        Me.btnExtra2.BackColor = System.Drawing.Color.Gray
+        Me.btnExtra2.BackColor = System.Drawing.Color.DarkGray
         Me.btnExtra2.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnExtra2.FlatAppearance.BorderSize = 0
         Me.btnExtra2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -134,7 +134,7 @@ Partial Class Main
         '
         'btnTelegramm
         '
-        Me.btnTelegramm.BackColor = System.Drawing.Color.Gray
+        Me.btnTelegramm.BackColor = System.Drawing.Color.DarkGray
         Me.btnTelegramm.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnTelegramm.FlatAppearance.BorderSize = 0
         Me.btnTelegramm.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -156,7 +156,7 @@ Partial Class Main
         '
         'btnStatistics
         '
-        Me.btnStatistics.BackColor = System.Drawing.Color.Gray
+        Me.btnStatistics.BackColor = System.Drawing.Color.DarkGray
         Me.btnStatistics.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnStatistics.FlatAppearance.BorderSize = 0
         Me.btnStatistics.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -178,7 +178,7 @@ Partial Class Main
         '
         'btnMap
         '
-        Me.btnMap.BackColor = System.Drawing.Color.Gray
+        Me.btnMap.BackColor = System.Drawing.Color.DarkGray
         Me.btnMap.Dock = System.Windows.Forms.DockStyle.Top
         Me.btnMap.FlatAppearance.BorderSize = 0
         Me.btnMap.FlatStyle = System.Windows.Forms.FlatStyle.Flat
@@ -200,7 +200,7 @@ Partial Class Main
         '
         'PanelLogo
         '
-        Me.PanelLogo.BackColor = System.Drawing.Color.Gray
+        Me.PanelLogo.BackColor = System.Drawing.Color.DarkGray
         Me.PanelLogo.Controls.Add(Me.BoxLogo)
         Me.PanelLogo.Dock = System.Windows.Forms.DockStyle.Top
         Me.PanelLogo.Location = New System.Drawing.Point(0, 0)
@@ -210,7 +210,7 @@ Partial Class Main
         '
         'BoxLogo
         '
-        Me.BoxLogo.BackColor = System.Drawing.Color.Gray
+        Me.BoxLogo.BackColor = System.Drawing.Color.DarkGray
         Me.BoxLogo.BackgroundImage = CType(resources.GetObject("BoxLogo.BackgroundImage"), System.Drawing.Image)
         Me.BoxLogo.Location = New System.Drawing.Point(11, 12)
         Me.BoxLogo.Name = "BoxLogo"
@@ -220,7 +220,7 @@ Partial Class Main
         '
         'PanelBar
         '
-        Me.PanelBar.BackColor = System.Drawing.Color.Gray
+        Me.PanelBar.BackColor = System.Drawing.Color.DarkGray
         Me.PanelBar.Controls.Add(Me.CurrentIconLabel)
         Me.PanelBar.Controls.Add(Me.CurrentIcon)
         Me.PanelBar.Dock = System.Windows.Forms.DockStyle.Top
@@ -241,7 +241,7 @@ Partial Class Main
         '
         'CurrentIcon
         '
-        Me.CurrentIcon.BackColor = System.Drawing.Color.Gray
+        Me.CurrentIcon.BackColor = System.Drawing.Color.DarkGray
         Me.CurrentIcon.ForeColor = System.Drawing.SystemColors.ControlText
         Me.CurrentIcon.IconChar = FontAwesome.Sharp.IconChar.Home
         Me.CurrentIcon.IconColor = System.Drawing.SystemColors.ControlText
@@ -274,9 +274,9 @@ Partial Class Main
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray
-        Gradient1.CenterColor = System.Drawing.Color.Green
-        Gradient1.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = Gradient1
+        CGradient1.CenterColor = System.Drawing.Color.Green
+        CGradient1.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = CGradient1
         Me.MapControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True

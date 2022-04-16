@@ -22,6 +22,7 @@ Public Class Main
     Public covidTestPosGen As CStatList
     Public covidVactGen As CStatList
     Public covidSickGen As CStatList
+    Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     'Dim statGraphs As New statWin
@@ -60,7 +61,8 @@ Public Class Main
             DisabledBtn()
             'Button
             currentBtn = CType(senderBtn, IconButton)
-            currentBtn.BackColor = Color.FromArgb(50, 50, 50)
+            _lastButtonColor = currentBtn.BackColor
+            currentBtn.BackColor = Color.FromArgb(110, 110, 110)
             currentBtn.ForeColor = customColor
             currentBtn.IconColor = customColor
             currentBtn.TextAlign = ContentAlignment.MiddleCenter
@@ -81,7 +83,7 @@ Public Class Main
 
     Private Sub DisabledBtn()
         If currentBtn IsNot Nothing Then
-            currentBtn.BackColor = Color.Gray
+            currentBtn.BackColor = _lastButtonColor
             currentBtn.ForeColor = Color.Black
             currentBtn.IconColor = Color.Black
             currentBtn.TextAlign = ContentAlignment.MiddleLeft
