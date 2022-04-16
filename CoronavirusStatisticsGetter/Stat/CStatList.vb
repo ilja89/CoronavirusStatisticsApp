@@ -335,25 +335,20 @@ Imports System.Math
         Return -1
     End Function
     ''' <summary>
-    ''' Find index of first item in <see cref="CStatList"/> where any of <paramref name="fields"/> has value <paramref name="fieldAimValue"/> 
+    ''' Find index of first item in <see cref="CStatList"/> where <paramref name="field"/> has any value of <paramref name="fieldAimValues"/> 
     ''' </summary>
-    ''' <param name="fields"></param>
-    ''' <param name="fieldAimValue"></param>
+    ''' <param name="field"></param>
+    ''' <param name="fieldAimValues"></param>
     ''' <returns></returns>
-    Public Function GetIndexOfFirstItemWhere(fields() As String, fieldAimValue As String) As Integer
-        If (fields.Length <> 0) Then
-            Dim fieldsIndex(fields.Length - 1) As Integer
-            For i As Integer = 0 To _fields.Length - 1
-                fieldsIndex(i) = FindFieldIndex(fields(i))
+    Public Function GetIndexOfFirstItemWhere(field As String, fieldAimValues() As String) As Integer
+        Dim fieldIndex = FindFieldIndex(field)
+        For i As Integer = 0 To _items.Count - 1
+            For j As Integer = 0 To fieldAimValues.Length - 1
+                If (_items(i)(fieldIndex) = fieldAimValues(j)) Then
+                    Return i
+                End If
             Next
-            For j As Integer = 0 To fields.Length - 1
-                For i As Integer = 0 To _items.Count - 1
-                    If (_items(i)(fieldsIndex(j)) = fieldAimValue) Then
-                        Return i
-                    End If
-                Next
-            Next
-        End If
+        Next
         Return -1
     End Function
     ''' <summary>

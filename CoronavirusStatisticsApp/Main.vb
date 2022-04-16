@@ -41,6 +41,7 @@ Public Class Main
             covidVactGen = request.getVaccinationStatGeneral
             covidSickGen = request.getSick
         End If
+        Dim k = covidTest.GetIndexOfFirstItemWhere("Date", {})
     End Sub
 
     'Constructor
