@@ -17,7 +17,7 @@ Public Class CStatSaveLoad
     ''' <param name="aimObject">An object to save</param>
     ''' <param name="path">Path to folder where this object will be saved</param>
     ''' <param name="fileName">New file name</param>
-    Public Shared Sub SaveTo(aimObject As Object, path As String, fileName As String)
+    Public Sub SaveTo(aimObject As Object, path As String, fileName As String)
         Dim formatter As Runtime.Serialization.Formatters.Binary.BinaryFormatter
         Dim stream As IO.Stream
         Dim fullPath As String = ""
@@ -37,7 +37,7 @@ Public Class CStatSaveLoad
     ''' <param name="path">Path to folder where aim object is saved</param>
     ''' <param name="name">Name of aim object file</param>
     ''' <returns>Loaded object</returns>
-    Public Shared Function LoadFrom(path As String, name As String) As Object
+    Public Function LoadFrom(path As String, name As String) As Object
         Dim formatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter
         Dim stream As IO.Stream
         Dim fullPath As String = ""
@@ -56,7 +56,7 @@ Public Class CStatSaveLoad
     ''' </summary>
     ''' <param name="lastUpdateDate">DateTime object what shows date of last update made</param>
     ''' <returns>True if object is up to date, false if not</returns>
-    Private Shared Function IsUpToDate(lastUpdateDate As DateTime)
+    Private Function IsUpToDate(lastUpdateDate As DateTime)
         Dim now As DateTime = DateTime.Now
         If (DateTime.Compare(lastUpdateDate, now.AddDays(-1)) < 0 Or
             (lastUpdateDate.Day = now.Day And lastUpdateDate.Hour < 13 And now.Hour >= 13) Or
@@ -70,7 +70,8 @@ Public Class CStatSaveLoad
     ''' </summary>
     ''' <param name="path">Path to folder where cached statistics files are saved</param>
     ''' <returns>Returns True when finished</returns>
-    Public Shared Async Function UpdateData(path As String) As Task(Of Boolean)
+    Public Async Function UpdateData(path As String) As Task(Of Boolean)
+        Dim saveLoad As New CStatSaveLoad
         Dim newDataDownload As New CDataDownload
         Dim fileNames() As String = {
             "VaccinationStatByCounty",
@@ -89,7 +90,7 @@ Public Class CStatSaveLoad
         If (Not IO.Directory.Exists(path)) Then
             IO.Directory.CreateDirectory(path)
         End If
-        CStatSaveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
+        saveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
 
         ' Check Date
         If (Not IO.File.Exists(path + "lastCheckDate.bin") OrElse
@@ -101,7 +102,7 @@ Public Class CStatSaveLoad
             Next
 
             ' Update date
-            CStatSaveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
+            saveLoad.SaveTo(DateTime.Now, path, "lastCheckDate")
         End If
 
         ' If there by some reason are no required data in cache, then download it.

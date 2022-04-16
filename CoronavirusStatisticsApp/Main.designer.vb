@@ -39,15 +39,14 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
+        Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MapControl1 = New Map.MapControl()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelBar.SuspendLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelDesktop.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuPanel
@@ -262,12 +261,16 @@ Partial Class Main
         '
         Me.PanelDesktop.BackColor = System.Drawing.Color.Gray
         Me.PanelDesktop.Controls.Add(Me.MapControl1)
-        Me.PanelDesktop.Controls.Add(Me.PictureBox1)
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
         Me.PanelDesktop.Name = "PanelDesktop"
         Me.PanelDesktop.Size = New System.Drawing.Size(1045, 534)
         Me.PanelDesktop.TabIndex = 2
+        '
+        'GarbageTimer
+        '
+        Me.GarbageTimer.Enabled = True
+        Me.GarbageTimer.Interval = 10000
         '
         'MapControl1
         '
@@ -284,22 +287,11 @@ Partial Class Main
         Me.MapControl1.MapFont = New System.Drawing.Font("Times New Roman", 50.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle))
         Me.MapControl1.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.MapControl1.Name = "MapControl1"
+        Me.MapControl1.PictureBoxImage = CType(resources.GetObject("MapControl1.PictureBoxImage"), System.Drawing.Image)
         Me.MapControl1.SimpleBackgroundDraw = True
         Me.MapControl1.SimplePolygonsDraw = False
         Me.MapControl1.Size = New System.Drawing.Size(1045, 534)
         Me.MapControl1.TabIndex = 2
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
-        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.PictureBox1.Location = New System.Drawing.Point(347, 164)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(332, 180)
-        Me.PictureBox1.TabIndex = 1
-        Me.PictureBox1.TabStop = False
         '
         'Main
         '
@@ -319,7 +311,6 @@ Partial Class Main
         Me.PanelBar.PerformLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelDesktop.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -338,6 +329,6 @@ Partial Class Main
     Friend WithEvents CurrentIconLabel As Label
     Friend WithEvents CurrentIcon As FontAwesome.Sharp.IconPictureBox
     Friend WithEvents PanelDesktop As Panel
-    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents GarbageTimer As Timer
     Friend WithEvents MapControl1 As Map.MapControl
 End Class
