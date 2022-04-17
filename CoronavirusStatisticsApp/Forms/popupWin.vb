@@ -38,4 +38,8 @@ Public Class popupWin
     Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
 
     End Sub
+
+    Private Sub openStatBtn_Click(sender As Object, e As EventArgs) Handles openStatBtn.Click
+        moreStatCounty.Visible = True
+    End Sub
 End Class

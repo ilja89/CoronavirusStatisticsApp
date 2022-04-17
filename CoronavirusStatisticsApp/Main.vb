@@ -148,7 +148,7 @@ Public Class Main
         CloseChildForm()
         MapControlShow()
         MapControl1.BringToFront()
-        ActivateButton(sender, Color.Green)
+        ActivateButton(sender, Color.LawnGreen)
         'StatWin1.Visible = False
 
     End Sub

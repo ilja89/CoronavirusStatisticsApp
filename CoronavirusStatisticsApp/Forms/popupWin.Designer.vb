@@ -32,6 +32,7 @@ Partial Class popupWin
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.openStatBtn = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
@@ -103,6 +104,7 @@ Partial Class popupWin
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Silver
+        Me.Panel2.Controls.Add(Me.openStatBtn)
         Me.Panel2.Controls.Add(Me.Label3)
         Me.Panel2.Controls.Add(Me.Label2)
         Me.Panel2.Controls.Add(Me.Label1)
@@ -145,6 +147,17 @@ Partial Class popupWin
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Testid kokku:"
         '
+        'openStatBtn
+        '
+        Me.openStatBtn.BackColor = System.Drawing.Color.OliveDrab
+        Me.openStatBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.openStatBtn.Location = New System.Drawing.Point(444, 16)
+        Me.openStatBtn.Name = "openStatBtn"
+        Me.openStatBtn.Size = New System.Drawing.Size(125, 23)
+        Me.openStatBtn.TabIndex = 7
+        Me.openStatBtn.Text = "Kuva rohkem"
+        Me.openStatBtn.UseVisualStyleBackColor = False
+        '
         'popupWin
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -172,4 +185,5 @@ Partial Class popupWin
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents countyName As Label
+    Friend WithEvents openStatBtn As Button
 End Class
