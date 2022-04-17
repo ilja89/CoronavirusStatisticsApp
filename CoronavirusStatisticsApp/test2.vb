@@ -5,8 +5,9 @@ Imports TelegramBotLib.CCommandObjectCollection
 Imports cbBtn = TelegramBotLib.CInlineKeyboardButtonBuilder
 Imports cBtn = TelegramBotLib.CInlineKeyboardButton
 Public Class test2
-    Private telecom As New TelegramBotLib.CTelegramBot
+    Private telecom As New CTelegramBot
     Private objCol As New CCommandObjectCollection
+    Private interactionModule As New CTelegramInteractionModule
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Send.Click
         RichTextBox1.Text = telecom.SendTelegramMessage(RichTextBoxInput.Text).Text
     End Sub
@@ -14,40 +15,9 @@ Public Class test2
     Private Sub GetUpdates_Click(sender As Object, e As EventArgs) Handles GetUpdates.Click
         Dim response As CTelegramResponse = telecom.GetUpdate()
         If (response.IsCommand) Then
-            objCol.Item(response.Command).CallCommand({response.CommandText})
+            interactionModule.handleCommand(response.Command, {response.CommandText})
         End If
         RichTextBox1.Text = response.Text
-    End Sub
-
-    Sub help(Optional descriptionType As String = "full")
-        Dim send As String = "List of commands:".bold.italic
-        Dim i As Integer = 1
-        If (descriptionType = "full" Or descriptionType = "") Then
-            While (i <= objCol.Count)
-                send = send.newline + objCol.Item(i).FullDescription
-                i = i + 1
-            End While
-        ElseIf (descriptionType = "short") Then
-            While (i <= objCol.Count)
-                send = send.newline + objCol.Item(i).ShortDescription
-                i = i + 1
-            End While
-        ElseIf (descriptionType = "list") Then
-            While (i <= objCol.Count)
-                send = send.newline + "/" + objCol.Item(i).Command
-                i = i + 1
-            End While
-        End If
-        telecom.SendTelegramMessage(send)
-    End Sub
-
-    Sub Loaded() Handles Me.Load
-        objCol.Add(New CCommandObject("help", Me, "help", vbMethod,
-                                      "/help - used to receive list of commands",
-                                      "/help - used to receive list of commands.".
-                                      newline + "Syntax:".
-                                      newline.tab + "/help or /help full - full list of commands".
-                                      newline.tab + "/help short - short list of commands"))
     End Sub
 
     Private Sub GetRawUpdates_Click(sender As Object, e As EventArgs) Handles GetRawUpdates.Click

@@ -185,7 +185,7 @@ Public Class CCommandObject
     ''' </summary>
     ''' <param name="Args"></param>
     ''' <returns>Result of funciton, if it exists</returns>
-    Public Function CallCommand(ParamArray Args As Object())
+    Public Function CallCommand(ParamArray Args As String())
         If (commandObjectCreated) Then
             Return CallByName(ObjectRef, FunctionName, FunctionCallType, Args)
         Else

@@ -129,6 +129,7 @@
     <Compile Include="My Project\UserControl2.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TelegramCommands\CTelegramInteractionModule.vb" />
     <Compile Include="test2.Designer.vb">
       <DependentUpon>test2.vb</DependentUpon>
     </Compile>
