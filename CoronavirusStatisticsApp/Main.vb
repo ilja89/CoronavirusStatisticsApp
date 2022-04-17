@@ -30,6 +30,8 @@ Public Class Main
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     'Dim statGraphs As New statWin
 
+    Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
         MapControlHide()
@@ -46,7 +48,7 @@ Public Class Main
             covidSickGen = request.GetSick
         End If
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
-        GC.Collect()
+        ReleaseMemory()
     End Sub
 
     'Constructor
@@ -239,7 +241,19 @@ Public Class Main
         popup.countyName.Text = polygonName
     End Sub
 
+    Private Sub ReleaseMemory()
+        Try
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            If Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
+            End If
+        Catch ex As Exception
+            Console.WriteLine(ex.ToString())
+        End Try
+    End Sub
+
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
-        GC.Collect()
+        ReleaseMemory()
     End Sub
 End Class

@@ -11,11 +11,21 @@ Imports System.Net
 Imports CoronaStatisticsGetter.CRequest
 Imports Newtonsoft.Json.Linq
 Imports System.Math
+Imports System.Reflection.MethodInfo
 ''' <summary>
 ''' This class is used to download raw data from <strong>Digilugu</strong> <see href="https://opendata.digilugu.ee/"></see> servers and other sources.
 ''' It doesn't execute deep processing of data.
 ''' </summary>
 Public Class CDataDownload
+    Private Declare Function GetTickCount64 Lib "kernel32" () As Long
+    Private Sub Sleep(delayms As Integer)
+        Dim startTime As Long = GetTickCount64
+        Dim stopTime As Long = startTime + delayms
+        Dim now As Long = startTime
+        While (now < stopTime)
+            now = GetTickCount64
+        End While
+    End Sub
     ''' <summary>
     ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
     ''' Get Covid-19 vaccination statistics grouped by county.<br/>
@@ -31,11 +41,27 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetVaccinationStatByCountyRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_location_county.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_location_county.csv")
+                data = ParseCSVToCStatList(
             csv,
             {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation",
             "DailyCount", "TotalCount"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
 
@@ -55,11 +81,27 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetVaccinationStatByAgeGroupRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_agegroup.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation||GroupSize",
-            "DailyCount", "TotalCount", "PopulationCoverage", "AgeGroup"})
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_agegroup.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation||GroupSize",
+                    "DailyCount", "TotalCount", "PopulationCoverage", "AgeGroup"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -76,11 +118,26 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetVaccinationStatGeneralRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
-        data.Where("VaccinationSeries", "1")
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
+                data.Where("VaccinationSeries", "1")
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -95,10 +152,26 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetTestStatPositiveGeneralRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
-        Return ParseCSVToCStatList(
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
+                data = ParseCSVToCStatList(
             csv,
             {"StatisticsDate||Date", "DailyCases", "TotalCases", "PerPopulation||Per100k"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
+        Return data
     End Function
     ''' <summary>
     ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
@@ -116,11 +189,26 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetTestStatCountyRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_test_county_all.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
-        data.WhereNot("County", "")
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_test_county_all.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
+                data.WhereNot("County", "")
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -135,10 +223,25 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetTestStatByAverageAgeRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_avg_age_by_result.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"ResultDate||Date", "Gender", "ResultValue||Result", "AverageAge"})
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_avg_age_by_result.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"ResultDate||Date", "Gender", "ResultValue||Result", "AverageAge"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -152,10 +255,25 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetHospitalizationAveragePatientAgeCurrentRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_age.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_age.csv")
+                data = ParseCSVToCStatList(
             csv,
             {"Gender", "AverageAge"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -169,10 +287,25 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetHospitalizationPatientInfoCurrentRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_profile.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"Gender", "AgeGroup", "PatientCount"})
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_profile.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"Gender", "AgeGroup", "PatientCount"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+            Console.WriteLine(ex.ToString)
+            Sleep(1000)
+        Else
+            Throw New Exception(ex.Message + "in" + methodName, ex)
+        End If
+        tries += 1
+        End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -187,10 +320,25 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetAverageHospitalizationTimeRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_days.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_days.csv")
+                data = ParseCSVToCStatList(
             csv,
             {"StatisticsDate||Date", "AverageDays"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -220,13 +368,28 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetHospitalizationPatientsRaw() As Task(Of CStatList)
         Dim client As New WebClient
-        Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_timeline.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
-            csv,
-            {"StatisticsDate||Date", "Hospitalised", "ActivelyHospitalised",
-            "IsOnVentilation||OnVentilation", "IsInIntensive||InIntensive", "Discharged",
-            "NewCases", "TotalCases", "TotalCasesDischarged", "NewPatients",
-            "TotalPatients", "TotalPatientsDischarged"})
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_timeline.csv")
+                data = ParseCSVToCStatList(
+                    csv,
+                    {"StatisticsDate||Date", "Hospitalised", "ActivelyHospitalised",
+                    "IsOnVentilation||OnVentilation", "IsInIntensive||InIntensive", "Discharged",
+                    "NewCases", "TotalCases", "TotalCasesDischarged", "NewPatients",
+                    "TotalPatients", "TotalPatientsDischarged"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+            Console.WriteLine(ex.ToString)
+            Sleep(1000)
+        Else
+            Throw New Exception(ex.Message + "in" + methodName, ex)
+        End If
+        tries += 1
+        End Try
+        End While
         Return data
     End Function
     ''' <summary>
@@ -238,17 +401,33 @@ Public Class CDataDownload
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetDeceasedRaw() As Task(Of CStatList)
-        Dim rawJson As String = Await (New WebClient).DownloadStringTaskAsync("https://koroonakaart.ee/data.json")
-        Dim json As JObject = JObject.Parse(rawJson)
-        Dim dates As JArray = json.Exists("dates2")
-        Dim deceasedNumber As JArray = json.Exists("deceased")
-        Dim list As New CStatList({{0, "Date", 0}, {0, "Deceased", 1}})
-        Dim i As Integer = Min(dates.Count, deceasedNumber.Count) - 1
-        While (i >= 0)
-            list.AddItemDirectly({dates(i).Value(Of String), deceasedNumber(i).Value(Of String)})
-            i -= 1
+        Dim client As New WebClient
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim rawJson As String = Await client.DownloadStringTaskAsync("https://koroonakaart.ee/data.json")
+                Dim json As JObject = JObject.Parse(rawJson)
+                Dim dates As JArray = json.Exists("dates2")
+                Dim deceasedNumber As JArray = json.Exists("deceased")
+                data = New CStatList({{0, "Date", 0}, {0, "Deceased", 1}})
+                Dim i As Integer = Min(dates.Count, deceasedNumber.Count) - 1
+                While (i >= 0)
+                    data.AddItemDirectly({dates(i).Value(Of String), deceasedNumber(i).Value(Of String)})
+                    i -= 1
+                End While
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
         End While
-        Return list
+        Return data
     End Function
     ''' <summary>
     ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
@@ -259,10 +438,26 @@ Public Class CDataDownload
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetSickRaw() As Task(Of CStatList)
-        Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
-        Dim data As CStatList = ParseCSVToCStatList(
+        Dim client As New WebClient
+        Dim data As CStatList = Nothing
+        Dim tries As Integer = 0
+        Dim methodName As String = GetCurrentMethod().Name
+        While (data Is Nothing)
+            Try
+                Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
+                data = ParseCSVToCStatList(
             csv,
             {"StatisticsDate||Date", "DailyCases", "TotalCasesLast14D||Sick"})
+            Catch ex As Exception
+                If (ex.GetType.Name = "WebException" And tries < 3) Then
+                    Console.WriteLine(ex.ToString)
+                    Sleep(1000)
+                Else
+                    Throw New Exception(ex.Message + "in" + methodName, ex)
+                End If
+                tries += 1
+            End Try
+        End While
         Return data
     End Function
 End Class
