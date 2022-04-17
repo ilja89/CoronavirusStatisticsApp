@@ -291,7 +291,7 @@ Partial Class Main
         'GarbageTimer
         '
         Me.GarbageTimer.Enabled = True
-        Me.GarbageTimer.Interval = 10000
+        Me.GarbageTimer.Interval = 30000
         '
         'Main
         '

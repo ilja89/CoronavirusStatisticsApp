@@ -8,7 +8,7 @@ Public Class statGraphs
     Dim covidDeceasedGen As CStatList
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Dim request As New CRequest(_cachePath)
-    Private Async Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
 
@@ -17,7 +17,7 @@ Public Class statGraphs
         totalPos.To = 1331000
         totalHospitalized.To = 1331000
         hospitalizedCurrent.To = 1331000
-        totalDied.To = 133100
+        totalDied.To = 1331000
         covidTestPosGen = request.GetTestStatPositiveGeneral()
         covidVactGen = request.GetVaccinationStatGeneral()
         covidSickGen = request.GetSick()

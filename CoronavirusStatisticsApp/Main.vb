@@ -22,9 +22,6 @@ Public Class Main
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
-    Public covidTestPosGen As CStatList
-    Public covidVactGen As CStatList
-    Public covidSickGen As CStatList
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
@@ -43,9 +40,6 @@ Public Class Main
             covidTest = request.GetTestStatCounty
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
-            covidTestPosGen = request.GetTestStatPositiveGeneral
-            covidVactGen = request.GetVaccinationStatGeneral
-            covidSickGen = request.GetSick
         End If
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
         ReleaseMemory()
@@ -183,10 +177,6 @@ Public Class Main
 
     End Sub
 
-    Private Sub MapControl1_Load(sender As Object, e As EventArgs)
-
-    End Sub
-
     Private Sub MapControlHide()
         MapControl1.Visible = False
         If (MapControl1.PictureBoxImage IsNot Nothing) Then
@@ -200,8 +190,9 @@ Public Class Main
         MapControl1.Visible = True
     End Sub
 
-    Private Async Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
-        Dim positions() As KeyValuePair(Of String, Point) = {
+    Private Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
+        If (covidTest IsNot Nothing AndAlso covidSick IsNot Nothing AndAlso covidVact IsNot Nothing) Then
+            Dim positions() As KeyValuePair(Of String, Point) = {
             New KeyValuePair(Of String, Point)("Harju maakond", New Point(426, 79)),
             New KeyValuePair(Of String, Point)("Ida-Viru maakond", New Point(801, 87)),
             New KeyValuePair(Of String, Point)("Lääne-Viru maakond", New Point(620, 70)),
@@ -218,27 +209,28 @@ Public Class Main
             New KeyValuePair(Of String, Point)("Hiiu maakond", New Point(106, 149)),
             New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
-        Dim popup As New popupWin
-        Controls.Add(popup)
-        popup.Location = mouseCoords
-        For Each position As KeyValuePair(Of String, Point) In positions
-            If (position.Key = polygonKey) Then
-                popup.Location = position.Value
-                Exit For
+            Dim popup As New popupWin
+            Controls.Add(popup)
+            popup.Location = mouseCoords
+            For Each position As KeyValuePair(Of String, Point) In positions
+                If (position.Key = polygonKey) Then
+                    popup.Location = position.Value
+                    Exit For
+                End If
+            Next
+            If (polygonName IsNot Nothing) Then
+                popup.Name = polygonName
+                popup.BringToFront()
             End If
-        Next
-        If (polygonName IsNot Nothing) Then
-            popup.Name = polygonName
-            popup.BringToFront()
-        End If
-        Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
-        Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
-        Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
+            Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
+            Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
+            Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
 
-        popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
-        popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
-        popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
-        popup.countyName.Text = polygonName
+            popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
+            popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
+            popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
+            popup.countyName.Text = polygonName
+        End If
     End Sub
 
     Private Sub ReleaseMemory()

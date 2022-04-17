@@ -18,6 +18,10 @@ Imports System.Reflection.MethodInfo
 ''' </summary>
 Public Class CDataDownload
     Private Declare Function GetTickCount64 Lib "kernel32" () As Long
+    ''' <summary>
+    ''' Waits for <paramref name="delayms"/> milliseconds.
+    ''' </summary>
+    ''' <param name="delayms">Delay in milliseconds</param>
     Private Sub Sleep(delayms As Integer)
         Dim startTime As Long = GetTickCount64
         Dim stopTime As Long = startTime + delayms
@@ -25,6 +29,22 @@ Public Class CDataDownload
         While (now < stopTime)
             now = GetTickCount64
         End While
+    End Sub
+
+    ''' <summary>
+    ''' Handles exceptions what can appear
+    ''' </summary>
+    ''' <param name="ex"></param>
+    ''' <param name="tries"></param>
+    ''' <param name="methodName"></param>
+    Private Sub HandleException(ex As Exception, ByRef tries As Integer, methodName As String)
+        If (ex.GetType.Name = "WebException" And tries < 3) Then
+            Console.WriteLine(ex.ToString)
+            Sleep(1000)
+        Else
+            Throw New Exception(ex.Message + "in" + methodName, ex)
+        End If
+        tries += 1
     End Sub
     ''' <summary>
     ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
@@ -53,13 +73,7 @@ Public Class CDataDownload
             {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation",
             "DailyCount", "TotalCount"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -93,13 +107,7 @@ Public Class CDataDownload
                     {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation||GroupSize",
                     "DailyCount", "TotalCount", "PopulationCoverage", "AgeGroup"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -129,13 +137,7 @@ Public Class CDataDownload
                     {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
                 data.Where("VaccinationSeries", "1")
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -162,13 +164,7 @@ Public Class CDataDownload
             csv,
             {"StatisticsDate||Date", "DailyCases", "TotalCases", "PerPopulation||Per100k"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -200,13 +196,7 @@ Public Class CDataDownload
                     {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
                 data.WhereNot("County", "")
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -233,13 +223,7 @@ Public Class CDataDownload
                     csv,
                     {"ResultDate||Date", "Gender", "ResultValue||Result", "AverageAge"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -265,13 +249,7 @@ Public Class CDataDownload
             csv,
             {"Gender", "AverageAge"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -297,14 +275,8 @@ Public Class CDataDownload
                     csv,
                     {"Gender", "AgeGroup", "PatientCount"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-            Console.WriteLine(ex.ToString)
-            Sleep(1000)
-        Else
-            Throw New Exception(ex.Message + "in" + methodName, ex)
-        End If
-        tries += 1
-        End Try
+                HandleException(ex, tries, methodName)
+            End Try
         End While
         Return data
     End Function
@@ -330,13 +302,7 @@ Public Class CDataDownload
             csv,
             {"StatisticsDate||Date", "AverageDays"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -381,14 +347,8 @@ Public Class CDataDownload
                     "NewCases", "TotalCases", "TotalCasesDischarged", "NewPatients",
                     "TotalPatients", "TotalPatientsDischarged"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-            Console.WriteLine(ex.ToString)
-            Sleep(1000)
-        Else
-            Throw New Exception(ex.Message + "in" + methodName, ex)
-        End If
-        tries += 1
-        End Try
+                HandleException(ex, tries, methodName)
+            End Try
         End While
         Return data
     End Function
@@ -418,13 +378,7 @@ Public Class CDataDownload
                     i -= 1
                 End While
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
@@ -449,13 +403,7 @@ Public Class CDataDownload
             csv,
             {"StatisticsDate||Date", "DailyCases", "TotalCasesLast14D||Sick"})
             Catch ex As Exception
-                If (ex.GetType.Name = "WebException" And tries < 3) Then
-                    Console.WriteLine(ex.ToString)
-                    Sleep(1000)
-                Else
-                    Throw New Exception(ex.Message + "in" + methodName, ex)
-                End If
-                tries += 1
+                HandleException(ex, tries, methodName)
             End Try
         End While
         Return data
