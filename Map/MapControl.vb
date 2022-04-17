@@ -25,6 +25,15 @@ Public Class MapControl
     Private _simpleBackgroundDraw As Boolean = False
     Private _lastHoveredPolygon As CPolygon = Nothing
 
+    Public Property PictureBoxImage As Image
+        Get
+            Return mapPictureBox.Image
+        End Get
+        Set(value As Image)
+            mapPictureBox.Image = value
+        End Set
+    End Property
+
     ''' <summary>
     ''' Default map background image.<br/>
     ''' If empty, map will automatically draw background using gradient or single color.

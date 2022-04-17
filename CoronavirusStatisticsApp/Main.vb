@@ -11,11 +11,14 @@ Imports Map
 
 Public Class Main
     'Details declaration
+    Public saveLoad As New CStatSaveLoad
+    Public request As CRequest
+
     Private currentBtn As IconButton
     Private leftBorderBtn As Panel
     Private currentChildForm As Form
+
     Private countyStat As CStatList
-    Public request As CRequest
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
@@ -29,11 +32,12 @@ Public Class Main
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
-        MapControl1.Visible = False
+        MapControlHide()
+        OpenChildForm(New homeForm)
         'StatWin1.Visible = False
 
         ' Data updating
-        If (Await CStatSaveLoad.UpdateData(_cachePath)) Then
+        If (Await saveLoad.UpdateData(_cachePath)) Then
             covidTest = request.GetTestStatCounty
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
@@ -41,6 +45,8 @@ Public Class Main
             covidVactGen = request.GetVaccinationStatGeneral
             covidSickGen = request.GetSick
         End If
+        ' After all info getting is finished, call garbage collector to free memory from not needed trash
+        GC.Collect()
     End Sub
 
     'Constructor
@@ -93,28 +99,35 @@ Public Class Main
     End Sub
 
     Private Sub OpenChildForm(childForm As Form)
+        Dim oldChildForm As Form = currentChildForm
         If currentChildForm IsNot Nothing Then
-            currentChildForm.Close()
+            currentChildForm.Visible = False
         End If
         currentChildForm = childForm
         childForm.TopLevel = False
         childForm.FormBorderStyle = FormBorderStyle.None
         childForm.Dock = DockStyle.Fill
-        childForm.BringToFront()
-        childForm.Show()
         PanelDesktop.Controls.Add(childForm)
         PanelDesktop.Tag = childForm
         childForm.BringToFront()
+        childForm.Show()
         CurrentIconLabel.Text = childForm.Text
-
+        If (oldChildForm IsNot Nothing) Then
+            oldChildForm.Dispose()
+        End If
+    End Sub
+    Private Sub CloseChildForm()
+        If currentChildForm IsNot Nothing Then
+            currentChildForm.Visible = False
+            currentChildForm.Dispose()
+        End If
     End Sub
     Private Sub BoxLogo_Click(sender As Object, e As EventArgs) Handles BoxLogo.Click
         If MapControl1 IsNot Nothing Then
-            MapControl1.Visible = False
+            MapControlHide()
         End If
+        OpenChildForm(New homeForm)
         Reset()
-
-
     End Sub
 
     Private Sub Reset()
@@ -132,7 +145,8 @@ Public Class Main
     End Sub
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
-        MapControl1.Visible = True
+        CloseChildForm()
+        MapControlShow()
         MapControl1.BringToFront()
         ActivateButton(sender, Color.Green)
         'StatWin1.Visible = False
@@ -141,7 +155,7 @@ Public Class Main
 
     Private Sub btnStatistics_Click(sender As Object, e As EventArgs) Handles btnStatistics.Click
         If MapControl1 IsNot Nothing Then
-            MapControl1.Visible = False
+            MapControlHide()
         End If
         ActivateButton(sender, Color.Cyan)
         OpenChildForm(New statGraphs)
@@ -170,6 +184,20 @@ Public Class Main
     Private Sub MapControl1_Load(sender As Object, e As EventArgs)
 
     End Sub
+
+    Private Sub MapControlHide()
+        MapControl1.Visible = False
+        If (MapControl1.PictureBoxImage IsNot Nothing) Then
+            saveLoad.SaveTo(MapControl1.PictureBoxImage, _cachePath, "MapControlImage")
+            MapControl1.PictureBoxImage.Dispose()
+            MapControl1.PictureBoxImage = Nothing
+        End If
+    End Sub
+    Private Sub MapControlShow()
+        MapControl1.PictureBoxImage = saveLoad.LoadFrom(_cachePath, "MapControlImage")
+        MapControl1.Visible = True
+    End Sub
+
     Private Async Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
         Dim positions() As KeyValuePair(Of String, Point) = {
             New KeyValuePair(Of String, Point)("Harju maakond", New Point(426, 79)),
@@ -209,5 +237,9 @@ Public Class Main
         popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
         popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
         popup.countyName.Text = polygonName
+    End Sub
+
+    Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
+        GC.Collect()
     End Sub
 End Class
