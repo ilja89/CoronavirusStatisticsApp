@@ -22,6 +22,10 @@ Public Class Main
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
+    Public covidTestPosGen As CStatList
+    Public covidVactGen As CStatList
+    Public covidSickGen As CStatList
+    Public covidTestPositiveCounty As CStatList
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
@@ -33,11 +37,12 @@ Public Class Main
         request = New CRequest(_cachePath)
         MapControlHide()
         OpenChildForm(New homeForm)
+        CurrentIconLabel.Text = "Home"
         'StatWin1.Visible = False
 
         ' Data updating
         If (Await saveLoad.UpdateData(_cachePath)) Then
-            covidTest = request.GetTestStatCounty
+            covidTest = request.GetTestStatCounty(, False)
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
         End If

@@ -23,18 +23,14 @@ Public Class statGraphs
         covidSickGen = request.GetSick()
         covidHospitalizedGen = request.GetHospitalizationPatients()
         covidHospitalizedCurrentGen = request.GetHospitalizationPatientInfoCurrent()
-        covidDeceasedGen = request.GetDeceased()
-
-
+        covidDeceasedGen = request.GetDeceased(True)
 
         totalSick.Value = covidSickGen.GetField(covidSickGen.Count - 1, "Sick")
         totalVact.Value = covidVactGen.GetField(covidVactGen.Count - 1, "TotalCount")
         totalPos.Value = covidTestPosGen.GetField(covidTestPosGen.Count - 1, "TotalCases")
         totalHospitalized.Value = covidHospitalizedGen.GetField(covidHospitalizedGen.Count - 1, "TotalCases")
         hospitalizedCurrent.Value = covidHospitalizedCurrentGen.GetField(covidHospitalizedCurrentGen.Count - 1, "PatientCount")
-        totalDied.Value = covidDeceasedGen.GetField(covidDeceasedGen.Count - 1, "Deceased")
-
-
+        totalDied.Value = covidDeceasedGen.GetField(0, "Deceased")
     End Sub
 
     Private Sub totalDeceased_ChildChanged(sender As Object, e As Integration.ChildChangedEventArgs) Handles totalHospitalized.ChildChanged
