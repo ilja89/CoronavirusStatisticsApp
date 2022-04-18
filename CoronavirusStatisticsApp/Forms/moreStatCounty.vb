@@ -10,6 +10,7 @@ Public Class moreStatCounty
 
     Private Sub WhenLoaded() Handles Me.Load
         Chart1.Series(0).ChartType = SeriesChartType.Line
+        Chart1.Series(0).BorderWidth = 3
         Chart1.Series(0).IsValueShownAsLabel = False
     End Sub
     Private Sub DatePicker_CloseUp(sender As Object, e As EventArgs)
@@ -29,25 +30,29 @@ Public Class moreStatCounty
 
                 If (diff > 0) Then
                     Dim forecast As CStatList = CStatFunctions.Forecast(temp, _statObjectValueField,, 14, diff)
+                    forecast.WhereDate(DateTimeToString(dateNow), ">=")
                     Dim dateNowString = DateTimeToString(dateNow)
                     For i As Integer = 0 To forecast.Count - 1
-                        If (DateCmp(forecast.GetField(i, "Date"), dateNowString) < 0) Then
-                            forecast.SetField(i, _statObjectValueField) = 0
+                        If (forecast.GetField(i, _statObjectValueField) = 0) Then
+                            For j As Integer = forecast.Count - 1 To i Step -1
+                                forecast.Remove(j)
+                            Next
+                            Exit For
                         End If
                     Next
                     XY = StatListToXY(forecast)
                     If (Chart1.Series.IsUniqueName("Forecast") = True) Then
                         Dim newSeries As Series = New Series("Forecast")
                         newSeries.Points.DataBindXY(XY(0), XY(1))
+
                         newSeries.ChartType = SeriesChartType.Line
+                        newSeries.BorderWidth = 3
                         Chart1.Series.Add(newSeries)
                     Else
-                        Chart1.Series(1).Points.DataBindXY(XY(0), XY(1))
+                        Chart1.Series.FindByName("Forecast").Points.DataBindXY(XY(0), XY(1))
                     End If
-                Else
-                    If (Chart1.Series.Count >= 2) Then
-                        Chart1.Series.Remove(Chart1.Series(1))
-                    End If
+                ElseIf (Not Chart1.Series.IsUniqueName("Forecast")) Then
+                    Chart1.Series.Remove(Chart1.Series.FindByName("Forecast"))
                 End If
                 Chart1.Update()
             End If
@@ -80,7 +85,12 @@ Public Class moreStatCounty
     End Sub
 
     Private Function StatListToXY(stat As CStatList)
-        Dim x() As String = stat.GetFields("Date")
+        Dim stringDate As String() = stat.GetFields("Date")
+        Dim x(stringDate.Length - 1) As DateTime
+        For i As Integer = 0 To stringDate.Length - 1
+            Dim spl As String() = stringDate(i).Split("-")
+            x(i) = New DateTime(spl(0), spl(1), spl(2))
+        Next
         Dim y(stat.Count - 1) As Integer
         Dim arr = stat.GetFields(_statObjectValueField)
         For i As Integer = 0 To arr.Length - 1
