@@ -235,6 +235,7 @@ Public Class Main
             popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
             popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
             popup.countyName.Text = polygonName
+        End If
     End Sub
 
     Private Sub ReleaseMemory()
