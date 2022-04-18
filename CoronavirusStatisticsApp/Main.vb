@@ -1,12 +1,5 @@
-﻿Imports FontAwesome.Sharp
-Imports CoronaStatisticsGetter
-Imports System.Net.WebClient
-Imports System.Net
-Imports System
-Imports System.Runtime.InteropServices
-Imports System.Drawing
-Imports System.Math
-Imports Map
+﻿Imports CoronaStatisticsGetter
+Imports FontAwesome.Sharp
 
 
 Public Class Main
@@ -155,11 +148,6 @@ Public Class Main
         End If
         ActivateButton(sender, Color.Cyan)
         OpenChildForm(New statGraphs)
-
-
-        'StatWin1.Visible = True
-
-
     End Sub
 
     Private Sub btnTelegramm_Click(sender As Object, e As EventArgs) Handles btnTelegramm.Click
@@ -231,6 +219,11 @@ Public Class Main
             popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
             popup.countyName.Text = polygonName
         End If
+        Dim k As PseudoString
+        Dim s As New StringClass("12345678 This is string example, but it will be turned into long to save some space, yay!")
+        Dim l As Integer = s.str.Length
+        k = Converter.ToLong(s)
+        Dim back = Converter.ToDefString(k)
     End Sub
 
     Private Sub ReleaseMemory()
@@ -248,4 +241,67 @@ Public Class Main
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
         ReleaseMemory()
     End Sub
+End Class
+
+Public Class StringClass
+    Public str As String
+    Public Sub New(newStr As String)
+        str = newStr
+    End Sub
+End Class
+
+Public Class PseudoString
+    Public str() As Long
+    Public strLen As Integer
+    Public Sub New(newStr() As Long, newStrLen As Integer)
+        str = newStr
+        strLen = newStrLen
+    End Sub
+End Class
+
+Public Class Converter
+    Public Shared Function ToLong(s As StringClass) As PseudoString
+        Dim i As Integer = 0
+        Dim c As Integer = 0
+        Dim charNum As Integer = 0
+        Dim resLen = Math.Floor(s.str.Length / 8)
+        Dim result(resLen) As Long
+        While (i < resLen)
+            While (c < 8)
+                If (charNum < s.str.Length) Then
+                    result(i) = result(i) Or Asc(s.str(charNum)) << c * 8
+                    charNum += 1
+                End If
+                c += 1
+            End While
+            If (charNum = s.str.Length) Then
+                Exit While
+            End If
+            c = 0
+            i += 1
+        End While
+        Return New PseudoString(result, charNum)
+    End Function
+
+    Public Shared Function ToDefString(s As PseudoString) As String
+        Dim i As Integer = 0
+        Dim c As Integer = 0
+        Dim charNum As Integer = 0
+        Dim result(s.strLen) As Char
+        While (i < s.str.Length)
+            While (c < 8)
+                If (charNum < s.strLen) Then
+                    result(charNum) = Chr((s.str(i) And 255 << c * 8) >> c * 8)
+                    charNum += 1
+                End If
+                c += 1
+            End While
+            If (charNum = s.strLen) Then
+                Exit While
+            End If
+            c = 0
+            i += 1
+        End While
+        Return result
+    End Function
 End Class
