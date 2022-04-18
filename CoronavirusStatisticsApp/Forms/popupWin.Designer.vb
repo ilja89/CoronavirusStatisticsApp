@@ -29,10 +29,10 @@ Partial Class popupWin
         Me.allSick = New System.Windows.Forms.Label()
         Me.allVact = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.openStatBtn = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.openStatBtn = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
@@ -117,36 +117,6 @@ Partial Class popupWin
         Me.Panel2.Size = New System.Drawing.Size(605, 272)
         Me.Panel2.TabIndex = 4
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(30, 81)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(179, 18)
-        Me.Label3.TabIndex = 6
-        Me.Label3.Text = "Vaktsineeritud kokku"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(29, 51)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(149, 18)
-        Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Nakatanud kokku"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(30, 22)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(117, 18)
-        Me.Label1.TabIndex = 4
-        Me.Label1.Text = "Testid kokku:"
-        '
         'openStatBtn
         '
         Me.openStatBtn.BackColor = System.Drawing.Color.OliveDrab
@@ -157,6 +127,36 @@ Partial Class popupWin
         Me.openStatBtn.TabIndex = 7
         Me.openStatBtn.Text = "Kuva rohkem"
         Me.openStatBtn.UseVisualStyleBackColor = False
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(30, 81)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(186, 18)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "Vaktsineeritud kokku:"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(29, 51)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(156, 18)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "Nakatanud kokku:"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(30, 22)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(117, 18)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "Testid kokku:"
         '
         'popupWin
         '

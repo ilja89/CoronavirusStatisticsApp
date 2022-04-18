@@ -39,8 +39,8 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
-        Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MapControl1 = New Map.MapControl()
+        Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -267,11 +267,6 @@ Partial Class Main
         Me.PanelDesktop.Size = New System.Drawing.Size(1045, 534)
         Me.PanelDesktop.TabIndex = 2
         '
-        'GarbageTimer
-        '
-        Me.GarbageTimer.Enabled = True
-        Me.GarbageTimer.Interval = 10000
-        '
         'MapControl1
         '
         Me.MapControl1.BaseImage = Nothing
@@ -292,6 +287,11 @@ Partial Class Main
         Me.MapControl1.SimplePolygonsDraw = False
         Me.MapControl1.Size = New System.Drawing.Size(1045, 534)
         Me.MapControl1.TabIndex = 2
+        '
+        'GarbageTimer
+        '
+        Me.GarbageTimer.Enabled = True
+        Me.GarbageTimer.Interval = 10000
         '
         'Main
         '

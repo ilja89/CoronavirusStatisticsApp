@@ -2,6 +2,7 @@
 
 Public Class popupWin
     Dim isClosed As Boolean = False
+    Public CovidTestStat
     Public Sub popupWin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
@@ -40,6 +41,8 @@ Public Class popupWin
     End Sub
 
     Private Sub openStatBtn_Click(sender As Object, e As EventArgs) Handles openStatBtn.Click
-        moreStatCounty.Visible = True
+        Dim moreStatCountyForm As New moreStatCounty
+        moreStatCountyForm.Init(Me.Name, CovidTestStat, "Vaccinations")
+        moreStatCountyForm.Show()
     End Sub
 End Class

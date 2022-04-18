@@ -25,6 +25,7 @@ Public Class Main
     Public covidTestPosGen As CStatList
     Public covidVactGen As CStatList
     Public covidSickGen As CStatList
+    Public covidTestPositiveCounty As CStatList
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
@@ -34,11 +35,12 @@ Public Class Main
         request = New CRequest(_cachePath)
         MapControlHide()
         OpenChildForm(New homeForm)
+        CurrentIconLabel.Text = "Home"
         'StatWin1.Visible = False
 
         ' Data updating
         If (Await saveLoad.UpdateData(_cachePath)) Then
-            covidTest = request.GetTestStatCounty
+            covidTest = request.GetTestStatCounty(, False)
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
             covidTestPosGen = request.GetTestStatPositiveGeneral
@@ -217,6 +219,7 @@ Public Class Main
             New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
         Dim popup As New popupWin
+        popup.CovidTestStat = covidTest
         Controls.Add(popup)
         popup.Location = mouseCoords
         For Each position As KeyValuePair(Of String, Point) In positions
@@ -225,15 +228,19 @@ Public Class Main
                 Exit For
             End If
         Next
+
         If (polygonName IsNot Nothing) Then
             popup.Name = polygonName
             popup.BringToFront()
         End If
-        Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
+
+        Dim CovidTestPosEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).Where("Result", "P")
+        Dim CovidTestNegEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).Where("Result", "N")
         Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
         Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
+        Dim totalTests As Integer = CInt(CovidTestNegEdited.GetField(CovidTestNegEdited.Count - 1, "TotalTests")) + CInt(CovidTestPosEdited.GetField(CovidTestNegEdited.Count - 1, "TotalTests"))
 
-        popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
+        popup.allTest.Text = totalTests
         popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
         popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
         popup.countyName.Text = polygonName
