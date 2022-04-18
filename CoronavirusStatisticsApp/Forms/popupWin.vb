@@ -1,8 +1,11 @@
 ﻿Imports System.Runtime.InteropServices
+Imports CoronaStatisticsGetter
 
 Public Class popupWin
-    Dim isClosed As Boolean = False
-    Public CovidTestStat
+    Public isClosed As Boolean = False
+    Private _covidTestStat As CStatList
+    Private _covidSickStat As CStatList
+    Private _covidVactStat As CStatList
     Public Sub popupWin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
 
@@ -40,9 +43,27 @@ Public Class popupWin
 
     End Sub
 
-    Private Sub openStatBtn_Click(sender As Object, e As EventArgs) Handles openStatBtn.Click
+    Private Sub openTestBtn_Click(sender As Object, e As EventArgs) Handles openTestBtn.Click
         Dim moreStatCountyForm As New moreStatCounty
-        moreStatCountyForm.Init(Me.Name, CovidTestStat, "Vaccinations")
+        moreStatCountyForm.Init(Me.Name, _covidTestStat, "Covid Tests", "DailyTests")
         moreStatCountyForm.Show()
+    End Sub
+
+    Private Sub openSickBtn_Click(sender As Object, e As EventArgs) Handles openSickBtn.Click
+        Dim moreStatCountyForm As New moreStatCounty
+        moreStatCountyForm.Init(Me.Name, _covidSickStat, "Covid sick", "Sick")
+        moreStatCountyForm.Show()
+    End Sub
+
+    Private Sub openVactBtn_Click(sender As Object, e As EventArgs) Handles openVactBtn.Click
+        Dim moreStatCountyForm As New moreStatCounty
+        moreStatCountyForm.Init(Me.Name, _covidVactStat, "Vaccinations", "DailyCount")
+        moreStatCountyForm.Show()
+    End Sub
+
+    Public Sub Init(NewTestStat As CStatList, NewSickStat As CStatList, NewVactStat As CStatList)
+        _covidTestStat = NewTestStat
+        _covidSickStat = NewSickStat
+        _covidVactStat = NewVactStat
     End Sub
 End Class

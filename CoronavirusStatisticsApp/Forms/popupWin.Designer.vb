@@ -29,10 +29,12 @@ Partial Class popupWin
         Me.allSick = New System.Windows.Forms.Label()
         Me.allVact = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.openStatBtn = New System.Windows.Forms.Button()
+        Me.openTestBtn = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.openVactBtn = New System.Windows.Forms.Button()
+        Me.openSickBtn = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
@@ -104,7 +106,9 @@ Partial Class popupWin
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Silver
-        Me.Panel2.Controls.Add(Me.openStatBtn)
+        Me.Panel2.Controls.Add(Me.openSickBtn)
+        Me.Panel2.Controls.Add(Me.openVactBtn)
+        Me.Panel2.Controls.Add(Me.openTestBtn)
         Me.Panel2.Controls.Add(Me.Label3)
         Me.Panel2.Controls.Add(Me.Label2)
         Me.Panel2.Controls.Add(Me.Label1)
@@ -117,16 +121,16 @@ Partial Class popupWin
         Me.Panel2.Size = New System.Drawing.Size(605, 272)
         Me.Panel2.TabIndex = 4
         '
-        'openStatBtn
+        'openTestBtn
         '
-        Me.openStatBtn.BackColor = System.Drawing.Color.OliveDrab
-        Me.openStatBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.openStatBtn.Location = New System.Drawing.Point(444, 16)
-        Me.openStatBtn.Name = "openStatBtn"
-        Me.openStatBtn.Size = New System.Drawing.Size(125, 23)
-        Me.openStatBtn.TabIndex = 7
-        Me.openStatBtn.Text = "Kuva rohkem"
-        Me.openStatBtn.UseVisualStyleBackColor = False
+        Me.openTestBtn.BackColor = System.Drawing.Color.OliveDrab
+        Me.openTestBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.openTestBtn.Location = New System.Drawing.Point(444, 16)
+        Me.openTestBtn.Name = "openTestBtn"
+        Me.openTestBtn.Size = New System.Drawing.Size(125, 23)
+        Me.openTestBtn.TabIndex = 7
+        Me.openTestBtn.Text = "Kuva rohkem"
+        Me.openTestBtn.UseVisualStyleBackColor = False
         '
         'Label3
         '
@@ -158,6 +162,28 @@ Partial Class popupWin
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Testid kokku:"
         '
+        'openVactBtn
+        '
+        Me.openVactBtn.BackColor = System.Drawing.Color.OliveDrab
+        Me.openVactBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.openVactBtn.Location = New System.Drawing.Point(444, 81)
+        Me.openVactBtn.Name = "openVactBtn"
+        Me.openVactBtn.Size = New System.Drawing.Size(125, 23)
+        Me.openVactBtn.TabIndex = 8
+        Me.openVactBtn.Text = "Kuva rohkem"
+        Me.openVactBtn.UseVisualStyleBackColor = False
+        '
+        'openSickBtn
+        '
+        Me.openSickBtn.BackColor = System.Drawing.Color.OliveDrab
+        Me.openSickBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.openSickBtn.Location = New System.Drawing.Point(444, 50)
+        Me.openSickBtn.Name = "openSickBtn"
+        Me.openSickBtn.Size = New System.Drawing.Size(125, 23)
+        Me.openSickBtn.TabIndex = 9
+        Me.openSickBtn.Text = "Kuva rohkem"
+        Me.openSickBtn.UseVisualStyleBackColor = False
+        '
         'popupWin
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -185,5 +211,7 @@ Partial Class popupWin
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
     Friend WithEvents countyName As Label
-    Friend WithEvents openStatBtn As Button
+    Friend WithEvents openTestBtn As Button
+    Friend WithEvents openSickBtn As Button
+    Friend WithEvents openVactBtn As Button
 End Class

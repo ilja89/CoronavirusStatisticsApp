@@ -29,20 +29,22 @@ Partial Class moreStatCounty
         Me.toDate = New System.Windows.Forms.DateTimePicker()
         Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.maakondLabel = New System.Windows.Forms.Label()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
         'fromDate
         '
-        Me.fromDate.Location = New System.Drawing.Point(134, 28)
+        Me.fromDate.Location = New System.Drawing.Point(184, 28)
         Me.fromDate.Name = "fromDate"
         Me.fromDate.Size = New System.Drawing.Size(200, 20)
         Me.fromDate.TabIndex = 9
+        Me.fromDate.Value = New Date(2020, 1, 1, 0, 0, 0, 0)
         '
         'toDate
         '
-        Me.toDate.Location = New System.Drawing.Point(486, 28)
+        Me.toDate.Location = New System.Drawing.Point(525, 28)
         Me.toDate.Name = "toDate"
         Me.toDate.Size = New System.Drawing.Size(200, 20)
         Me.toDate.TabIndex = 10
@@ -66,6 +68,7 @@ Partial Class moreStatCounty
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Gray
+        Me.Panel1.Controls.Add(Me.maakondLabel)
         Me.Panel1.Controls.Add(Me.Chart1)
         Me.Panel1.Controls.Add(Me.toDate)
         Me.Panel1.Controls.Add(Me.fromDate)
@@ -74,6 +77,16 @@ Partial Class moreStatCounty
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(989, 482)
         Me.Panel1.TabIndex = 0
+        '
+        'maakondLabel
+        '
+        Me.maakondLabel.AutoSize = True
+        Me.maakondLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.maakondLabel.Location = New System.Drawing.Point(12, 28)
+        Me.maakondLabel.Name = "maakondLabel"
+        Me.maakondLabel.Size = New System.Drawing.Size(62, 18)
+        Me.maakondLabel.TabIndex = 12
+        Me.maakondLabel.Text = "Label1"
         '
         'moreStatCounty
         '
@@ -85,6 +98,7 @@ Partial Class moreStatCounty
         Me.Text = "Maakonna statistika"
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -93,4 +107,5 @@ Partial Class moreStatCounty
     Friend WithEvents toDate As DateTimePicker
     Friend WithEvents Chart1 As DataVisualization.Charting.Chart
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents maakondLabel As Label
 End Class

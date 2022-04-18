@@ -215,6 +215,9 @@ Public Class Main
             New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
             Dim popup As New popupWin
+            popup.Init(covidTest.AsNew.Where("Result", "P").Where("County", polygonKey),
+                       covidSick.AsNew.Where("County", polygonKey),
+                       covidVact.AsNew.Where("County", polygonKey).Where("Type", "FullyVaccinated"))
             Controls.Add(popup)
             popup.Location = mouseCoords
             For Each position As KeyValuePair(Of String, Point) In positions
