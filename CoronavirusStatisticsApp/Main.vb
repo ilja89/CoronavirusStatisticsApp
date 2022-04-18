@@ -31,6 +31,8 @@ Public Class Main
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     'Dim statGraphs As New statWin
 
+    Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
         MapControlHide()
@@ -43,12 +45,9 @@ Public Class Main
             covidTest = request.GetTestStatCounty(, False)
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
-            covidTestPosGen = request.GetTestStatPositiveGeneral
-            covidVactGen = request.GetVaccinationStatGeneral
-            covidSickGen = request.GetSick
         End If
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
-        GC.Collect()
+        ReleaseMemory()
     End Sub
 
     'Constructor
@@ -183,10 +182,6 @@ Public Class Main
 
     End Sub
 
-    Private Sub MapControl1_Load(sender As Object, e As EventArgs)
-
-    End Sub
-
     Private Sub MapControlHide()
         MapControl1.Visible = False
         If (MapControl1.PictureBoxImage IsNot Nothing) Then
@@ -200,8 +195,9 @@ Public Class Main
         MapControl1.Visible = True
     End Sub
 
-    Private Async Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
-        Dim positions() As KeyValuePair(Of String, Point) = {
+    Private Sub MapControl1_Click(clickPosition As Point, polygonName As String, polygonKey As String) Handles MapControl1.Clicked
+        If (covidTest IsNot Nothing AndAlso covidSick IsNot Nothing AndAlso covidVact IsNot Nothing) Then
+            Dim positions() As KeyValuePair(Of String, Point) = {
             New KeyValuePair(Of String, Point)("Harju maakond", New Point(426, 79)),
             New KeyValuePair(Of String, Point)("Ida-Viru maakond", New Point(801, 87)),
             New KeyValuePair(Of String, Point)("Lääne-Viru maakond", New Point(620, 70)),
@@ -218,35 +214,42 @@ Public Class Main
             New KeyValuePair(Of String, Point)("Hiiu maakond", New Point(106, 149)),
             New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
-        Dim popup As New popupWin
-        popup.CovidTestStat = covidTest
-        Controls.Add(popup)
-        popup.Location = mouseCoords
-        For Each position As KeyValuePair(Of String, Point) In positions
-            If (position.Key = polygonKey) Then
-                popup.Location = position.Value
-                Exit For
+            Dim popup As New popupWin
+            Controls.Add(popup)
+            popup.Location = mouseCoords
+            For Each position As KeyValuePair(Of String, Point) In positions
+                If (position.Key = polygonKey) Then
+                    popup.Location = position.Value
+                    Exit For
+                End If
+            Next
+            If (polygonName IsNot Nothing) Then
+                popup.Name = polygonName
+                popup.BringToFront()
             End If
-        Next
+            Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
+            Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
+            Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
 
-        If (polygonName IsNot Nothing) Then
-            popup.Name = polygonName
-            popup.BringToFront()
-        End If
+            popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
+            popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
+            popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
+            popup.countyName.Text = polygonName
+    End Sub
 
-        Dim CovidTestPosEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).Where("Result", "P")
-        Dim CovidTestNegEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).Where("Result", "N")
-        Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
-        Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
-        Dim totalTests As Integer = CInt(CovidTestNegEdited.GetField(CovidTestNegEdited.Count - 1, "TotalTests")) + CInt(CovidTestPosEdited.GetField(CovidTestNegEdited.Count - 1, "TotalTests"))
-
-        popup.allTest.Text = totalTests
-        popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
-        popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
-        popup.countyName.Text = polygonName
+    Private Sub ReleaseMemory()
+        Try
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            If Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, -1, -1)
+            End If
+        Catch ex As Exception
+            Console.WriteLine(ex.ToString())
+        End Try
     End Sub
 
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
-        GC.Collect()
+        ReleaseMemory()
     End Sub
 End Class

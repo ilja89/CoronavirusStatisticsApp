@@ -62,7 +62,7 @@ Partial Class Main
         Me.MenuPanel.Dock = System.Windows.Forms.DockStyle.Left
         Me.MenuPanel.Location = New System.Drawing.Point(0, 0)
         Me.MenuPanel.Name = "MenuPanel"
-        Me.MenuPanel.Size = New System.Drawing.Size(233, 604)
+        Me.MenuPanel.Size = New System.Drawing.Size(233, 761)
         Me.MenuPanel.TabIndex = 0
         '
         'btnExit
@@ -77,7 +77,7 @@ Partial Class Main
         Me.btnExit.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnExit.IconSize = 40
         Me.btnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExit.Location = New System.Drawing.Point(0, 541)
+        Me.btnExit.Location = New System.Drawing.Point(0, 698)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnExit.Size = New System.Drawing.Size(233, 63)
@@ -264,7 +264,7 @@ Partial Class Main
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
         Me.PanelDesktop.Name = "PanelDesktop"
-        Me.PanelDesktop.Size = New System.Drawing.Size(1045, 534)
+        Me.PanelDesktop.Size = New System.Drawing.Size(1045, 691)
         Me.PanelDesktop.TabIndex = 2
         '
         'MapControl1
@@ -285,19 +285,19 @@ Partial Class Main
         Me.MapControl1.PictureBoxImage = CType(resources.GetObject("MapControl1.PictureBoxImage"), System.Drawing.Image)
         Me.MapControl1.SimpleBackgroundDraw = True
         Me.MapControl1.SimplePolygonsDraw = False
-        Me.MapControl1.Size = New System.Drawing.Size(1045, 534)
+        Me.MapControl1.Size = New System.Drawing.Size(1045, 691)
         Me.MapControl1.TabIndex = 2
         '
         'GarbageTimer
         '
         Me.GarbageTimer.Enabled = True
-        Me.GarbageTimer.Interval = 10000
+        Me.GarbageTimer.Interval = 30000
         '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1278, 604)
+        Me.ClientSize = New System.Drawing.Size(1278, 761)
         Me.Controls.Add(Me.PanelDesktop)
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)

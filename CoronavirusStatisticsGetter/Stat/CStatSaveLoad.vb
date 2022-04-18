@@ -21,6 +21,9 @@ Public Class CStatSaveLoad
         Dim formatter As Runtime.Serialization.Formatters.Binary.BinaryFormatter
         Dim stream As IO.Stream
         Dim fullPath As String = ""
+        If (Not IO.Directory.Exists(path)) Then
+            IO.Directory.CreateDirectory(path)
+        End If
         formatter = New Runtime.Serialization.Formatters.Binary.BinaryFormatter()
         If (path.Chars(path.Length - 1) = "\" Or path.Chars(path.Length - 1) = "/") Then
             fullPath = path + fileName + ".bin"
