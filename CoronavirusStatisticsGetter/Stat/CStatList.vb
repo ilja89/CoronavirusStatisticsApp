@@ -35,6 +35,39 @@ Imports System.Math
         End Set
     End Property
     ''' <summary>
+    ''' Get <see cref="CStatList"/> item field by item index and field name
+    ''' </summary>
+    ''' <param name="index">Index of item in CStatList</param>
+    ''' <param name="fieldName">Name of field, value of what will be returned</param>
+    ''' <returns>Item field</returns>
+    Default Public Property Element(index As Integer, fieldName As String) As String
+        Get
+            _lastItemAccessedIndex = index
+            Return GetField(index, fieldName)
+        End Get
+        Set(value As String)
+            _lastItemAccessedIndex = index
+            SetField(index, fieldName) = value
+        End Set
+    End Property
+    ''' <summary>
+    ''' Get <see cref="CStatList"/> item field by item index and field index
+    ''' </summary>
+    ''' <param name="index">Index of item in CStatList</param>
+    ''' <param name="fieldIndex">Index of field, value of what will be returned</param>
+    ''' <returns>Item field</returns>
+    Default Public Property Element(index As Integer, fieldIndex As Integer) As String
+        Get
+            _lastItemAccessedIndex = index
+            Return GetField(index, fieldIndex)
+        End Get
+        Set(value As String)
+            _lastItemAccessedIndex = index
+            SetField(index, fieldIndex) = value
+        End Set
+    End Property
+
+    ''' <summary>
     ''' Get <see cref="CStatList"/> headers as array of strings
     ''' </summary>
     ''' <returns>String()</returns>
