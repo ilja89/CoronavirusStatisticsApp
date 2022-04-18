@@ -15,6 +15,10 @@ Public Class Main
     Public covidTest As CStatList
     Public covidVact As CStatList
     Public covidSick As CStatList
+    Public covidTestPosGen As CStatList
+    Public covidVactGen As CStatList
+    Public covidSickGen As CStatList
+    Public covidTestPositiveCounty As CStatList
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
@@ -26,11 +30,12 @@ Public Class Main
         request = New CRequest(_cachePath)
         MapControlHide()
         OpenChildForm(New homeForm)
+        CurrentIconLabel.Text = "Home"
         'StatWin1.Visible = False
 
         ' Data updating
         If (Await saveLoad.UpdateData(_cachePath)) Then
-            covidTest = request.GetTestStatCounty
+            covidTest = request.GetTestStatCounty(, False)
             covidVact = request.GetVaccinationStatByCounty
             covidSick = request.GetSickCounty
         End If
@@ -198,6 +203,9 @@ Public Class Main
             New KeyValuePair(Of String, Point)("Viljandi maakond", New Point(106, 149))}
 
             Dim popup As New popupWin
+            popup.Init(covidTest.AsNew.Where("Result", "P").Where("County", polygonKey),
+                       covidSick.AsNew.Where("County", polygonKey),
+                       covidVact.AsNew.Where("County", polygonKey).Where("Type", "FullyVaccinated"))
             Controls.Add(popup)
             popup.Location = mouseCoords
             For Each position As KeyValuePair(Of String, Point) In positions

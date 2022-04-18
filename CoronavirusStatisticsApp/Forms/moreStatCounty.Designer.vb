@@ -22,97 +22,90 @@ Partial Class moreStatCounty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Me.fromDate = New System.Windows.Forms.DateTimePicker()
+        Me.toDate = New System.Windows.Forms.DateTimePicker()
+        Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.SolidGauge1 = New LiveCharts.WinForms.SolidGauge()
-        Me.SolidGauge2 = New LiveCharts.WinForms.SolidGauge()
-        Me.SolidGauge3 = New LiveCharts.WinForms.SolidGauge()
-        Me.SolidGauge4 = New LiveCharts.WinForms.SolidGauge()
-        Me.SolidGauge5 = New LiveCharts.WinForms.SolidGauge()
-        Me.SolidGauge6 = New LiveCharts.WinForms.SolidGauge()
+        Me.maakondLabel = New System.Windows.Forms.Label()
+        CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'fromDate
+        '
+        Me.fromDate.Location = New System.Drawing.Point(184, 28)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.Size = New System.Drawing.Size(200, 20)
+        Me.fromDate.TabIndex = 9
+        Me.fromDate.Value = New Date(2020, 1, 1, 0, 0, 0, 0)
+        '
+        'toDate
+        '
+        Me.toDate.Location = New System.Drawing.Point(525, 28)
+        Me.toDate.Name = "toDate"
+        Me.toDate.Size = New System.Drawing.Size(200, 20)
+        Me.toDate.TabIndex = 10
+        '
+        'Chart1
+        '
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend1)
+        Me.Chart1.Location = New System.Drawing.Point(12, 67)
+        Me.Chart1.Name = "Chart1"
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        Me.Chart1.Series.Add(Series1)
+        Me.Chart1.Size = New System.Drawing.Size(965, 403)
+        Me.Chart1.TabIndex = 11
+        Me.Chart1.Text = "Chart1"
         '
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Gray
-        Me.Panel1.Controls.Add(Me.SolidGauge6)
-        Me.Panel1.Controls.Add(Me.SolidGauge5)
-        Me.Panel1.Controls.Add(Me.SolidGauge4)
-        Me.Panel1.Controls.Add(Me.SolidGauge3)
-        Me.Panel1.Controls.Add(Me.SolidGauge2)
-        Me.Panel1.Controls.Add(Me.SolidGauge1)
+        Me.Panel1.Controls.Add(Me.maakondLabel)
+        Me.Panel1.Controls.Add(Me.Chart1)
+        Me.Panel1.Controls.Add(Me.toDate)
+        Me.Panel1.Controls.Add(Me.fromDate)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(800, 450)
+        Me.Panel1.Size = New System.Drawing.Size(989, 482)
         Me.Panel1.TabIndex = 0
         '
-        'SolidGauge1
+        'maakondLabel
         '
-        Me.SolidGauge1.Location = New System.Drawing.Point(66, 71)
-        Me.SolidGauge1.Name = "SolidGauge1"
-        Me.SolidGauge1.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge1.TabIndex = 0
-        Me.SolidGauge1.Text = "SolidGauge1"
-        '
-        'SolidGauge2
-        '
-        Me.SolidGauge2.Location = New System.Drawing.Point(66, 225)
-        Me.SolidGauge2.Name = "SolidGauge2"
-        Me.SolidGauge2.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge2.TabIndex = 1
-        Me.SolidGauge2.Text = "SolidGauge2"
-        '
-        'SolidGauge3
-        '
-        Me.SolidGauge3.Location = New System.Drawing.Point(291, 71)
-        Me.SolidGauge3.Name = "SolidGauge3"
-        Me.SolidGauge3.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge3.TabIndex = 2
-        Me.SolidGauge3.Text = "SolidGauge3"
-        '
-        'SolidGauge4
-        '
-        Me.SolidGauge4.Location = New System.Drawing.Point(534, 71)
-        Me.SolidGauge4.Name = "SolidGauge4"
-        Me.SolidGauge4.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge4.TabIndex = 3
-        Me.SolidGauge4.Text = "SolidGauge4"
-        '
-        'SolidGauge5
-        '
-        Me.SolidGauge5.Location = New System.Drawing.Point(291, 225)
-        Me.SolidGauge5.Name = "SolidGauge5"
-        Me.SolidGauge5.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge5.TabIndex = 4
-        Me.SolidGauge5.Text = "SolidGauge5"
-        '
-        'SolidGauge6
-        '
-        Me.SolidGauge6.Location = New System.Drawing.Point(534, 225)
-        Me.SolidGauge6.Name = "SolidGauge6"
-        Me.SolidGauge6.Size = New System.Drawing.Size(219, 100)
-        Me.SolidGauge6.TabIndex = 5
-        Me.SolidGauge6.Text = "SolidGauge6"
+        Me.maakondLabel.AutoSize = True
+        Me.maakondLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.maakondLabel.Location = New System.Drawing.Point(12, 28)
+        Me.maakondLabel.Name = "maakondLabel"
+        Me.maakondLabel.Size = New System.Drawing.Size(62, 18)
+        Me.maakondLabel.TabIndex = 12
+        Me.maakondLabel.Text = "Label1"
         '
         'moreStatCounty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(989, 482)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "moreStatCounty"
         Me.Text = "Maakonna statistika"
+        CType(Me.Chart1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
 
+    Friend WithEvents fromDate As DateTimePicker
+    Friend WithEvents toDate As DateTimePicker
+    Friend WithEvents Chart1 As DataVisualization.Charting.Chart
     Friend WithEvents Panel1 As Panel
-    Friend WithEvents SolidGauge1 As LiveCharts.WinForms.SolidGauge
-    Friend WithEvents SolidGauge6 As LiveCharts.WinForms.SolidGauge
-    Friend WithEvents SolidGauge5 As LiveCharts.WinForms.SolidGauge
-    Friend WithEvents SolidGauge4 As LiveCharts.WinForms.SolidGauge
-    Friend WithEvents SolidGauge3 As LiveCharts.WinForms.SolidGauge
-    Friend WithEvents SolidGauge2 As LiveCharts.WinForms.SolidGauge
+    Friend WithEvents maakondLabel As Label
 End Class
