@@ -165,7 +165,9 @@ Public Class CPolygon
                    Optional new_namePoint As PointF = Nothing,
                    Optional new_drawName As Boolean = True)
         Dim i As Integer = 0
-        _borderPen = new_borderPen
+        If (new_borderPen Is Nothing) Then
+            _borderPen = Pens.Black
+        End If
         _points = input_points
         _polygonName = new_polygonName
         If (new_polygonKey = "") Then

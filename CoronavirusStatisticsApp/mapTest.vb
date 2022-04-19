@@ -15,9 +15,9 @@ Public Class mapTest
         If (polygonName <> Nothing AndAlso colorComboBox.Text <> " ") Then
             Dim newGradient As New CGradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
-            MapControl1.MapPolygons.SetGradientWhereName(polygonName, newGradient)
+            MapControl1.Polygons.SetGradientWhereName(polygonName, newGradient)
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-            MapControl1._UpdatePolygonsWhereName(polygonName)
+            MapControl1.MapUpdatePolygonsWhereName(polygonName)
         End If
     End Sub
 
@@ -26,19 +26,19 @@ Public Class mapTest
             Dim newGradient As New CGradient
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.DefGradient = newGradient
-            MapControl1._SetAllPolygonsToDefault()
+            MapControl1.MapSetAllPolygonsToDefault()
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-            MapControl1._Update()
+            MapControl1.MapUpdate()
         End If
     End Sub
     Private Sub simpleCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles simpleCheckBox.CheckedChanged
         MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-        MapControl1._Update()
+        MapControl1.MapUpdate()
     End Sub
 
     Private Sub Gradient_Click(sender As Object, e As EventArgs) Handles gradientButton.Click
         Dim rand As New Random
-        MapControl1._DrawLevelGradient({
+        MapControl1.MapDrawLevelGradient({
                 New KeyValuePair(Of String, Integer)("Hiiu maakond", rand.Next(0, 1000)),
                 New KeyValuePair(Of String, Integer)("Saare maakond", rand.Next(0, 1000)),
                 New KeyValuePair(Of String, Integer)("Lääne maakond", rand.Next(0, 1000)),
@@ -68,30 +68,30 @@ Public Class mapTest
             newGradient = CallByName(newGradient, colorComboBox.Text, vbMethod)
             MapControl1.DefBorderPen = New Pen(New SolidBrush(newGradient.CenterColor),
                                                    MapControl1.DefBorderPen.Width)
-            MapControl1._SetAllPolygonsToDefault(True, False, False)
+            MapControl1.MapSetAllPolygonsToDefault(True, False, False)
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-            MapControl1._Update()
+            MapControl1.MapUpdate()
         End If
     End Sub
     Private Sub borderWidthButton_Click(sender As Object, e As EventArgs) Handles borderWidthButton.Click
         If (Val(borderWidthTextBox.Text) > 0) Then
             MapControl1.DefBorderPen = New Pen(MapControl1.DefBorderPen.Brush,
                                                    CSng(Val(borderWidthTextBox.Text)))
-            MapControl1._SetAllPolygonsToDefault(, False, False)
+            MapControl1.MapSetAllPolygonsToDefault(, False, False)
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-            MapControl1._Update()
+            MapControl1.MapUpdate()
         End If
     End Sub
     Private Sub fontButton_Click(sender As Object, e As EventArgs) Handles fontButton.Click
         If FontDialog1.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
             MapControl1.MapFont = FontDialog1.Font
             MapControl1.SimplePolygonsDraw = simpleCheckBox.Checked
-            MapControl1._Update()
+            MapControl1.MapUpdate()
         End If
     End Sub
     Private Sub drawEmptyButton_Click(sender As Object, e As EventArgs) Handles drawEmptyButton.Click
         MapControl1.FillPolygons = False
-        MapControl1._Update()
+        MapControl1.MapUpdate()
         MapControl1.FillPolygons = True
     End Sub
 

@@ -14,7 +14,6 @@ Public Class CPolygons
     Private _polygons As List(Of CPolygon)
     Private _bitmapSize As Size
     Private _bitmapDefaultGradient As CGradient
-    Private _baseImage As Image
     ''' <summary>
     ''' Gets or sets polygon under requested <paramref name="index"/>
     ''' </summary>
@@ -38,19 +37,7 @@ Public Class CPolygons
         End Get
     End Property
     ''' <summary>
-    ''' Gets or sets base image of background where these polygons will be drawn
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property BaseImage As Image
-        Get
-            Return _baseImage
-        End Get
-        Set(value As Image)
-            _baseImage = value
-        End Set
-    End Property
-    ''' <summary>
-    ''' Default background gradient. Used if there are no <seealso cref="BaseImage"/> selected
+    ''' Default background gradient. Used in <seealso cref="DrawAll(PictureBox, Boolean, Color, Color, Font, Boolean, Boolean, Boolean, Image)"/> if there are no BaseImage selected
     ''' </summary>
     ''' <returns></returns>
     Public Property DefBgGradient As CGradient
@@ -131,10 +118,11 @@ Public Class CPolygons
                        Optional textFont As Font = Nothing,
                        Optional withNames As Boolean = True,
                        Optional simplePolygonsDraw As Boolean = False,
-                       Optional simpleDefaultBackgroundDraw As Boolean = False)
-        If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or _baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
+                       Optional simpleDefaultBackgroundDraw As Boolean = False,
+                       Optional baseImage As Image = Nothing)
+        If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
-            If (_baseImage Is Nothing) Then
+            If (baseImage Is Nothing) Then
                 If (simpleDefaultBackgroundDraw) Then
                     bmp = New Bitmap(_bitmapSize.Width, _bitmapSize.Height)
                     Dim g As Graphics = Graphics.FromImage(bmp)
@@ -162,7 +150,7 @@ Public Class CPolygons
                     g.Dispose()
                 End If
             Else
-                bmp = New Bitmap(DirectCast(_baseImage.Clone, Image))
+                bmp = New Bitmap(DirectCast(baseImage.Clone, Image))
             End If
 
             If (textFont Is Nothing) Then
