@@ -28,64 +28,42 @@ Public Class CGradient
             _sideColor = value
         End Set
     End Property
-    Public Function Green()
-        _centerColor = Color.Green
-        _sideColor = Color.DarkGreen
-        Return Me
+    Public Shared Function Green()
+        Return New CGradient(Color.Green, Color.DarkGreen)
     End Function
-    Public Function BrightGreen()
-        _centerColor = Color.GreenYellow
-        _sideColor = Color.ForestGreen
-        Return Me
+    Public Shared Function BrightGreen()
+        Return New CGradient(Color.GreenYellow, Color.ForestGreen)
     End Function
-    Public Function Yellow()
-        _centerColor = Color.Yellow
-        _sideColor = Color.FromArgb(255, 153, 148, 0)
-        Return Me
+    Public Shared Function Yellow()
+        Return New CGradient(Color.Yellow, Color.FromArgb(255, 153, 148, 0))
     End Function
-    Public Function Red()
-        _centerColor = Color.Red
-        _sideColor = Color.FromArgb(100, Color.DarkRed)
-        Return Me
+    Public Shared Function Red()
+        Return New CGradient(Color.Red, Color.FromArgb(100, Color.DarkRed))
     End Function
-    Public Function Gray()
-        _centerColor = Color.Gray
-        _sideColor = Color.DarkGray
-        Return Me
+    Public Shared Function Gray()
+        Return New CGradient(Color.Gray, Color.DarkGray)
     End Function
-    Public Function Blue()
-        _centerColor = Color.FromArgb(255, 100, 100, 200)
-        _sideColor = Color.FromArgb(255, 75, 75, 150)
-        Return Me
+    Public Shared Function Blue()
+        Return New CGradient(Color.FromArgb(255, 100, 100, 200), Color.FromArgb(255, 75, 75, 150))
     End Function
-    Public Function BrightBlue()
-        _centerColor = Color.FromArgb(255, 150, 150, 250)
-        _sideColor = Color.FromArgb(255, 100, 100, 180)
-        Return Me
+    Public Shared Function BrightBlue()
+        Return New CGradient(Color.FromArgb(255, 150, 150, 250), Color.FromArgb(255, 100, 100, 180))
     End Function
-    Public Function Black()
-        _centerColor = Color.FromArgb(255, 0, 0, 0)
-        _sideColor = Color.FromArgb(255, 15, 15, 15)
-        Return Me
+    Public Shared Function Black()
+        Return New CGradient(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(255, 15, 15, 15))
     End Function
-    Public Function Orange()
-        _centerColor = Color.Orange
-        _sideColor = Color.FromArgb(255, 160, 90, 0)
-        Return Me
+    Public Shared Function Orange()
+        Return New CGradient(Color.Orange, Color.FromArgb(255, 160, 90, 0))
     End Function
 
-    Public Function Purple()
-        _centerColor = Color.Purple
-        _sideColor = Color.FromArgb(255, 88, 19, 89)
-        Return Me
+    Public Shared Function Purple()
+        Return New CGradient(Color.Purple, Color.FromArgb(255, 88, 19, 89))
     End Function
-    Public Function White()
-        _centerColor = Color.White
-        _sideColor = Color.FromArgb(255, 180, 180, 180)
-        Return Me
+    Public Shared Function White()
+        Return New CGradient(Color.White, Color.FromArgb(255, 180, 180, 180))
     End Function
 
-    Public Function FromARGB(centerARGB As CArgb, sideARGB As CArgb)
+    Public Sub New(centerARGB As CArgb, sideARGB As CArgb)
         _centerColor = Color.FromArgb(
             centerARGB.alpha,
             centerARGB.red,
@@ -96,6 +74,12 @@ Public Class CGradient
             sideARGB.red,
             sideARGB.green,
             sideARGB.blue)
-        Return Me
-    End Function
+    End Sub
+    Public Sub New(centerColor As Color, sideColor As Color)
+        _centerColor = centerColor
+        _sideColor = sideColor
+    End Sub
+    Public Sub New()
+
+    End Sub
 End Class

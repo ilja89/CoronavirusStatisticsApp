@@ -55,12 +55,12 @@ Public Class mapTest
                 New KeyValuePair(Of String, Integer)("Jõgeva maakond", rand.Next(0, 1000)),
                 New KeyValuePair(Of String, Integer)("Põlva maakond", rand.Next(0, 1000))
                 }, {
-                (New CGradient).BrightBlue,
-                (New CGradient).Green,
-                (New CGradient).Yellow,
-                (New CGradient).Orange,
-                (New CGradient).Red
-                }, (New CGradient).Gray)
+                CGradient.BrightBlue,
+                CGradient.Green,
+                CGradient.Yellow,
+                CGradient.Orange,
+                CGradient.Red
+                }, CGradient.Gray)
     End Sub
     Private Sub borderColorButton_Click(sender As Object, e As EventArgs) Handles borderColorButton.Click
         If (colorComboBox.Text <> " ") Then

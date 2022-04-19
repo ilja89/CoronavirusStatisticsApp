@@ -185,7 +185,7 @@ Public Class CPolygons
 
     Public Sub New(imageSize As Size, Optional backgroundGradient As CGradient = Nothing)
         If (backgroundGradient Is Nothing) Then
-            _bitmapDefaultGradient = (New CGradient).Blue
+            _bitmapDefaultGradient = CGradient.Blue
         Else
             _bitmapDefaultGradient = backgroundGradient
         End If

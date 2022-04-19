@@ -18,7 +18,7 @@ Public Class MapControl
     Private _mapFont As New Font("Times New Roman", 50, FontStyle.Bold Or FontStyle.Italic)
     Private _drawNames As Boolean = True
     Private _defBorderPen As Pen = New Pen(Brushes.Black, 4)
-    Private _defGradient As CGradient = (New CGradient()).Green
+    Private _defGradient As CGradient = CGradient.Green
     Private _defPolygonBackgroundBrush As Brush = Brushes.Gray
     Private _simplePolygonsDraw As Boolean = False
     Private _fillPolygons As Boolean = True

@@ -28,11 +28,10 @@ Public Class Main
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
+        InitMap()
         MapControlHide()
         OpenChildForm(New homeForm)
         CurrentIconLabel.Text = "Home"
-        'StatWin1.Visible = False
-
         ' Data updating
         If (Await saveLoad.UpdateData(_cachePath)) Then
             covidTest = request.GetTestStatCounty(, False)
@@ -41,7 +40,6 @@ Public Class Main
         End If
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
         ReleaseMemory()
-        InitMap()
     End Sub
 
     Private Sub InitMap()

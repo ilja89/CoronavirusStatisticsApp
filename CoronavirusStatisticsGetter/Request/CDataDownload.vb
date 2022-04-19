@@ -63,7 +63,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
 
         While (data Is Nothing)
             Try
@@ -97,7 +97,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
 
         While (data Is Nothing)
             Try
@@ -128,7 +128,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
@@ -156,7 +156,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
@@ -187,7 +187,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_test_county_all.csv")
@@ -215,7 +215,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_avg_age_by_result.csv")
@@ -241,7 +241,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_age.csv")
@@ -267,7 +267,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_profile.csv")
@@ -294,7 +294,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_avg_days.csv")
@@ -336,7 +336,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_hospitalization_timeline.csv")
@@ -364,7 +364,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim rawJson As String = Await client.DownloadStringTaskAsync("https://koroonakaart.ee/data.json")
@@ -395,7 +395,7 @@ Public Class CDataDownload
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
-        Dim methodName As String = GetCurrentMethod().Name
+        Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
             Try
                 Dim csv As String = Await (New WebClient).DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_tests_total.csv")
