@@ -114,10 +114,10 @@
     <Compile Include="Forms\statGraphs.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\loadingProcess.Designer.vb">
+    <Compile Include="Controls\loadingProcess.Designer.vb">
       <DependentUpon>loadingProcess.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\loadingProcess.vb">
+    <Compile Include="Controls\loadingProcess.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Main.designer.vb">
@@ -126,10 +126,10 @@
     <Compile Include="Main.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\popupWin.Designer.vb">
+    <Compile Include="Controls\popupWin.Designer.vb">
       <DependentUpon>popupWin.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\popupWin.vb">
+    <Compile Include="Controls\popupWin.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="mapTest.Designer.vb">
@@ -184,13 +184,13 @@
     <EmbeddedResource Include="Forms\statGraphs.resx">
       <DependentUpon>statGraphs.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\loadingProcess.resx">
+    <EmbeddedResource Include="Controls\loadingProcess.resx">
       <DependentUpon>loadingProcess.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\popupWin.resx">
+    <EmbeddedResource Include="Controls\popupWin.resx">
       <DependentUpon>popupWin.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mapTest.resx">
@@ -237,8 +237,6 @@
       <Name>TelegramInteraction</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CStatList_Exporter_Extension\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

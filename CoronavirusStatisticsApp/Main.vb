@@ -292,16 +292,10 @@ Public Class Main
             MapControl1.PictureBoxImage.Dispose()
             MapControl1.PictureBoxImage = Nothing
         End If
-        chooseFilePathButton.Hide()
-        saveToCSVButton.Hide()
     End Sub
     Private Sub MapShow()
         MapControl1.PictureBoxImage = saveLoad.LoadFrom(_cachePath, "MapControlImage")
         MapControl1.Visible = True
-        chooseFilePathButton.Show()
-        chooseFilePathButton.BringToFront()
-        saveToCSVButton.Show()
-        saveToCSVButton.BringToFront()
     End Sub
 
     Private Function stringToPoints(input As String) As Point()
