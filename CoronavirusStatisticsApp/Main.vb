@@ -382,34 +382,4 @@ Public Class Main
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
         ReleaseMemory()
     End Sub
-
-    Private Sub chooseFilePathButton_Click(sender As Object, e As EventArgs) Handles chooseFilePathButton.Click
-        exporter.setFileToSave()
-    End Sub
-
-    Private Sub saveToCSVButton_Click(sender As Object, e As EventArgs) Handles saveToCSVButton.Click
-        Dim map = Function(s() As String) As String()
-                      For i As Integer = 0 To s.Length - 1
-                          s(i) = exporter.TextQualifier + s(i) + exporter.TextQualifier
-                      Next
-                      Return s
-                  End Function
-        Dim data(covidSick.Count) As String
-        Dim items As List(Of String()) = covidSick.GetItemsDirectly()
-        Dim j As Integer = 0
-        If (exporter.TextQualifier = "") Then
-            data(0) = String.Join(exporter.Delimiter, covidSick.Fields)
-            For i As Integer = 1 To covidSick.Count
-                data(i) = String.Join(exporter.Delimiter, items(j))
-                j = i
-            Next
-        Else
-            data(0) = String.Join(exporter.Delimiter, map(covidSick.Fields))
-            For i As Integer = 1 To covidSick.Count
-                data(i) = String.Join(exporter.Delimiter, map(items(j)))
-                j = i
-            Next
-        End If
-        exporter.saveDataToCSV(data, False)
-    End Sub
 End Class
