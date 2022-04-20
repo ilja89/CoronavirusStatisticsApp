@@ -224,6 +224,10 @@
       <Project>{e1a5f7d2-0285-429a-899a-d29be7d3826d}</Project>
       <Name>CoronavirusStatisticsGetter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CSVExporterDNF\CSVExporterDNF.vbproj">
+      <Project>{6cb980c2-51d0-42ab-920c-f434b3f17f94}</Project>
+      <Name>CSVExporterDNF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Map\Map.vbproj">
       <Project>{d9ec6d3f-7949-414d-95d1-bf26a5d75f48}</Project>
       <Name>Map</Name>
