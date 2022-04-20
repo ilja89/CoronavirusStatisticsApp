@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim CGradient1 As Map.CGradient = Map.CGradient.Green
+        Dim CGradient1 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -39,14 +39,19 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
-        Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MapControl1 = New Map.MapControl()
+        Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelBar.SuspendLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelDesktop.SuspendLayout()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuPanel
@@ -260,17 +265,16 @@ Partial Class Main
         'PanelDesktop
         '
         Me.PanelDesktop.BackColor = System.Drawing.Color.Gray
+        Me.PanelDesktop.Controls.Add(Me.ComboBox1)
+        Me.PanelDesktop.Controls.Add(Me.Button1)
+        Me.PanelDesktop.Controls.Add(Me.TrackBar1)
+        Me.PanelDesktop.Controls.Add(Me.DateTimePicker1)
         Me.PanelDesktop.Controls.Add(Me.MapControl1)
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
         Me.PanelDesktop.Name = "PanelDesktop"
         Me.PanelDesktop.Size = New System.Drawing.Size(1045, 691)
         Me.PanelDesktop.TabIndex = 2
-        '
-        'GarbageTimer
-        '
-        Me.GarbageTimer.Enabled = True
-        Me.GarbageTimer.Interval = 30000
         '
         'MapControl1
         '
@@ -293,6 +297,42 @@ Partial Class Main
         Me.MapControl1.Size = New System.Drawing.Size(1045, 691)
         Me.MapControl1.TabIndex = 2
         '
+        'GarbageTimer
+        '
+        Me.GarbageTimer.Enabled = True
+        Me.GarbageTimer.Interval = 30000
+        '
+        'DateTimePicker1
+        '
+        Me.DateTimePicker1.Location = New System.Drawing.Point(19, 6)
+        Me.DateTimePicker1.Name = "DateTimePicker1"
+        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 20)
+        Me.DateTimePicker1.TabIndex = 3
+        '
+        'TrackBar1
+        '
+        Me.TrackBar1.Location = New System.Drawing.Point(225, 0)
+        Me.TrackBar1.Name = "TrackBar1"
+        Me.TrackBar1.Size = New System.Drawing.Size(808, 45)
+        Me.TrackBar1.TabIndex = 4
+        '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(19, 28)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(200, 23)
+        Me.Button1.TabIndex = 5
+        Me.Button1.Text = "Show Gradient"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Location = New System.Drawing.Point(19, 57)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(200, 21)
+        Me.ComboBox1.TabIndex = 6
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -311,6 +351,8 @@ Partial Class Main
         Me.PanelBar.PerformLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelDesktop.ResumeLayout(False)
+        Me.PanelDesktop.PerformLayout()
+        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -331,4 +373,8 @@ Partial Class Main
     Friend WithEvents PanelDesktop As Panel
     Friend WithEvents GarbageTimer As Timer
     Friend WithEvents MapControl1 As Map.MapControl
+    Friend WithEvents ComboBox1 As ComboBox
+    Friend WithEvents Button1 As Button
+    Friend WithEvents TrackBar1 As TrackBar
+    Friend WithEvents DateTimePicker1 As DateTimePicker
 End Class

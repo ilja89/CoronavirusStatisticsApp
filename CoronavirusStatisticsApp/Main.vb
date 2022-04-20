@@ -41,7 +41,6 @@ Public Class Main
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
         ReleaseMemory()
     End Sub
-
     Private Sub InitMap()
         Dim polygons As Map.CPolygons = MapControl1.Polygons
         MapControl1.AddPolygon(stringToPoints(
@@ -147,7 +146,7 @@ Public Class Main
         MapControl1.MapUpdate()
     End Sub
 
-    'Constructor
+    ' Constructor
     Public Sub New()
 
         ' This call is required by the designer.
