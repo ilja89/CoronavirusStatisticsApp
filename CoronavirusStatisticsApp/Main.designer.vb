@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim CGradient1 As Map.CGradient = New Map.CGradient()
+        Dim CGradient4 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -39,19 +39,16 @@ Partial Class Main
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
         Me.PanelDesktop = New System.Windows.Forms.Panel()
+        Me.saveToCSVButton = New System.Windows.Forms.Button()
+        Me.chooseFilePathButton = New System.Windows.Forms.Button()
         Me.MapControl1 = New Map.MapControl()
         Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
-        Me.TrackBar1 = New System.Windows.Forms.TrackBar()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelBar.SuspendLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelDesktop.SuspendLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuPanel
@@ -265,10 +262,8 @@ Partial Class Main
         'PanelDesktop
         '
         Me.PanelDesktop.BackColor = System.Drawing.Color.Gray
-        Me.PanelDesktop.Controls.Add(Me.ComboBox1)
-        Me.PanelDesktop.Controls.Add(Me.Button1)
-        Me.PanelDesktop.Controls.Add(Me.TrackBar1)
-        Me.PanelDesktop.Controls.Add(Me.DateTimePicker1)
+        Me.PanelDesktop.Controls.Add(Me.saveToCSVButton)
+        Me.PanelDesktop.Controls.Add(Me.chooseFilePathButton)
         Me.PanelDesktop.Controls.Add(Me.MapControl1)
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
@@ -276,14 +271,32 @@ Partial Class Main
         Me.PanelDesktop.Size = New System.Drawing.Size(1045, 691)
         Me.PanelDesktop.TabIndex = 2
         '
+        'saveToCSVButton
+        '
+        Me.saveToCSVButton.Location = New System.Drawing.Point(6, 31)
+        Me.saveToCSVButton.Name = "saveToCSVButton"
+        Me.saveToCSVButton.Size = New System.Drawing.Size(200, 23)
+        Me.saveToCSVButton.TabIndex = 8
+        Me.saveToCSVButton.Text = "Save To CSV"
+        Me.saveToCSVButton.UseVisualStyleBackColor = True
+        '
+        'chooseFilePathButton
+        '
+        Me.chooseFilePathButton.Location = New System.Drawing.Point(6, 3)
+        Me.chooseFilePathButton.Name = "chooseFilePathButton"
+        Me.chooseFilePathButton.Size = New System.Drawing.Size(200, 23)
+        Me.chooseFilePathButton.TabIndex = 7
+        Me.chooseFilePathButton.Text = "Choose File Save Path"
+        Me.chooseFilePathButton.UseVisualStyleBackColor = True
+        '
         'MapControl1
         '
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray
-        CGradient1.CenterColor = System.Drawing.Color.Green
-        CGradient1.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = CGradient1
+        CGradient4.CenterColor = System.Drawing.Color.Green
+        CGradient4.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = CGradient4
         Me.MapControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True
@@ -301,37 +314,6 @@ Partial Class Main
         '
         Me.GarbageTimer.Enabled = True
         Me.GarbageTimer.Interval = 30000
-        '
-        'DateTimePicker1
-        '
-        Me.DateTimePicker1.Location = New System.Drawing.Point(19, 6)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(200, 20)
-        Me.DateTimePicker1.TabIndex = 3
-        '
-        'TrackBar1
-        '
-        Me.TrackBar1.Location = New System.Drawing.Point(225, 0)
-        Me.TrackBar1.Name = "TrackBar1"
-        Me.TrackBar1.Size = New System.Drawing.Size(808, 45)
-        Me.TrackBar1.TabIndex = 4
-        '
-        'Button1
-        '
-        Me.Button1.Location = New System.Drawing.Point(19, 28)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(200, 23)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Show Gradient"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'ComboBox1
-        '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(19, 57)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(200, 21)
-        Me.ComboBox1.TabIndex = 6
         '
         'Main
         '
@@ -351,8 +333,6 @@ Partial Class Main
         Me.PanelBar.PerformLayout()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelDesktop.ResumeLayout(False)
-        Me.PanelDesktop.PerformLayout()
-        CType(Me.TrackBar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -373,8 +353,6 @@ Partial Class Main
     Friend WithEvents PanelDesktop As Panel
     Friend WithEvents GarbageTimer As Timer
     Friend WithEvents MapControl1 As Map.MapControl
-    Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents Button1 As Button
-    Friend WithEvents TrackBar1 As TrackBar
-    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents chooseFilePathButton As Button
+    Friend WithEvents saveToCSVButton As Button
 End Class

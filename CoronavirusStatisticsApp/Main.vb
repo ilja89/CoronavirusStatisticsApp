@@ -1,7 +1,6 @@
 ﻿Imports CoronaStatisticsGetter
 Imports FontAwesome.Sharp
 
-
 Public Class Main
     'Details declaration
     Public saveLoad As New CStatSaveLoad
@@ -22,6 +21,7 @@ Public Class Main
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
+    Private exporter As CSVExporterDNF.IExporter = New CSVExporterDNF.CExporter
     'Dim statGraphs As New statWin
 
     Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
@@ -29,15 +29,27 @@ Public Class Main
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
         InitMap()
-        MapControlHide()
+        MapHide()
         OpenChildForm(New homeForm)
         CurrentIconLabel.Text = "Home"
         ' Data updating
-        If (Await saveLoad.UpdateData(_cachePath)) Then
-            covidTest = request.GetTestStatCounty(, False)
-            covidVact = request.GetVaccinationStatByCounty
-            covidSick = request.GetSickCounty
-        End If
+        Try
+            If (Await saveLoad.UpdateData(_cachePath)) Then
+                covidTest = request.GetTestStatCounty(, False)
+                covidVact = request.GetVaccinationStatByCounty
+                covidSick = request.GetSickCounty
+            End If
+        Catch ex As Exception
+            Dim newLabel As New Label
+            Controls.Add(newLabel)
+            newLabel.Text = "Exception: " + ex.Message + vbCrLf + "Try to restart application"
+            newLabel.Location = New Point(416, 15)
+            newLabel.Font = New Font("Times New Roman", 15, FontStyle.Bold)
+            newLabel.AutoSize = True
+            newLabel.Refresh()
+            newLabel.BringToFront()
+            newLabel.Show()
+        End Try
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
         ReleaseMemory()
     End Sub
@@ -221,7 +233,7 @@ Public Class Main
     End Sub
     Private Sub BoxLogo_Click(sender As Object, e As EventArgs) Handles BoxLogo.Click
         If MapControl1 IsNot Nothing Then
-            MapControlHide()
+            MapHide()
         End If
         OpenChildForm(New homeForm)
         Reset()
@@ -243,8 +255,8 @@ Public Class Main
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
         CloseChildForm()
-        MapControlShow()
         MapControl1.BringToFront()
+        MapShow()
         ActivateButton(sender, Color.LawnGreen)
         'StatWin1.Visible = False
 
@@ -252,7 +264,7 @@ Public Class Main
 
     Private Sub btnStatistics_Click(sender As Object, e As EventArgs) Handles btnStatistics.Click
         If MapControl1 IsNot Nothing Then
-            MapControlHide()
+            MapHide()
         End If
         ActivateButton(sender, Color.Cyan)
         OpenChildForm(New statGraphs)
@@ -273,17 +285,23 @@ Public Class Main
 
     End Sub
 
-    Private Sub MapControlHide()
+    Private Sub MapHide()
         MapControl1.Visible = False
         If (MapControl1.PictureBoxImage IsNot Nothing) Then
             saveLoad.SaveTo(MapControl1.PictureBoxImage, _cachePath, "MapControlImage")
             MapControl1.PictureBoxImage.Dispose()
             MapControl1.PictureBoxImage = Nothing
         End If
+        chooseFilePathButton.Hide()
+        saveToCSVButton.Hide()
     End Sub
-    Private Sub MapControlShow()
+    Private Sub MapShow()
         MapControl1.PictureBoxImage = saveLoad.LoadFrom(_cachePath, "MapControlImage")
         MapControl1.Visible = True
+        chooseFilePathButton.Show()
+        chooseFilePathButton.BringToFront()
+        saveToCSVButton.Show()
+        saveToCSVButton.BringToFront()
     End Sub
 
     Private Function stringToPoints(input As String) As Point()
@@ -347,11 +365,6 @@ Public Class Main
             popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
             popup.countyName.Text = polygonName
         End If
-        Dim k As PseudoString
-        Dim s As New StringClass("12345678 This is string example, but it will be turned into long to save some space, yay!")
-        Dim l As Integer = s.str.Length
-        k = Converter.ToLong(s)
-        Dim back = Converter.ToDefString(k)
     End Sub
 
     Private Sub ReleaseMemory()
@@ -369,67 +382,34 @@ Public Class Main
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
         ReleaseMemory()
     End Sub
-End Class
 
-Public Class StringClass
-    Public str As String
-    Public Sub New(newStr As String)
-        str = newStr
+    Private Sub chooseFilePathButton_Click(sender As Object, e As EventArgs) Handles chooseFilePathButton.Click
+        exporter.setFileToSave()
     End Sub
-End Class
 
-Public Class PseudoString
-    Public str() As Long
-    Public strLen As Integer
-    Public Sub New(newStr() As Long, newStrLen As Integer)
-        str = newStr
-        strLen = newStrLen
+    Private Sub saveToCSVButton_Click(sender As Object, e As EventArgs) Handles saveToCSVButton.Click
+        Dim map = Function(s() As String) As String()
+                      For i As Integer = 0 To s.Length - 1
+                          s(i) = exporter.TextQualifier + s(i) + exporter.TextQualifier
+                      Next
+                      Return s
+                  End Function
+        Dim data(covidSick.Count) As String
+        Dim items As List(Of String()) = covidSick.GetItemsDirectly()
+        Dim j As Integer = 0
+        If (exporter.TextQualifier = "") Then
+            data(0) = String.Join(exporter.Delimiter, covidSick.Fields)
+            For i As Integer = 1 To covidSick.Count
+                data(i) = String.Join(exporter.Delimiter, items(j))
+                j = i
+            Next
+        Else
+            data(0) = String.Join(exporter.Delimiter, map(covidSick.Fields))
+            For i As Integer = 1 To covidSick.Count
+                data(i) = String.Join(exporter.Delimiter, map(items(j)))
+                j = i
+            Next
+        End If
+        exporter.saveDataToCSV(data, False)
     End Sub
-End Class
-
-Public Class Converter
-    Public Shared Function ToLong(s As StringClass) As PseudoString
-        Dim i As Integer = 0
-        Dim c As Integer = 0
-        Dim charNum As Integer = 0
-        Dim resLen = Math.Floor(s.str.Length / 8)
-        Dim result(resLen) As Long
-        While (i < resLen)
-            While (c < 8)
-                If (charNum < s.str.Length) Then
-                    result(i) = result(i) Or Asc(s.str(charNum)) << c * 8
-                    charNum += 1
-                End If
-                c += 1
-            End While
-            If (charNum = s.str.Length) Then
-                Exit While
-            End If
-            c = 0
-            i += 1
-        End While
-        Return New PseudoString(result, charNum)
-    End Function
-
-    Public Shared Function ToDefString(s As PseudoString) As String
-        Dim i As Integer = 0
-        Dim c As Integer = 0
-        Dim charNum As Integer = 0
-        Dim result(s.strLen) As Char
-        While (i < s.str.Length)
-            While (c < 8)
-                If (charNum < s.strLen) Then
-                    result(charNum) = Chr((s.str(i) And 255 << c * 8) >> c * 8)
-                    charNum += 1
-                End If
-                c += 1
-            End While
-            If (charNum = s.strLen) Then
-                Exit While
-            End If
-            c = 0
-            i += 1
-        End While
-        Return result
-    End Function
 End Class
