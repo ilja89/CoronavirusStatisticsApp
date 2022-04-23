@@ -3,7 +3,7 @@ Imports FontAwesome.Sharp
 
 Public Class Main
     'Details declaration
-    Public saveLoad As New CStatSaveLoad
+    Public saveLoad As New CStatSaveLoad_ForLoadingControl
     Public request As CRequest
 
     Private currentBtn As IconButton
@@ -18,37 +18,48 @@ Public Class Main
     Public covidVactGen As CStatList
     Public covidSickGen As CStatList
     Public covidTestPositiveCounty As CStatList
+
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
-    Private exporter As CSVExporterDNF.IExporter = New CSVExporterDNF.CExporter
+    Private _threads As New List(Of Threading.Thread)
     'Dim statGraphs As New statWin
 
     Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
-
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         request = New CRequest(_cachePath)
+
         InitMap()
-        MapHide()
         OpenChildForm(New homeForm)
         CurrentIconLabel.Text = "Home"
+        MapHide()
+        CreateLoadingOverlay()
         ' Data updating
         Try
-            If (Await saveLoad.UpdateData(_cachePath)) Then
+            If (Await saveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
+DataUpdate:     setProgress(60)
                 covidTest = request.GetTestStatCounty(, False)
+                setProgress(70)
                 covidVact = request.GetVaccinationStatByCounty
+                setProgress(80)
                 covidSick = request.GetSickCounty
+                setProgress(95)
+                DeleteLoadingOverlay()
             End If
         Catch ex As Exception
-            Dim newLabel As New Label
-            Controls.Add(newLabel)
-            newLabel.Text = "Exception: " + ex.Message + vbCrLf + "Try to restart application"
-            newLabel.Location = New Point(416, 15)
-            newLabel.Font = New Font("Times New Roman", 15, FontStyle.Bold)
-            newLabel.AutoSize = True
-            newLabel.Refresh()
-            newLabel.BringToFront()
-            newLabel.Show()
+            If (ex.Source = "mscorlib") Then
+                GoTo DataUpdate
+            Else
+                Dim newRichTextBox As New RichTextBox
+                Controls.Add(newRichTextBox)
+                newRichTextBox.Text = "Exception: " + ex.Message + vbCrLf + "Try to restart application"
+                newRichTextBox.Location = New Point(416, 15)
+                newRichTextBox.Font = New Font("Times New Roman", 15, FontStyle.Bold)
+                newRichTextBox.Size = New Size(Me.Size.Width / 3, Me.Size.Height / 10)
+                newRichTextBox.Refresh()
+                newRichTextBox.BringToFront()
+                newRichTextBox.Show()
+            End If
         End Try
         ' After all info getting is finished, call garbage collector to free memory from not needed trash
         ReleaseMemory()
@@ -208,21 +219,26 @@ Public Class Main
     End Sub
 
     Private Sub OpenChildForm(childForm As Form)
-        Dim oldChildForm As Form = currentChildForm
-        If currentChildForm IsNot Nothing Then
-            currentChildForm.Visible = False
-        End If
-        currentChildForm = childForm
-        childForm.TopLevel = False
-        childForm.FormBorderStyle = FormBorderStyle.None
-        childForm.Dock = DockStyle.Fill
-        PanelDesktop.Controls.Add(childForm)
-        PanelDesktop.Tag = childForm
-        childForm.BringToFront()
-        childForm.Show()
-        CurrentIconLabel.Text = childForm.Text
-        If (oldChildForm IsNot Nothing) Then
-            oldChildForm.Dispose()
+        If (currentChildForm Is Nothing OrElse
+            childForm.GetType <> currentChildForm.GetType) Then
+            Dim oldChildForm As Form = currentChildForm
+            If currentChildForm IsNot Nothing Then
+                currentChildForm.Visible = False
+            End If
+            currentChildForm = childForm
+            childForm.TopLevel = False
+            childForm.FormBorderStyle = FormBorderStyle.None
+            childForm.Dock = DockStyle.Fill
+            PanelDesktop.Controls.Add(childForm)
+            PanelDesktop.Tag = childForm
+            childForm.BringToFront()
+            childForm.Show()
+            CurrentIconLabel.Text = childForm.Text
+            If (oldChildForm IsNot Nothing) Then
+                oldChildForm.Dispose()
+            End If
+        Else
+            childForm.Dispose()
         End If
     End Sub
     Private Sub CloseChildForm()
@@ -296,6 +312,44 @@ Public Class Main
     Private Sub MapShow()
         MapControl1.PictureBoxImage = saveLoad.LoadFrom(_cachePath, "MapControlImage")
         MapControl1.Visible = True
+        If (currentChildForm IsNot Nothing) Then
+            Dim oldCurrentChildForm As Form = currentChildForm
+            currentChildForm = Nothing
+            oldCurrentChildForm.Dispose()
+        End If
+    End Sub
+
+    Private Sub CreateLoadingOverlay()
+        Dim loading As New loadingControl
+        Controls.Add(loading)
+        loading.Picture = Image.FromFile(My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Resources\loading.png")
+        loading.Location = MapControl1.Location
+        loading.Dock = DockStyle.Fill
+        loading.Name = "loadingControl"
+        loading.Init()
+        loading.BringToFront()
+        loading.Show()
+        Dim newThread As New Threading.Thread(AddressOf loading.StartRotation)
+        newThread.IsBackground = True
+        newThread.Priority = Threading.ThreadPriority.Highest
+        newThread.Start()
+        btnMap.Enabled = False
+        btnExit.Enabled = False
+        btnExtra2.Enabled = False
+        btnSettings.Enabled = False
+        btnStatistics.Enabled = False
+        btnTelegramm.Enabled = False
+    End Sub
+    Private Sub DeleteLoadingOverlay()
+        Dim loading As loadingControl = Controls.Find("loadingControl", False)(0)
+        Controls.Remove(loading)
+        loading.Dispose()
+        btnMap.Enabled = True
+        btnExit.Enabled = True
+        btnExtra2.Enabled = True
+        btnSettings.Enabled = True
+        btnStatistics.Enabled = True
+        btnTelegramm.Enabled = True
     End Sub
 
     Private Function stringToPoints(input As String) As Point()
@@ -361,6 +415,10 @@ Public Class Main
         End If
     End Sub
 
+    Private Sub setProgress(newStatus As Integer)
+        Dim loading As loadingControl = Controls.Find("loadingControl", False)(0)
+        loading.Status = newStatus
+    End Sub
     Private Sub ReleaseMemory()
         Try
             GC.Collect()
