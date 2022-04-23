@@ -90,6 +90,13 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\loadingControl.Designer.vb">
+      <DependentUpon>loadingControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\loadingControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Edited Classes\CStatSaveLoad_ForLoadingControl.vb" />
     <Compile Include="Forms\mapDebug.Designer.vb">
       <DependentUpon>mapDebug.vb</DependentUpon>
     </Compile>
@@ -114,12 +121,6 @@
     <Compile Include="Forms\statGraphs.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\loadingProcess.Designer.vb">
-      <DependentUpon>loadingProcess.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\loadingProcess.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Main.designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
     </Compile>
@@ -137,6 +138,11 @@
     </Compile>
     <Compile Include="mapTest.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="My Project\UserControl1.Designer.vb">
       <DependentUpon>UserControl1.vb</DependentUpon>
@@ -160,11 +166,6 @@
       <DependentUpon>Application.myapp</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="My Project\Settings.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -172,6 +173,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\loadingControl.resx">
+      <DependentUpon>loadingControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -184,9 +188,6 @@
     <EmbeddedResource Include="Forms\statGraphs.resx">
       <DependentUpon>statGraphs.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\loadingProcess.resx">
-      <DependentUpon>loadingProcess.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
@@ -198,9 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\UserControl1.resx">
       <DependentUpon>UserControl1.vb</DependentUpon>
