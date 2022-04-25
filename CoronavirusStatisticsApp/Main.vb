@@ -266,7 +266,11 @@ DataUpdate:     setProgress(60)
 
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
         ActivateButton(sender, Color.Pink)
+        FormClosingHandler()
         Application.Exit()
+    End Sub
+    Private Sub FormClosingHandler() Handles MyBase.Closing
+        saveLoad.SaveAppSettings()
     End Sub
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
@@ -297,8 +301,11 @@ DataUpdate:     setProgress(60)
     End Sub
 
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
+        If MapControl1 IsNot Nothing Then
+            MapHide()
+        End If
         ActivateButton(sender, Color.FromArgb(205, 205, 13))
-
+        OpenChildForm(New settings)
     End Sub
 
     Private Sub MapHide()
