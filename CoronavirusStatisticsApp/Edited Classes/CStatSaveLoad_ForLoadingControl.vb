@@ -1,7 +1,10 @@
 ﻿Imports CoronaStatisticsGetter
 Public Class CStatSaveLoad_ForLoadingControl
     Inherits CStatSaveLoad
-    Public Shadows Async Function UpdateData(path As String, progressValueUpdate As Action(Of Integer)) As Task(Of Boolean)
+    Implements IStatSavedLoad_ForLoadingControl
+
+    Public Shadows Async Function UpdateData(path As String,
+                                             progressValueUpdate As Action(Of Integer)) As Task(Of Boolean) Implements IStatSavedLoad_ForLoadingControl.UpdateData
         Dim saveLoad As New CStatSaveLoad
         Dim newDataDownload As New CDataDownload
         Dim fileNames() As String = {

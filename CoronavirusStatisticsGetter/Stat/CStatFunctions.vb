@@ -8,13 +8,17 @@
 ' Related components: CStatList
 Imports System.Runtime
 Public Class CStatFunctions
+
     ''' <summary>
-    ''' Extends existing list with linear trend prediction based on sample of last entries in list
+    ''' Extends existing list with linear trend prediction based on sample of 
+    ''' last entries in list
     ''' </summary>
-    ''' <param name="listOriginal">Instance of <see cref="CStatList"/> with all statistics</param>
+    ''' <param name="listOriginal">Instance of <see cref="CStatList"/> with all 
+    ''' statistics</param>
     ''' <param name="fieldName">Name of field what must be extended (numbers only!)</param>
     ''' <param name="dateFieldName">Name of "Date" field</param>
-    ''' <param name="sampleSize">Number of previous entries what must be taken in calculations to find futurous approximate points</param>
+    ''' <param name="sampleSize">Number of previous entries what must be taken in 
+    ''' calculations to find futurous approximate points</param>
     ''' <param name="outPointsNumber">Number of predicted points</param>
     ''' <returns></returns>
     Public Shared Function Forecast(listOriginal As CStatList, fieldName As String, Optional dateFieldName As String = "Date", Optional sampleSize As Integer = 7, Optional outPointsNumber As Integer = 7) As CStatList

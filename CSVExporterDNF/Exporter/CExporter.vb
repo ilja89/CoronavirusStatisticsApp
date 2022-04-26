@@ -56,7 +56,9 @@
     ''' Saves data to CSV file using path chosen in <see cref="setFileToSave"/>
     ''' </summary>
     ''' <returns></returns>
-    Private Function saveDataToCSV(data() As String, Optional appendData As Boolean = False) As Integer Implements IExporter.saveDataToCSV
+    Private Function saveDataToCSV(data() As String, Optional appendData As Boolean = False) _
+        As Integer Implements IExporter.saveDataToCSV
+
         Dim directory As String = _path.Replace(_fileName, "")
 
         If (Not IO.Directory.Exists(directory)) Then

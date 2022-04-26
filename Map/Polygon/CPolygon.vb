@@ -9,6 +9,9 @@
 Imports System.Math
 Imports System.Drawing.Drawing2D
 Public Class CPolygon
+
+    Implements IPolygon
+
     Private _points As Point()
     Private _minX As Integer
     Private _maxX As Integer
@@ -35,7 +38,7 @@ Public Class CPolygon
     ''' Minimal Y coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property MinY As Integer
+    Public ReadOnly Property MinY As Integer Implements IPolygon.MinY
         Get
             Return _minY
         End Get
@@ -44,7 +47,7 @@ Public Class CPolygon
     ''' Maximal X coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property MaxX As Integer
+    Public ReadOnly Property MaxX As Integer Implements IPolygon.MaxX
         Get
             Return _maxX
         End Get
@@ -53,16 +56,16 @@ Public Class CPolygon
     ''' Maximal X coordinate of rectangle built by maximal and minimal X, Y values among polygon points.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property MaxY As Integer
+    Public ReadOnly Property MaxY As Integer Implements IPolygon.MaxY 
         Get
-            Return _maxY
+    Return _maxY
         End Get
     End Property
     ''' <summary>
     ''' Border pen what will be used to draw polygon borders.
     ''' </summary>
     ''' <returns></returns>
-    Public Property BorderPen As Pen
+    Public Property BorderPen As Pen Implements IPolygon.BorderPen
         Get
             Return _borderPen
         End Get
@@ -74,7 +77,7 @@ Public Class CPolygon
     ''' Gets or sets polygon name what will be shown when polygon is drawn on map.
     ''' </summary>
     ''' <returns></returns>
-    Public Property Name As String
+    Public Property Name As String Implements IPolygon.Name
         Get
             Return _polygonName
         End Get
@@ -86,7 +89,7 @@ Public Class CPolygon
     ''' Gets or sets coordinates of point where center of drawn polygon name will be located.
     ''' </summary>
     ''' <returns></returns>
-    Public Property NamePoint As PointF
+    Public Property NamePoint As PointF Implements IPolygon.NamePoint
         Get
             Return _namePoint
         End Get
@@ -98,7 +101,7 @@ Public Class CPolygon
     ''' Special polygon indentifier what is used for simplier process of working with statistics.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Key As String
+    Public ReadOnly Property Key As String Implements IPolygon.Key
         Get
             Return _polygonKey
         End Get
@@ -107,7 +110,7 @@ Public Class CPolygon
     ''' Property what shows if polygon should draw its name on map. If False, polygon name won't be drawn.
     ''' </summary>
     ''' <returns></returns>
-    Public Property DrawName As Boolean
+    Public Property DrawName As Boolean Implements IPolygon.DrawName
         Get
             Return _drawName
         End Get
@@ -119,7 +122,7 @@ Public Class CPolygon
     ''' Center color of gradient brush
     ''' </summary>
     ''' <returns></returns>
-    Public Property GradientBrushCenterColor As Color
+    Public Property GradientBrushCenterColor As Color Implements IPolygon.GradientBrushCenterColor
         Get
             Return _fillGradientBrush.CenterColor
         End Get
@@ -131,7 +134,7 @@ Public Class CPolygon
     ''' Side color of gradient brush
     ''' </summary>
     ''' <returns></returns>
-    Public Property GradientBrushSideColor As Color
+    Public Property GradientBrushSideColor As Color Implements IPolygon.GradientBrushSideColor
         Get
             Return _fillGradientBrush.SurroundColors(0)
         End Get
@@ -149,9 +152,15 @@ Public Class CPolygon
     ''' Points using what polygon is built
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Points As Point()
+    Public ReadOnly Property Points As Point() Implements IPolygon.Points
         Get
             Return _points
+        End Get
+    End Property
+
+    Private ReadOnly Property IPolygon_MinX As Integer
+        Get
+            Throw New NotImplementedException()
         End Get
     End Property
 
@@ -228,7 +237,7 @@ Public Class CPolygon
     ''' </summary>
     ''' <param name="point"></param>
     ''' <returns></returns>
-    Public Function IsPointInside(point As Point)
+    Public Function IsPointInside(point As Point) Implements IPolygon.IsPointInside
         If (point.X < _minX Or point.X > _maxX Or point.Y < _minY Or point.Y > _maxY) Then
             Return False
         End If
@@ -259,7 +268,7 @@ Public Class CPolygon
                     Optional drawBorderPen As Pen = Nothing,
                     Optional withCenterColor As Color = Nothing,
                     Optional withSideColor As Color = Nothing,
-                    Optional simpleDraw As Boolean = False)
+                    Optional simpleDraw As Boolean = False) Implements IPolygon.Draw
         Dim drawGradient As PathGradientBrush = _fillGradientBrush.Clone
         If pb.Image IsNot Nothing Then
             If (drawBorderPen Is Nothing) Then
@@ -297,7 +306,7 @@ Public Class CPolygon
     ''' </summary>
     ''' <param name="pb">PictureBox inside what polygon name must be drawn</param>
     ''' <param name="textFont">Font what will be used to draw polygon name</param>
-    Public Sub DrawPolygonName(pb As PictureBox, textFont As Font)
+    Public Sub DrawPolygonName(pb As PictureBox, textFont As Font) Implements IPolygon.DrawPolygonName
         If (pb.Image IsNot Nothing AndAlso _drawName) Then
             Dim g As Graphics = Graphics.FromImage(pb.Image)
             Dim stringSize As SizeF = g.MeasureString(_polygonName, textFont)
