@@ -4,7 +4,7 @@ Imports System.Math
 
 Public Class Main
     'Details declaration
-    Public saveLoad As New CStatSaveLoad_ForLoadingControl
+    Private _saveLoad As New CStatSaveLoad_ForLoadingControl
     Public request As CRequest
 
     Private currentBtn As IconButton
@@ -24,6 +24,15 @@ Public Class Main
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Private _threads As New List(Of Threading.Thread)
+
+    Public Property SaveLoad As CStatSaveLoad_ForLoadingControl
+        Get
+            Return _saveLoad
+        End Get
+        Set(value As CStatSaveLoad_ForLoadingControl)
+            _saveLoad = value
+        End Set
+    End Property
     'Dim statGraphs As New statWin
 
     Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
@@ -42,7 +51,7 @@ Public Class Main
 
         ' Data updating
         Try
-            If (Await saveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
+            If (Await SaveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
 DataUpdate:     setProgress(60)
                 covidTest = request.GetTestStatCounty(, False)
                 setProgress(70)
@@ -281,7 +290,7 @@ DataUpdate:     setProgress(60)
         Application.Exit()
     End Sub
     Private Sub FormClosingHandler() Handles MyBase.Closing
-        saveLoad.SaveAppSettings()
+        SaveLoad.SaveAppSettings()
     End Sub
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
