@@ -17,6 +17,13 @@ Public Class CStatSaveLoad_ForLoadingControl
             "HospitalizationPatients",
             "Deceased",
             "Sick"}
+        ' Load Settings
+        If (IO.File.Exists(AppSettings.AppSettingsCachePath + AppSettings.AppSettingsCacheName + ".bin")) Then
+            Dim newThread As New Threading.Thread(Sub() LoadAppSettings())
+            newThread.IsBackground = True
+            newThread.Start()
+        End If
+
         ' Check path
         If (Not IO.Directory.Exists(path)) Then
             IO.Directory.CreateDirectory(path)
@@ -47,12 +54,6 @@ Public Class CStatSaveLoad_ForLoadingControl
             End If
             progressValueUpdate(statusValue)
         Next
-
-        If (IO.File.Exists(AppSettings.AppSettingsCachePath + AppSettings.AppSettingsCacheName + ".bin")) Then
-            Dim n = New AppSettings
-            LoadAppSettings()
-        End If
-
         Return True
     End Function
 
@@ -62,5 +63,6 @@ Public Class CStatSaveLoad_ForLoadingControl
     Public Sub LoadAppSettings()
         Dim newAppSettings As AppSettingsSerializable = LoadFrom(AppSettings.AppSettingsCachePath, AppSettings.AppSettingsCacheName)
         newAppSettings.UpdateAppSettings()
+        AppSettings.RaiseEventNewColorSettingsApplied()
     End Sub
 End Class

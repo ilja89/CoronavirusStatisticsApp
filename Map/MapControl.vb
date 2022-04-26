@@ -221,6 +221,7 @@ Public Class MapControl
     ''' Redraws whole map with updated map and _polygons properties.
     ''' </summary>
     Public Sub MapUpdate()
+        BaseImage?.Dispose()
         _polygons.DrawAll(mapPictureBox, _fillPolygons,,, _mapFont, _drawNames, _simplePolygonsDraw, _simpleBackgroundDraw, _baseImage)
     End Sub
     ''' <summary>

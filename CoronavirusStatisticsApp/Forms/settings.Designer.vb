@@ -22,7 +22,7 @@ Partial Class settings
     'Не изменяйте ее в редакторе исходного кода.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.labelCSVExporterSettings = New System.Windows.Forms.Label()
         Me.textBoxDelimiter = New System.Windows.Forms.TextBox()
         Me.labelDelimiter = New System.Windows.Forms.Label()
         Me.labelTextQualifier = New System.Windows.Forms.Label()
@@ -33,19 +33,24 @@ Partial Class settings
         Me.richTextBoxCachePath = New System.Windows.Forms.RichTextBox()
         Me.buttonCachePathChange = New System.Windows.Forms.Button()
         Me.buttonCachePathReset = New System.Windows.Forms.Button()
+        Me.labelApplicationColors = New System.Windows.Forms.Label()
+        Me.buttonChangeApplicationColors = New System.Windows.Forms.Button()
+        Me.buttonResetApplicationColors = New System.Windows.Forms.Button()
+        Me.listBoxApplicationElement = New System.Windows.Forms.ListBox()
+        Me.colorDialog1 = New System.Windows.Forms.ColorDialog()
         Me.SuspendLayout()
         '
-        'Label1
+        'labelCSVExporterSettings
         '
-        Me.Label1.AutoEllipsis = True
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.DarkGray
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(251, 29)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "CSV Exporter Settings"
+        Me.labelCSVExporterSettings.AutoEllipsis = True
+        Me.labelCSVExporterSettings.AutoSize = True
+        Me.labelCSVExporterSettings.BackColor = System.Drawing.Color.DarkGray
+        Me.labelCSVExporterSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.labelCSVExporterSettings.Location = New System.Drawing.Point(12, 9)
+        Me.labelCSVExporterSettings.Name = "labelCSVExporterSettings"
+        Me.labelCSVExporterSettings.Size = New System.Drawing.Size(251, 29)
+        Me.labelCSVExporterSettings.TabIndex = 0
+        Me.labelCSVExporterSettings.Text = "CSV Exporter Settings"
         '
         'textBoxDelimiter
         '
@@ -133,12 +138,62 @@ Partial Class settings
         '
         'buttonCachePathReset
         '
+        Me.buttonCachePathReset.BackColor = System.Drawing.Color.Transparent
         Me.buttonCachePathReset.Location = New System.Drawing.Point(212, 232)
         Me.buttonCachePathReset.Name = "buttonCachePathReset"
         Me.buttonCachePathReset.Size = New System.Drawing.Size(188, 23)
         Me.buttonCachePathReset.TabIndex = 10
         Me.buttonCachePathReset.Text = "Reset"
-        Me.buttonCachePathReset.UseVisualStyleBackColor = True
+        Me.buttonCachePathReset.UseVisualStyleBackColor = False
+        '
+        'labelApplicationColors
+        '
+        Me.labelApplicationColors.AutoEllipsis = True
+        Me.labelApplicationColors.AutoSize = True
+        Me.labelApplicationColors.BackColor = System.Drawing.Color.DarkGray
+        Me.labelApplicationColors.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.labelApplicationColors.Location = New System.Drawing.Point(13, 258)
+        Me.labelApplicationColors.Name = "labelApplicationColors"
+        Me.labelApplicationColors.Size = New System.Drawing.Size(162, 24)
+        Me.labelApplicationColors.TabIndex = 11
+        Me.labelApplicationColors.Text = "Application Colors"
+        '
+        'buttonChangeApplicationColors
+        '
+        Me.buttonChangeApplicationColors.Location = New System.Drawing.Point(212, 285)
+        Me.buttonChangeApplicationColors.Name = "buttonChangeApplicationColors"
+        Me.buttonChangeApplicationColors.Size = New System.Drawing.Size(194, 23)
+        Me.buttonChangeApplicationColors.TabIndex = 13
+        Me.buttonChangeApplicationColors.Text = "Change"
+        Me.buttonChangeApplicationColors.UseVisualStyleBackColor = True
+        '
+        'buttonResetApplicationColors
+        '
+        Me.buttonResetApplicationColors.BackColor = System.Drawing.Color.Transparent
+        Me.buttonResetApplicationColors.Location = New System.Drawing.Point(212, 314)
+        Me.buttonResetApplicationColors.Name = "buttonResetApplicationColors"
+        Me.buttonResetApplicationColors.Size = New System.Drawing.Size(194, 23)
+        Me.buttonResetApplicationColors.TabIndex = 14
+        Me.buttonResetApplicationColors.Text = "Reset"
+        Me.buttonResetApplicationColors.UseVisualStyleBackColor = False
+        '
+        'listBoxApplicationElement
+        '
+        Me.listBoxApplicationElement.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.listBoxApplicationElement.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.listBoxApplicationElement.FormattingEnabled = True
+        Me.listBoxApplicationElement.ItemHeight = 16
+        Me.listBoxApplicationElement.Items.AddRange(New Object() {"Main Color", "Secondary Color", "Map Button Color", "Statistics Button Color", "Telegram Button Color", "Settings Button Color", "Exit Button Color"})
+        Me.listBoxApplicationElement.Location = New System.Drawing.Point(12, 285)
+        Me.listBoxApplicationElement.Name = "listBoxApplicationElement"
+        Me.listBoxApplicationElement.ScrollAlwaysVisible = True
+        Me.listBoxApplicationElement.Size = New System.Drawing.Size(194, 148)
+        Me.listBoxApplicationElement.TabIndex = 15
+        '
+        'colorDialog1
+        '
+        Me.colorDialog1.AnyColor = True
+        Me.colorDialog1.FullOpen = True
         '
         'settings
         '
@@ -146,6 +201,10 @@ Partial Class settings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Gray
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.listBoxApplicationElement)
+        Me.Controls.Add(Me.buttonResetApplicationColors)
+        Me.Controls.Add(Me.buttonChangeApplicationColors)
+        Me.Controls.Add(Me.labelApplicationColors)
         Me.Controls.Add(Me.buttonCachePathReset)
         Me.Controls.Add(Me.buttonCachePathChange)
         Me.Controls.Add(Me.richTextBoxCachePath)
@@ -155,7 +214,7 @@ Partial Class settings
         Me.Controls.Add(Me.labelTextQualifier)
         Me.Controls.Add(Me.labelDelimiter)
         Me.Controls.Add(Me.textBoxDelimiter)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.labelCSVExporterSettings)
         Me.Name = "settings"
         Me.Text = "settings"
         Me.ResumeLayout(False)
@@ -163,7 +222,7 @@ Partial Class settings
 
     End Sub
 
-    Friend WithEvents Label1 As Label
+    Friend WithEvents labelCSVExporterSettings As Label
     Friend WithEvents textBoxDelimiter As TextBox
     Friend WithEvents labelDelimiter As Label
     Friend WithEvents labelTextQualifier As Label
@@ -174,4 +233,9 @@ Partial Class settings
     Friend WithEvents richTextBoxCachePath As RichTextBox
     Friend WithEvents buttonCachePathChange As Button
     Friend WithEvents buttonCachePathReset As Button
+    Friend WithEvents labelApplicationColors As Label
+    Friend WithEvents buttonChangeApplicationColors As Button
+    Friend WithEvents buttonResetApplicationColors As Button
+    Friend WithEvents listBoxApplicationElement As ListBox
+    Friend WithEvents colorDialog1 As ColorDialog
 End Class
