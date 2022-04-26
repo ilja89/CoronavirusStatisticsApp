@@ -1,5 +1,6 @@
 ﻿Imports CoronaStatisticsGetter
 Public Class statGraphs
+
     Dim covidTestPosGen As CStatList
     Dim covidVactGen As CStatList
     Dim covidSickGen As CStatList
@@ -9,13 +10,16 @@ Public Class statGraphs
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Dim request As New CRequest(_cachePath)
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        totalSick.To = 1331000
-        totalVact.To = 1331000
-        totalPos.To = 1331000
-        totalHospitalized.To = 1331000
-        hospitalizedCurrent.To = 1331000
-        totalDied.To = 1331000
 
+
+        Dim Population As CConstants
+        Population = New CConstants
+        totalSick.To = Population.Estonia_Population
+        totalVact.To = Population.Estonia_Population
+        totalPos.To = Population.Estonia_Population
+        totalHospitalized.To = Population.Estonia_Population
+        hospitalizedCurrent.To = Population.Estonia_Population
+        totalDied.To = Population.Estonia_Population
         covidTestPosGen = request.GetTestStatPositiveGeneral()
         covidVactGen = request.GetVaccinationStatGeneral()
         covidSickGen = request.GetSick()

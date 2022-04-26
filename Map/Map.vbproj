@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Gradients\CArgb.vb" />
     <Compile Include="Gradients\CGradient.vb" />
+    <Compile Include="Gradients\IGradient.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,6 +94,8 @@
     <Compile Include="MapControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Polygon\IPolygon.vb" />
+    <Compile Include="Polygon\IPolygons.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MapControl.resx">

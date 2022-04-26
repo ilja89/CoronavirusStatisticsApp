@@ -65,6 +65,8 @@
   <ItemGroup>
     <Compile Include="Request\CDataDownload.vb" />
     <Compile Include="Request\HelperWebClient.vb" />
+    <Compile Include="Request\IDataDowload.vb" />
+    <Compile Include="Request\IRequest.vb" />
     <Compile Include="Stat\CStatFunctions.vb" />
     <Compile Include="Stat\CStatList.vb" />
     <Compile Include="Functional Extensions\MFunctionalExtensions.vb" />
@@ -86,6 +88,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Stat\CStatSaveLoad.vb" />
+    <Compile Include="Stat\IStatList.vb" />
+    <Compile Include="Stat\IStatSaveLoad.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

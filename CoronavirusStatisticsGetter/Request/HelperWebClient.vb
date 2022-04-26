@@ -9,7 +9,9 @@
 Imports System.Net
 Public Class HelperWebClient
 
-    Public Async Function DownloadDataAsync(urls As List(Of String)) As Task(Of List(Of DownloadedData))
+    Public Async Function DownloadDataAsync(urls As List(Of String)) As _
+        Task(Of List(Of DownloadedData))
+
         Dim allTasks As List(Of Task) = New List(Of Task)
         Dim downloadedDataList As List(Of DownloadedData) = New List(Of DownloadedData)
 
@@ -28,7 +30,8 @@ Public Class HelperWebClient
 
                                  'ToDo: add desired code
                                  'add
-                                 downloadedDataList.Add(New DownloadedData() With {.Url = url, .Data = result})
+                                 downloadedDataList.Add(New DownloadedData() With
+                                                        {.Url = url, .Data = result})
                              End Function)
             'add
             allTasks.Add(t)
@@ -44,7 +47,8 @@ Public Class HelperWebClient
             'write data to file
             'Note: The following is only for testing.
             'The index in urls won't necessarily correspond to the filename below
-            Dim filename As String = System.IO.Path.Combine("C:\Temp", String.Format("CoronavirusData_{0:00}.txt", i))
+            Dim filename As String = System.IO.Path.Combine("C:\Temp",
+                                                            String.Format("CoronavirusData_{0:00}.txt", i))
             System.IO.File.WriteAllText(filename, downloadedDataList(i).Data)
 
             Debug.WriteLine($"[{i}]: Filename: {filename}")
@@ -56,6 +60,7 @@ Public Class HelperWebClient
     End Function
 End Class
 Public Class DownloadedData
+
     Public Property Data As String
     Public Property Url As String
 End Class
