@@ -90,13 +90,15 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings\AppSettings.vb" />
+    <Compile Include="AppSettings\AppSettingsSerializable.vb" />
     <Compile Include="Controls\loadingControl.Designer.vb">
       <DependentUpon>loadingControl.vb</DependentUpon>
     </Compile>
     <Compile Include="Controls\loadingControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Edited Classes\CStatSaveLoad_ForLoadingControl.vb" />
+    <Compile Include="Edited Classes\CStatSaveLoad_Edited.vb" />
     <Compile Include="Forms\mapDebug.Designer.vb">
       <DependentUpon>mapDebug.vb</DependentUpon>
     </Compile>
@@ -113,6 +115,12 @@
       <DependentUpon>homeForm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\homeForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\settings.Designer.vb">
+      <DependentUpon>settings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\settings.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\statGraphs.Designer.vb">
@@ -185,6 +193,9 @@
     <EmbeddedResource Include="Forms\moreStatCounty.resx">
       <DependentUpon>moreStatCounty.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\settings.resx">
+      <DependentUpon>settings.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\statGraphs.resx">
       <DependentUpon>statGraphs.vb</DependentUpon>
     </EmbeddedResource>
@@ -238,6 +249,5 @@
       <Name>TelegramInteraction</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

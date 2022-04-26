@@ -104,7 +104,7 @@ Partial Class Main
         Me.btnSettings.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnSettings.Size = New System.Drawing.Size(233, 60)
         Me.btnSettings.TabIndex = 5
-        Me.btnSettings.Text = "Settings"
+        Me.btnSettings.Text = " Settings"
         Me.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnSettings.UseVisualStyleBackColor = False
@@ -269,6 +269,7 @@ Partial Class Main
         '
         'MapControl1
         '
+        Me.MapControl1.BackColor = System.Drawing.Color.Gray
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray

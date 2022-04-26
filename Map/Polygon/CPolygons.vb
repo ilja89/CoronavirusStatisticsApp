@@ -14,6 +14,7 @@ Public Class CPolygons
     Private _polygons As List(Of CPolygon)
     Private _bitmapSize As Size
     Private _bitmapDefaultGradient As CGradient
+    Public pb2 As PictureBox
     ''' <summary>
     ''' Gets or sets polygon under requested <paramref name="index"/>
     ''' </summary>
@@ -119,7 +120,7 @@ Public Class CPolygons
                        Optional withNames As Boolean = True,
                        Optional simplePolygonsDraw As Boolean = False,
                        Optional simpleDefaultBackgroundDraw As Boolean = False,
-                       Optional baseImage As Image = Nothing)
+                       ByRef Optional baseImage As Image = Nothing)
         If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
             If (baseImage Is Nothing) Then
@@ -180,6 +181,8 @@ Public Class CPolygons
                 Next
             End If
             pb.Invalidate()
+        Else
+            Throw New Exception("Incorrect image properties in CPolygons->DrawAll(). Incorrect bitmap size or no base image")
         End If
     End Sub
 

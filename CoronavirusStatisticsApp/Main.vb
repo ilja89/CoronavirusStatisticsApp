@@ -1,5 +1,6 @@
 ﻿Imports CoronaStatisticsGetter
 Imports FontAwesome.Sharp
+Imports System.Math
 
 Public Class Main
     'Details declaration
@@ -27,6 +28,10 @@ Public Class Main
 
     Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Add event handlers
+        AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
+
+        ' Initialize components
         request = New CRequest(_cachePath)
 
         InitMap()
@@ -34,6 +39,7 @@ Public Class Main
         CurrentIconLabel.Text = "Home"
         MapHide()
         CreateLoadingOverlay()
+
         ' Data updating
         Try
             If (Await saveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
@@ -188,12 +194,17 @@ DataUpdate:     setProgress(60)
             'Button
             currentBtn = CType(senderBtn, IconButton)
             _lastButtonColor = currentBtn.BackColor
-            currentBtn.BackColor = Color.FromArgb(110, 110, 110)
-            currentBtn.ForeColor = customColor
-            currentBtn.IconColor = customColor
-            currentBtn.TextAlign = ContentAlignment.MiddleCenter
-            currentBtn.ImageAlign = ContentAlignment.MiddleRight
-            currentBtn.TextImageRelation = TextImageRelation.TextBeforeImage
+            With currentBtn
+                .BackColor = Color.FromArgb(Min(.BackColor.A + 30, 255),
+                                            Min(.BackColor.R + 30, 255),
+                                            Min(.BackColor.G + 30, 255),
+                                            Min(.BackColor.B + 30, 255))
+                .ForeColor = customColor
+                .IconColor = customColor
+                .TextAlign = ContentAlignment.MiddleCenter
+                .ImageAlign = ContentAlignment.MiddleRight
+                .TextImageRelation = TextImageRelation.TextBeforeImage
+            End With
             'Left side
             leftBorderBtn.BackColor = customColor
             leftBorderBtn.Location = New Point(0, currentBtn.Location.Y)
@@ -265,15 +276,19 @@ DataUpdate:     setProgress(60)
     End Sub
 
     Private Sub btnExit_Click(sender As Object, e As EventArgs) Handles btnExit.Click
-        ActivateButton(sender, Color.Pink)
+        ActivateButton(sender, AppSettings.ButtonColorExit)
+        FormClosingHandler()
         Application.Exit()
+    End Sub
+    Private Sub FormClosingHandler() Handles MyBase.Closing
+        saveLoad.SaveAppSettings()
     End Sub
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
         CloseChildForm()
         MapControl1.BringToFront()
         MapShow()
-        ActivateButton(sender, Color.LawnGreen)
+        ActivateButton(sender, AppSettings.ButtonColorMap)
         'StatWin1.Visible = False
 
     End Sub
@@ -282,12 +297,12 @@ DataUpdate:     setProgress(60)
         If MapControl1 IsNot Nothing Then
             MapHide()
         End If
-        ActivateButton(sender, Color.Cyan)
+        ActivateButton(sender, AppSettings.ButtonColorStatistics)
         OpenChildForm(New statGraphs)
     End Sub
 
     Private Sub btnTelegramm_Click(sender As Object, e As EventArgs) Handles btnTelegramm.Click
-        ActivateButton(sender, Color.MediumVioletRed)
+        ActivateButton(sender, AppSettings.ButtonColorTelegram)
 
     End Sub
 
@@ -297,20 +312,17 @@ DataUpdate:     setProgress(60)
     End Sub
 
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
-        ActivateButton(sender, Color.FromArgb(205, 205, 13))
-
+        If MapControl1 IsNot Nothing Then
+            MapHide()
+        End If
+        ActivateButton(sender, AppSettings.ButtonColorSettings)
+        OpenChildForm(New settings)
     End Sub
 
     Private Sub MapHide()
         MapControl1.Visible = False
-        If (MapControl1.PictureBoxImage IsNot Nothing) Then
-            saveLoad.SaveTo(MapControl1.PictureBoxImage, _cachePath, "MapControlImage")
-            MapControl1.PictureBoxImage.Dispose()
-            MapControl1.PictureBoxImage = Nothing
-        End If
     End Sub
     Private Sub MapShow()
-        MapControl1.PictureBoxImage = saveLoad.LoadFrom(_cachePath, "MapControlImage")
         MapControl1.Visible = True
         If (currentChildForm IsNot Nothing) Then
             Dim oldCurrentChildForm As Form = currentChildForm
@@ -413,6 +425,25 @@ DataUpdate:     setProgress(60)
             popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
             popup.countyName.Text = polygonName
         End If
+    End Sub
+
+    Private Sub ColorSettingsAppliedHandler()
+        MapControl1.DefBgCenterColor = MainColor
+        MapControl1.DefBgSideColor = SecondaryColor
+        MapControl1.MapUpdate()
+        PanelBar.BackColor = SecondaryColor
+        PanelDesktop.BackColor = SecondaryColor
+        PanelLogo.BackColor = SecondaryColor
+        MenuPanel.BackColor = SecondaryColor
+        BoxLogo.BackColor = SecondaryColor
+        btnExit.BackColor = SecondaryColor
+        btnExtra2.BackColor = SecondaryColor
+        btnMap.BackColor = SecondaryColor
+        btnSettings.BackColor = SecondaryColor
+        btnStatistics.BackColor = SecondaryColor
+        btnTelegramm.BackColor = SecondaryColor
+        leftBorderBtn.BackColor = SecondaryColor
+        _lastButtonColor = SecondaryColor
     End Sub
 
     Private Sub setProgress(newStatus As Integer)
