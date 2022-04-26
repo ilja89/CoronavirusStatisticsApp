@@ -11,6 +11,7 @@ Imports System.Drawing.Drawing2D
 ''' Used to make a list of <see cref="CPolygon"/> and treat them in more convenient form
 ''' </summary>
 Public Class CPolygons
+    Implements IPolygons
     Private _polygons As List(Of CPolygon)
     Private _bitmapSize As Size
     Private _bitmapDefaultGradient As CGradient
@@ -20,7 +21,7 @@ Public Class CPolygons
     ''' </summary>
     ''' <param name="index">Index of aim polygon</param>
     ''' <returns></returns>
-    Default Public Property Element(index As Integer) As CPolygon
+    Default Public Property Element(index As Integer) As CPolygon Implements IPolygons.Element
         Get
             Return _polygons(index)
         End Get
@@ -32,7 +33,7 @@ Public Class CPolygons
     ''' Returns number of polygons in list
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Count As Integer
+    Public ReadOnly Property Count As Integer Implements IPolygons.Count
         Get
             Return _polygons.Count
         End Get
@@ -41,7 +42,7 @@ Public Class CPolygons
     ''' Default background gradient. Used in <seealso cref="DrawAll(PictureBox, Boolean, Color, Color, Font, Boolean, Boolean, Boolean, Image)"/> if there are no BaseImage selected
     ''' </summary>
     ''' <returns></returns>
-    Public Property DefBgGradient As CGradient
+    Public Property DefBgGradient As CGradient Implements IPolygons.DefBgGradient
         Get
             Return _bitmapDefaultGradient
         End Get
@@ -58,7 +59,7 @@ Public Class CPolygons
     ''' Adds new polygon in the end of list
     ''' </summary>
     ''' <param name="newPolygon"></param>
-    Public Sub Add(newPolygon As CPolygon)
+    Public Sub Add(newPolygon As CPolygon) Implements IPolygons.Add
         _polygons.Add(newPolygon)
     End Sub
     ''' <summary>
@@ -66,7 +67,7 @@ Public Class CPolygons
     ''' </summary>
     ''' <param name="aimName">Name of aim polygon</param>
     ''' <returns></returns>
-    Public Function GetPolygonWhereName(aimName As String) As CPolygon
+    Public Function GetPolygonWhereName(aimName As String) As CPolygon Implements IPolygons.GetPolygonWhereName
         For Each polygon As CPolygon In _polygons
             If (polygon.Name = aimName) Then
                 Return polygon
@@ -79,7 +80,7 @@ Public Class CPolygons
     ''' </summary>
     ''' <param name="aimName">Name of aim polygons</param>
     ''' <param name="gradient">Gradient to use</param>
-    Public Sub SetGradientWhereName(aimName As String, gradient As CGradient)
+    Public Sub SetGradientWhereName(aimName As String, gradient As CGradient) Implements IPolygons.SetGradientWhereName
         For Each polygon As CPolygon In _polygons
             If (polygon.Name = aimName) Then
                 polygon.GradientBrushCenterColor = gradient.CenterColor
@@ -92,7 +93,7 @@ Public Class CPolygons
     ''' </summary>
     ''' <param name="aimKey">Key of aim polygons</param>
     ''' <param name="gradient">Gradient to use</param>
-    Public Sub SetGradientWhereKey(aimKey As String, gradient As CGradient)
+    Public Sub SetGradientWhereKey(aimKey As String, gradient As CGradient) Implements IPolygons.SetGradientWhereKey
         For Each polygon As CPolygon In _polygons
             If (polygon.Key = aimKey) Then
                 polygon.GradientBrushCenterColor = gradient.CenterColor
@@ -120,7 +121,7 @@ Public Class CPolygons
                        Optional withNames As Boolean = True,
                        Optional simplePolygonsDraw As Boolean = False,
                        Optional simpleDefaultBackgroundDraw As Boolean = False,
-                       ByRef Optional baseImage As Image = Nothing)
+                       Optional baseImage As Image = Nothing) Implements IPolygons.DrawAll
         If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
             If (baseImage Is Nothing) Then

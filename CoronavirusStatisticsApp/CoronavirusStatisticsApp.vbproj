@@ -98,7 +98,9 @@
     <Compile Include="Controls\loadingControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Edited Classes\CStatSaveLoad_Edited.vb" />
+    <Compile Include="Edited Classes\CConstants.vb" />
+    <Compile Include="Edited Classes\CStatSaveLoad_ForLoadingControl.vb" />
+    <Compile Include="Edited Classes\IStatSavedLoad_ForLoadingControl.vb" />
     <Compile Include="Forms\mapDebug.Designer.vb">
       <DependentUpon>mapDebug.vb</DependentUpon>
     </Compile>

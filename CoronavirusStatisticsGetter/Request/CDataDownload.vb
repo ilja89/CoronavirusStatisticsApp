@@ -13,10 +13,13 @@ Imports Newtonsoft.Json.Linq
 Imports System.Math
 Imports System.Reflection.MethodInfo
 ''' <summary>
-''' This class is used to download raw data from <strong>Digilugu</strong> <see href="https://opendata.digilugu.ee/"></see> servers and other sources.
+''' This class is used to download raw data from <strong>Digilugu</strong> 
+''' <see href="https://opendata.digilugu.ee/"></see> servers and other sources.
 ''' It doesn't execute deep processing of data.
 ''' </summary>
 Public Class CDataDownload
+    Implements IDataDowload
+
     Private Declare Function GetTickCount64 Lib "kernel32" () As Long
     ''' <summary>
     ''' Waits for <paramref name="delayms"/> milliseconds.
@@ -37,7 +40,9 @@ Public Class CDataDownload
     ''' <param name="ex"></param>
     ''' <param name="tries"></param>
     ''' <param name="methodName"></param>
-    Private Sub HandleException(ex As Exception, ByRef tries As Integer, methodName As String)
+    Private Sub HandleException(ex As Exception, ByRef tries As Integer,
+                                methodName As String)
+
         If (ex.GetType.Name = "WebException" And tries < 3) Then
             Console.WriteLine(ex.ToString)
             Sleep(1000)
@@ -59,7 +64,9 @@ Public Class CDataDownload
     ''' <item>"TotalCount" - numeber of vaccinated per all time</item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetVaccinationStatByCountyRaw() As Task(Of CStatList)
+    Public Async Function GetVaccinationStatByCountyRaw() As _
+        Task(Of CStatList) Implements IDataDowload.GetVaccinationStatByCountyRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -70,7 +77,8 @@ Public Class CDataDownload
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_location_county.csv")
                 data = ParseCSVToCStatList(
             csv,
-            {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation",
+            {"StatisticsDate||Date", "LocationCounty||County", "VaccinationSeries",
+            "MeasurementType||Type", "LocationPopulation",
             "DailyCount", "TotalCount"})
             Catch ex As Exception
                 HandleException(ex, tries, methodName)
@@ -93,7 +101,9 @@ Public Class CDataDownload
     ''' <item>"AgeGroup"</item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetVaccinationStatByAgeGroupRaw() As Task(Of CStatList)
+    Public Async Function GetVaccinationStatByAgeGroupRaw() As _
+        Task(Of CStatList) Implements IDataDowload.GetVaccinationStatByAgeGroupRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -104,7 +114,8 @@ Public Class CDataDownload
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_agegroup.csv")
                 data = ParseCSVToCStatList(
                     csv,
-                    {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "LocationPopulation||GroupSize",
+                    {"StatisticsDate||Date", "VaccinationSeries",
+                    "MeasurementType||Type", "LocationPopulation||GroupSize",
                     "DailyCount", "TotalCount", "PopulationCoverage", "AgeGroup"})
             Catch ex As Exception
                 HandleException(ex, tries, methodName)
@@ -113,7 +124,8 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data 
+    ''' into cache folder and then use CRequest.</strong><br/>
     ''' Get national statistics on vaccination against Covid-19.<br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date" - date of entry<br/></item>
@@ -124,7 +136,9 @@ Public Class CDataDownload
     ''' <item>"PopulationCoverage"<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetVaccinationStatGeneralRaw() As Task(Of CStatList)
+    Public Async Function GetVaccinationStatGeneralRaw() As _
+        Task(Of CStatList) Implements IDataDowload.GetVaccinationStatGeneralRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -134,7 +148,9 @@ Public Class CDataDownload
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/covid19/vaccination/v3/opendata_covid19_vaccination_total.csv")
                 data = ParseCSVToCStatList(
                     csv,
-                    {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type", "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage", "LocationPopulation||EstoniaPopulation"})
+                    {"StatisticsDate||Date", "VaccinationSeries", "MeasurementType||Type",
+                    "DailyCount", "TotalCount", "PopulationCoverage||VaccinatedPercentage",
+                    "LocationPopulation||EstoniaPopulation"})
                 data.Where("VaccinationSeries", "1")
             Catch ex As Exception
                 HandleException(ex, tries, methodName)
@@ -152,7 +168,9 @@ Public Class CDataDownload
     ''' <item>"Per100k" - coverage of population, ratio per 100k<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetTestStatPositiveGeneralRaw() As Task(Of CStatList)
+    Public Async Function GetTestStatPositiveGeneralRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetTestStatPositiveGeneralRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -183,7 +201,9 @@ Public Class CDataDownload
     ''' <item>"DailyTests" - daily number of tests<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetTestStatCountyRaw() As Task(Of CStatList)
+    Public Async Function GetTestStatCountyRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetTestStatCountyRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -193,7 +213,8 @@ Public Class CDataDownload
                 Dim csv As String = Await client.DownloadStringTaskAsync("https://opendata.digilugu.ee/opendata_covid19_test_county_all.csv")
                 data = ParseCSVToCStatList(
                     csv,
-                    {"StatisticsDate||Date", "County", "ResultValue||Result", "TotalTests", "DailyTests"})
+                    {"StatisticsDate||Date", "County", "ResultValue||Result",
+                    "TotalTests", "DailyTests"})
                 data.WhereNot("County", "")
             Catch ex As Exception
                 HandleException(ex, tries, methodName)
@@ -202,7 +223,8 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data 
+    ''' into cache folder and then use CRequest.</strong><br/>
     ''' Average age of people tested this day.<br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date" - date of entry<br/></item>
@@ -211,7 +233,9 @@ Public Class CDataDownload
     ''' <item>"AverageAge" - average age of this group<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetTestStatByAverageAgeRaw() As Task(Of CStatList)
+    Public Async Function GetTestStatByAverageAgeRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetTestStatByAverageAgeRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -229,15 +253,20 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
-    ''' The average age and average age grouped by genders of hospitalized patients diagnosed with Covid-19. <br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into 
+    ''' cache folder and then use CRequest.</strong><br/>
+    ''' The average age and average age grouped by genders of hospitalized 
+    ''' patients diagnosed with Covid-19. <br/>
     ''' Fields:<br/><list type="bullet">
-    ''' <item>"Gender" - gender of group, gender of "" or null means what this is average value between 
+    ''' <item>"Gender" - gender of group, gender of "" or null means what 
+    ''' this is average value between 
     ''' male and female groups<br/></item>
     ''' <item>"AverageAge" - average age of group<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetHospitalizationAveragePatientAgeCurrentRaw() As Task(Of CStatList)
+    Public Async Function GetHospitalizationAveragePatientAgeCurrentRaw() As _
+        Task(Of CStatList) Implements IDataDowload.GetHospitalizationAveragePatientAgeCurrentRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -255,7 +284,8 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data 
+    ''' into cache folder and then use CRequest.</strong><br/>
     ''' Total number of patients per gender and age group hospitalized<br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Gender" - patient gender<br/></item>
@@ -263,7 +293,9 @@ Public Class CDataDownload
     ''' <item>"PatientCount" - number of patients<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetHospitalizationPatientInfoCurrentRaw() As Task(Of CStatList)
+    Public Async Function GetHospitalizationPatientInfoCurrentRaw() As _
+        Task(Of CStatList) Implements IDataDowload.GetHospitalizationPatientInfoCurrentRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -281,16 +313,21 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into 
+    ''' cache folder and then use CRequest.</strong><br/>
     ''' A time series is issued for the average number of days a patient is hospitalized.<br/>
-    ''' The average number of days is based on the number of cases that ended, and the average duration of illness in patients on a specific date is calculated.<br/>
-    ''' Timeline may not have data for every date if the patients' medical records on that date have not yet been completed.
+    ''' The average number of days is based on the number of cases that ended, 
+    ''' and the average duration of illness in patients on a specific date is calculated.<br/>
+    ''' Timeline may not have data for every date if the patients' medical 
+    ''' records on that date have not yet been completed.
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date" - entry date<br/></item>
     ''' <item>"AverageDays"<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetAverageHospitalizationTimeRaw() As Task(Of CStatList)
+    Public Async Function GetAverageHospitalizationTimeRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetAverageHospitalizationTimeRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -308,19 +345,26 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data 
+    ''' into cache folder and then use CRequest.</strong><br/>
     ''' A statistical timeline for hospitalizations diagnosed with Covid-19 is issued.<br/>
     ''' A distinction is made between patients and cases.<br/>
-    ''' A case is considered to be a hospitalization of a patient with a diagnosis of Covid-19, which may involve movement between hospitals.<br/>
+    ''' A case is considered to be a hospitalization of a patient with 
+    ''' a diagnosis of Covid-19, which may involve movement between hospitals.<br/>
     ''' The case ends with discharge from the hospital.<br/>
-    ''' Several cases can also be counted per patient if the patient is re-admitted to the hospital after the completed case.<br/>
-    ''' For technical and methodological reasons, timeline may show minor statistical deviations from previously published statistics.<br/>
-    ''' This is due to the time recording of the timeline and the receipt of data or corrections for the current day.<br/>
-    ''' The open data shall reflect the most recent state of knowledge, including revisions and data quality improvements.<br/>
+    ''' Several cases can also be counted per patient if the patient is re-admitted to 
+    ''' the hospital after the completed case.<br/>
+    ''' For technical and methodological reasons, timeline may show minor statistical 
+    ''' deviations from previously published statistics.<br/>
+    ''' This is due to the time recording of the timeline and the receipt of data or 
+    ''' corrections for the current day.<br/>
+    ''' The open data shall reflect the most recent state of knowledge, including revisions and 
+    ''' data quality improvements.<br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date" - date of entry<br/></item>
     ''' <item>"Hospitalised" - patients hospitalized<br/></item>
-    ''' <item>"ActivelyHospitalised" - patients really hospitalized and not discharged<br/></item>
+    ''' <item>"ActivelyHospitalised" - patients really hospitalized and not 
+    ''' discharged<br/></item>
     ''' <item>"OnVentilation"<br/></item>
     ''' <item>"InIntensive"<br/></item>
     ''' <item>"Discharged" - patients who left the hospital<br/></item>
@@ -332,7 +376,9 @@ Public Class CDataDownload
     ''' <item>"TotalPatientsDischarged"<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetHospitalizationPatientsRaw() As Task(Of CStatList)
+    Public Async Function GetHospitalizationPatientsRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetHospitalizationPatientsRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -353,14 +399,17 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into 
+    ''' cache folder and then use CRequest.</strong><br/>
     ''' Deceased number this day<br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date" - date<br/></item>
     ''' <item>"Deceased" - number of people died<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetDeceasedRaw() As Task(Of CStatList)
+    Public Async Function GetDeceasedRaw() As Task(Of CStatList) _
+        Implements IDataDowload.GetDeceasedRaw
+
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0
@@ -374,7 +423,8 @@ Public Class CDataDownload
                 data = New CStatList({{0, "Date", 0}, {0, "Deceased", 1}})
                 Dim i As Integer = Min(dates.Count, deceasedNumber.Count) - 1
                 While (i >= 0)
-                    data.AddItemDirectly({dates(i).Value(Of String), deceasedNumber(i).Value(Of String)})
+                    data.AddItemDirectly({dates(i).Value(Of String),
+                                         deceasedNumber(i).Value(Of String)})
                     i -= 1
                 End While
             Catch ex As Exception
@@ -384,14 +434,15 @@ Public Class CDataDownload
         Return data
     End Function
     ''' <summary>
-    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data into cache folder and then use CRequest.</strong><br/>
+    ''' <strong>IMPORTANT! Raw info, to get prepared info load required data 
+    ''' into cache folder and then use CRequest.</strong><br/>
     ''' Get number of people currently sick at selected date. <br/>
     ''' (Not processed, no real info, only usable after processed with CRequest) <br/>
     ''' Fields:<br/><list type="bullet">
     ''' <item>"Date"<br/></item>
     ''' </list></summary>
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
-    Public Async Function GetSickRaw() As Task(Of CStatList)
+    Public Async Function GetSickRaw() As Task(Of CStatList) Implements IDataDowload.GetSickRaw
         Dim client As New WebClient
         Dim data As CStatList = Nothing
         Dim tries As Integer = 0

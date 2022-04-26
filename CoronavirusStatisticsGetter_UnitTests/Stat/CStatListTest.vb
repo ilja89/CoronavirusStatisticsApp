@@ -11,7 +11,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class CStatListTest
 
-    <TestMethod()> Public Sub New_Test()
+    Implements IStatListTest
+
+    <TestMethod()> Public Sub New_Test() Implements IStatListTest.New_Test
         Dim list As New CoronaStatisticsGetter.CStatList({{"Name", "NametosaveWith", "0"},
                                                          {"Name2", "NametosaveWith2", "1"}})
         Dim resultFields As String() = list.Fields
