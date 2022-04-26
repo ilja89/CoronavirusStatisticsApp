@@ -12,6 +12,8 @@ Public Class moreStatCounty
         Chart1.Series(0).ChartType = SeriesChartType.Line
         Chart1.Series(0).BorderWidth = 3
         Chart1.Series(0).IsValueShownAsLabel = False
+        AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
+        ColorSettingsAppliedHandler()
     End Sub
     Private Sub DatePicker_CloseUp(sender As Object, e As EventArgs)
         Dim newDateFrom As DateTime = fromDate.Value
@@ -108,6 +110,14 @@ Public Class moreStatCounty
         Next
         Return 0
     End Function
+    Private Sub ColorSettingsAppliedHandler()
+        Panel1.BackColor = MainColor
+        Chart1.BackColor = SecondaryColor
+        maakondLabel.BackColor = SecondaryColor
+    End Sub
+    Private Sub MeClosingHandler() Handles Me.Closing
+        RemoveHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
+    End Sub
     Private Function DateTimeToString(dateTimeObject As DateTime)
         Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
     End Function

@@ -160,9 +160,9 @@ Partial Class settings
         '
         'buttonChangeApplicationColors
         '
-        Me.buttonChangeApplicationColors.Location = New System.Drawing.Point(212, 285)
+        Me.buttonChangeApplicationColors.Location = New System.Drawing.Point(296, 285)
         Me.buttonChangeApplicationColors.Name = "buttonChangeApplicationColors"
-        Me.buttonChangeApplicationColors.Size = New System.Drawing.Size(194, 23)
+        Me.buttonChangeApplicationColors.Size = New System.Drawing.Size(110, 23)
         Me.buttonChangeApplicationColors.TabIndex = 13
         Me.buttonChangeApplicationColors.Text = "Change"
         Me.buttonChangeApplicationColors.UseVisualStyleBackColor = True
@@ -170,9 +170,9 @@ Partial Class settings
         'buttonResetApplicationColors
         '
         Me.buttonResetApplicationColors.BackColor = System.Drawing.Color.Transparent
-        Me.buttonResetApplicationColors.Location = New System.Drawing.Point(212, 314)
+        Me.buttonResetApplicationColors.Location = New System.Drawing.Point(296, 314)
         Me.buttonResetApplicationColors.Name = "buttonResetApplicationColors"
-        Me.buttonResetApplicationColors.Size = New System.Drawing.Size(194, 23)
+        Me.buttonResetApplicationColors.Size = New System.Drawing.Size(110, 23)
         Me.buttonResetApplicationColors.TabIndex = 14
         Me.buttonResetApplicationColors.Text = "Reset"
         Me.buttonResetApplicationColors.UseVisualStyleBackColor = False
@@ -183,11 +183,11 @@ Partial Class settings
         Me.listBoxApplicationElement.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.listBoxApplicationElement.FormattingEnabled = True
         Me.listBoxApplicationElement.ItemHeight = 16
-        Me.listBoxApplicationElement.Items.AddRange(New Object() {"Main Color", "Secondary Color", "Map Button Color", "Statistics Button Color", "Telegram Button Color", "Settings Button Color", "Exit Button Color"})
+        Me.listBoxApplicationElement.Items.AddRange(New Object() {"Main Color", "Secondary Color", "Map Button Color", "Statistics Button Color", "Telegram Button Color", "Settings Button Color", "Exit Button Color", "Map Popup Color Main", "Map Popup Color Secondary"})
         Me.listBoxApplicationElement.Location = New System.Drawing.Point(12, 285)
         Me.listBoxApplicationElement.Name = "listBoxApplicationElement"
         Me.listBoxApplicationElement.ScrollAlwaysVisible = True
-        Me.listBoxApplicationElement.Size = New System.Drawing.Size(194, 148)
+        Me.listBoxApplicationElement.Size = New System.Drawing.Size(278, 148)
         Me.listBoxApplicationElement.TabIndex = 15
         '
         'colorDialog1
