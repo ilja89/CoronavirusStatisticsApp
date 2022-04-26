@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim CGradient3 As Map.CGradient = New Map.CGradient()
+        Dim CGradient1 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -104,7 +104,7 @@ Partial Class Main
         Me.btnSettings.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnSettings.Size = New System.Drawing.Size(233, 60)
         Me.btnSettings.TabIndex = 5
-        Me.btnSettings.Text = "Settings"
+        Me.btnSettings.Text = " Settings"
         Me.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnSettings.UseVisualStyleBackColor = False
@@ -269,12 +269,13 @@ Partial Class Main
         '
         'MapControl1
         '
+        Me.MapControl1.BackColor = System.Drawing.Color.Gray
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray
-        CGradient3.CenterColor = System.Drawing.Color.Green
-        CGradient3.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = CGradient3
+        CGradient1.CenterColor = System.Drawing.Color.Green
+        CGradient1.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = CGradient1
         Me.MapControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True

@@ -9,17 +9,6 @@ Public Class statGraphs
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Dim request As New CRequest(_cachePath)
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
-
-        totalSick.To = 111000
-        totalVact.To = 111000
-        totalPos.To = 111000
-        totalHospitalized.To = 111000
-        hospitalizedCurrent.To = 111000
-        totalDied.To = 111000
-
-
         totalSick.To = 1331000
         totalVact.To = 1331000
         totalPos.To = 1331000
@@ -40,9 +29,14 @@ Public Class statGraphs
         totalHospitalized.Value = covidHospitalizedGen.GetField(covidHospitalizedGen.Count - 1, "TotalCases")
         hospitalizedCurrent.Value = covidHospitalizedCurrentGen.GetField(covidHospitalizedCurrentGen.Count - 1, "PatientCount")
         totalDied.Value = covidDeceasedGen.GetField(0, "Deceased")
+        AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
+        ColorSettingsAppliedHandler()
     End Sub
 
     Private Sub totalDeceased_ChildChanged(sender As Object, e As Integration.ChildChangedEventArgs) Handles totalHospitalized.ChildChanged
 
+    End Sub
+    Private Sub ColorSettingsAppliedHandler()
+        Panel1.BackColor = MainColor
     End Sub
 End Class
