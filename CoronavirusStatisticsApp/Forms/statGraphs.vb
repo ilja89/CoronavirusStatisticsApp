@@ -15,7 +15,7 @@ Public Class statGraphs
         totalHospitalized.To = 1331000
         hospitalizedCurrent.To = 1331000
         totalDied.To = 1331000
->>>>>>> d6b795599126a0d262e61f2126a8326b9709211a
+
         covidTestPosGen = request.GetTestStatPositiveGeneral()
         covidVactGen = request.GetVaccinationStatGeneral()
         covidSickGen = request.GetSick()
