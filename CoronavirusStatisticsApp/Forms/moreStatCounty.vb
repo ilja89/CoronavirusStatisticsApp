@@ -66,11 +66,17 @@ Public Class moreStatCounty
         Chart1.Series(0).IsValueShownAsLabel = True
         maakondLabel.Text = polygonKey
 
-        Dim keys() As String = {"Harju maakond", "Ida-Viru maakond", "Lääne-Viru maakond", "Järva maakond", "Jõgeva maakond", "Võru maakond",
-            "Põlva maakond", "Valga maakond", "Tartu maakond", "Pärnu maakond", "Rapla maakond", "Lääne maakond", "Saare maakond", "Hiiu maakond",
+        Dim keys() As String = {"Harju maakond", "Ida-Viru maakond", "Lääne-Viru maakond",
+            "Järva maakond", "Jõgeva maakond", "Võru maakond",
+            "Põlva maakond", "Valga maakond", "Tartu maakond", "Pärnu maakond",
+            "Rapla maakond", "Lääne maakond", "Saare maakond", "Hiiu maakond",
            "Viljandi maakond"}
-        Dim value() As Integer = {621281, 131913, 58402, 29817, 13262, 34898, 24473, 11792, 95430, 50639, 33116, 24301, 30973,
-            9381, 45877}
+        Dim value() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
+            AppConstants.LAANE_VURU_POPULATION, AppConstants.JARVA_POPULATION,
+            AppConstants.JOGEVA_POPULATION, AppConstants.VORU_POPULATION, AppConstants.POLVA_POPULATION,
+            AppConstants.VALGA_POPULATION, AppConstants.TARTU_POPULATION, AppConstants.PARNU_POPULATION,
+            AppConstants.RAPLA_POPULATION, AppConstants.LAANE_POPULATION, AppConstants.SAARE_POPULATION,
+            AppConstants.HIIU_POPULATION, AppConstants.VILJANDI_POPULATION}
 
         _statObject = newStatObject
         _statObjectValueField = newStatObjectValueField
