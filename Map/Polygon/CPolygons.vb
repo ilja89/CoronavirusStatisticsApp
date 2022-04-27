@@ -121,7 +121,7 @@ Public Class CPolygons
                        Optional withNames As Boolean = True,
                        Optional simplePolygonsDraw As Boolean = False,
                        Optional simpleDefaultBackgroundDraw As Boolean = False,
-                       Optional baseImage As Image = Nothing) Implements IPolygons.DrawAll
+                       ByRef Optional baseImage As Image = Nothing) Implements IPolygons.DrawAll
         If (((_bitmapSize.Width > 0 AndAlso _bitmapSize.Height > 0) Or baseImage IsNot Nothing) AndAlso _polygons.Count > 0) Then
             Dim bmp As Bitmap
             If (baseImage Is Nothing) Then

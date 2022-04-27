@@ -10,6 +10,8 @@ Public Class AppSettingsSerializable
     Private _buttonColorTelegram As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorSettings As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorExit As Color = AppSettings.ButtonColorExit
+    Private _popupColorMain As Color = AppSettings.PopupColorMain
+    Private _popupColorSecondary As Color = AppSettings.PopupColorSecondary
     Public Sub UpdateAppSettings()
         AppSettings.CachePath = _CachePath
         AppSettings.CSVExporterDelimiter = _CSVExporterDelimiter

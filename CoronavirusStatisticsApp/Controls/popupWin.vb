@@ -7,8 +7,8 @@ Public Class popupWin
     Private _covidSickStat As CStatList
     Private _covidVactStat As CStatList
     Public Sub popupWin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
+        AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
+        ColorSettingsAppliedHandler()
     End Sub
 
 
@@ -65,5 +65,9 @@ Public Class popupWin
         _covidTestStat = NewTestStat
         _covidSickStat = NewSickStat
         _covidVactStat = NewVactStat
+    End Sub
+    Private Sub ColorSettingsAppliedHandler()
+        Panel2.BackColor = PopupColorMain
+        Panel1.BackColor = PopupColorSecondary
     End Sub
 End Class
