@@ -10,9 +10,11 @@
 ''' Used to save gradient colors.
 ''' </summary>
 Public Class CGradient
+    Implements IGradient
+
     Private _centerColor As Color
     Private _sideColor As Color
-    Public Property CenterColor() As Color
+    Public Property CenterColor() As Color Implements IGradient.CenterColor
         Get
             Return _centerColor
         End Get
@@ -20,7 +22,7 @@ Public Class CGradient
             _centerColor = value
         End Set
     End Property
-    Public Property SideColor() As Color
+    Public Property SideColor() As Color Implements IGradient.SideColor
         Get
             Return _sideColor
         End Get

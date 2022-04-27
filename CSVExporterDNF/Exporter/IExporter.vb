@@ -18,5 +18,6 @@
     ''' Saves data to CSV file using path chosen in <see cref="setFileToSave"/>
     ''' </summary>
     ''' <returns></returns>
-    Function saveDataToCSV(data() As String, Optional appendData As Boolean = False) As Integer
+    Function saveDataToCSV(data() As String, Optional appendData _
+                           As Boolean = False) As Integer
 End Interface
