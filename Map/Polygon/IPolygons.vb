@@ -21,7 +21,7 @@
                        Optional withNames As Boolean = True,
                        Optional simplePolygonsDraw As Boolean = False,
                        Optional simpleDefaultBackgroundDraw As Boolean = False,
-                       Optional baseImage As Image = Nothing)
+                       ByRef Optional baseImage As Image = Nothing)
 
 
 End Interface

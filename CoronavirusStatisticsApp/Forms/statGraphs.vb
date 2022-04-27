@@ -11,15 +11,12 @@ Public Class statGraphs
     Dim request As New CRequest(_cachePath)
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-
-        Dim Population As CConstants
-        Population = New CConstants
-        totalSick.To = Population.Estonia_Population
-        totalVact.To = Population.Estonia_Population
-        totalPos.To = Population.Estonia_Population
-        totalHospitalized.To = Population.Estonia_Population
-        hospitalizedCurrent.To = Population.Estonia_Population
-        totalDied.To = Population.Estonia_Population
+        totalSick.To = AppConstants.ESTONIA_POPULATION
+        totalVact.To = AppConstants.ESTONIA_POPULATION
+        totalPos.To = AppConstants.ESTONIA_POPULATION
+        totalHospitalized.To = AppConstants.ESTONIA_POPULATION
+        hospitalizedCurrent.To = AppConstants.ESTONIA_POPULATION
+        totalDied.To = AppConstants.ESTONIA_POPULATION
         covidTestPosGen = request.GetTestStatPositiveGeneral()
         covidVactGen = request.GetVaccinationStatGeneral()
         covidSickGen = request.GetSick()

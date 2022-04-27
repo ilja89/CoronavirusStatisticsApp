@@ -1,11 +1,14 @@
 ﻿Public Interface IStatSavedLoad_ForLoadingControl
-
+    Inherits CoronaStatisticsGetter.IStatSaveLoad
     ''' <summary>
     ''' UpdateData to update data from database
     ''' </summary>
     ''' <returns></returns>
     ''' 
-    Function UpdateData(path As String, progressValueUpdate _
-                        As Action(Of Integer)) As Task(Of Boolean)
+    Shadows Function UpdateData(path As String,
+                                progressValueUpdate As Action(Of Integer)) As Task(Of Boolean)
 
+    Sub SaveAppSettings()
+
+    Sub LoadAppSettings()
 End Interface
