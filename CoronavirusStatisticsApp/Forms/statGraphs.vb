@@ -10,7 +10,6 @@ Public Class statGraphs
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Dim request As New CRequest(_cachePath)
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
         totalSick.To = AppConstants.ESTONIA_POPULATION
         totalVact.To = AppConstants.ESTONIA_POPULATION
         totalPos.To = AppConstants.ESTONIA_POPULATION

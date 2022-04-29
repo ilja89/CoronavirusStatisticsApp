@@ -71,12 +71,12 @@ Public Class moreStatCounty
             "Põlva maakond", "Valga maakond", "Tartu maakond", "Pärnu maakond",
             "Rapla maakond", "Lääne maakond", "Saare maakond", "Hiiu maakond",
            "Viljandi maakond"}
-        Dim value() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
-            AppConstants.LAANE_VURU_POPULATION, AppConstants.JARVA_POPULATION,
-            AppConstants.JOGEVA_POPULATION, AppConstants.VORU_POPULATION, AppConstants.POLVA_POPULATION,
-            AppConstants.VALGA_POPULATION, AppConstants.TARTU_POPULATION, AppConstants.PARNU_POPULATION,
-            AppConstants.RAPLA_POPULATION, AppConstants.LAANE_POPULATION, AppConstants.SAARE_POPULATION,
-            AppConstants.HIIU_POPULATION, AppConstants.VILJANDI_POPULATION}
+        'Dim value() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
+        '    AppConstants.LAANE_VURU_POPULATION, AppConstants.JARVA_POPULATION,
+        '    AppConstants.JOGEVA_POPULATION, AppConstants.VORU_POPULATION, AppConstants.POLVA_POPULATION,
+        '    AppConstants.VALGA_POPULATION, AppConstants.TARTU_POPULATION, AppConstants.PARNU_POPULATION,
+        '    AppConstants.RAPLA_POPULATION, AppConstants.LAANE_POPULATION, AppConstants.SAARE_POPULATION,
+        '    AppConstants.HIIU_POPULATION, AppConstants.VILJANDI_POPULATION}
 
         _statObject = newStatObject
         _statObjectValueField = newStatObjectValueField
@@ -84,7 +84,7 @@ Public Class moreStatCounty
         Me.Text = statType
         For i As Integer = 0 To keys.Length - 1
             If keys(i) = polygonKey Then
-                _limit = value(i)
+                '    _limit = value(i)
             End If
         Next
         AddHandler fromDate.CloseUp, AddressOf DatePicker_CloseUp

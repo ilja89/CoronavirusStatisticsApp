@@ -5,7 +5,7 @@ Imports System.Math
 Public Class Main
     'Details declaration
     Private _saveLoad As New CStatSaveLoad_ForLoadingControl
-    Public request As CRequest
+    Public request As IRequest
 
     Private currentBtn As IconButton
     Private leftBorderBtn As Panel

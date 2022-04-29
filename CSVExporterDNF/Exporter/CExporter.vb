@@ -60,6 +60,10 @@
         As Integer Implements IExporter.saveDataToCSV
 
         Dim directory As String = _path.Replace(_fileName, "")
+        If (directory = Nothing) Then
+            Throw New Exception("Empty folder path")
+            Exit Function
+        End If
 
         If (Not IO.Directory.Exists(directory)) Then
             IO.Directory.CreateDirectory(directory)
@@ -69,4 +73,9 @@
         sw.Close()
         Return data.Length
     End Function
+
+    Public Sub New(newDelimiter As String, newTextQualifier As String)
+        _delimiter = newDelimiter
+        _textQualifier = newTextQualifier
+    End Sub
 End Class

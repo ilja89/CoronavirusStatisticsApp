@@ -23,5 +23,7 @@ Public Class AppSettingsSerializable
         AppSettings.ButtonColorTelegram = _buttonColorTelegram
         AppSettings.ButtonColorSettings = _buttonColorSettings
         AppSettings.ButtonColorExit = _buttonColorExit
+        AppSettings.PopupColorMain = _popupColorMain
+        AppSettings.PopupColorSecondary = _popupColorSecondary
     End Sub
 End Class
