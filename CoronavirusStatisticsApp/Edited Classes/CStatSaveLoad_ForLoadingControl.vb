@@ -7,7 +7,7 @@ Public Class CStatSaveLoad_ForLoadingControl
                                              progressValueUpdate As Action(Of Integer)) As Task(Of Boolean) Implements IStatSavedLoad_ForLoadingControl.UpdateData
 
         Dim saveLoad As IStatSavedLoad_ForLoadingControl = New CStatSaveLoad_ForLoadingControl
-        Dim newDataDownload As New CDataDownload
+        Dim newDataDownload As IStatSavedLoad_ForLoadingControl = New CDataDownload
         Dim fileNames() As String = {
             "VaccinationStatByCounty",
             "VaccinationStatByAgeGroup",
