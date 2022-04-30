@@ -100,7 +100,7 @@
     </Compile>
     <Compile Include="Constants\AppConstants.vb" />
     <Compile Include="Edited Classes\CStatSaveLoad_ForLoadingControl.vb" />
-    <Compile Include="Edited Classes\IStatSavedLoad_ForLoadingControl.vb" />
+    <Compile Include="Edited Classes\IStatSaveLoad_ForLoadingControl.vb" />
     <Compile Include="Extensions\MCStatListExtensions.vb" />
     <Compile Include="Forms\mapDebug.Designer.vb">
       <DependentUpon>mapDebug.vb</DependentUpon>

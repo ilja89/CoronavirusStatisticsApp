@@ -1,4 +1,4 @@
-﻿Public Interface IStatSavedLoad_ForLoadingControl
+﻿Public Interface IStatSaveLoad_ForLoadingControl
     Inherits CoronaStatisticsGetter.IStatSaveLoad
     ''' <summary>
     ''' UpdateData to update data from database

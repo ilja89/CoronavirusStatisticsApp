@@ -1,13 +1,13 @@
 ﻿Imports CoronaStatisticsGetter
 Public Class CStatSaveLoad_ForLoadingControl
     Inherits CStatSaveLoad
-    Implements IStatSavedLoad_ForLoadingControl
+    Implements IStatSaveLoad_ForLoadingControl
 
     Public Shadows Async Function UpdateData(path As String,
-                                             progressValueUpdate As Action(Of Integer)) As Task(Of Boolean) Implements IStatSavedLoad_ForLoadingControl.UpdateData
+                                             progressValueUpdate As Action(Of Integer)) As Task(Of Boolean) Implements IStatSaveLoad_ForLoadingControl.UpdateData
 
-        Dim saveLoad As IStatSavedLoad_ForLoadingControl = New CStatSaveLoad_ForLoadingControl
-        Dim newDataDownload As IStatSavedLoad_ForLoadingControl = New CDataDownload
+        Dim saveLoad As IStatSaveLoad_ForLoadingControl = New CStatSaveLoad_ForLoadingControl
+        Dim newDataDownload As CoronaStatisticsGetter.IDataDowload = New CDataDownload
         Dim fileNames() As String = {
             "VaccinationStatByCounty",
             "VaccinationStatByAgeGroup",
@@ -61,11 +61,11 @@ Public Class CStatSaveLoad_ForLoadingControl
         Return True
     End Function
 
-    Public Sub SaveAppSettings() Implements IStatSavedLoad_ForLoadingControl.SaveAppSettings
+    Public Sub SaveAppSettings() Implements IStatSaveLoad_ForLoadingControl.SaveAppSettings
         SaveTo(New AppSettingsSerializable, AppSettings.AppSettingsCachePath, AppSettings.AppSettingsCacheName)
     End Sub
 
-    Public Sub LoadAppSettings() Implements IStatSavedLoad_ForLoadingControl.LoadAppSettings
+    Public Sub LoadAppSettings() Implements IStatSaveLoad_ForLoadingControl.LoadAppSettings
         Dim newAppSettings As AppSettingsSerializable = LoadFrom(AppSettings.AppSettingsCachePath, AppSettings.AppSettingsCacheName)
         newAppSettings.UpdateAppSettings()
         AppSettings.RaiseEventNewColorSettingsApplied()
