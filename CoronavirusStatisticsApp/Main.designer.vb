@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim CGradient2 As Map.CGradient = New Map.CGradient()
+        Dim CGradient1 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -35,6 +35,7 @@ Partial Class Main
         Me.PanelLogo = New System.Windows.Forms.Panel()
         Me.BoxLogo = New System.Windows.Forms.PictureBox()
         Me.PanelBar = New System.Windows.Forms.Panel()
+        Me.mapDateTrackBar = New System.Windows.Forms.TrackBar()
         Me.mapGradientCheckBox = New System.Windows.Forms.CheckBox()
         Me.mapDatePicker = New System.Windows.Forms.DateTimePicker()
         Me.mapStatisticsCombobox = New System.Windows.Forms.ComboBox()
@@ -48,6 +49,7 @@ Partial Class Main
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelBar.SuspendLayout()
+        CType(Me.mapDateTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.PanelDesktop.SuspendLayout()
         Me.SuspendLayout()
@@ -223,6 +225,7 @@ Partial Class Main
         'PanelBar
         '
         Me.PanelBar.BackColor = System.Drawing.Color.DarkGray
+        Me.PanelBar.Controls.Add(Me.mapDateTrackBar)
         Me.PanelBar.Controls.Add(Me.mapGradientCheckBox)
         Me.PanelBar.Controls.Add(Me.mapDatePicker)
         Me.PanelBar.Controls.Add(Me.mapStatisticsCombobox)
@@ -234,11 +237,23 @@ Partial Class Main
         Me.PanelBar.Size = New System.Drawing.Size(1045, 70)
         Me.PanelBar.TabIndex = 1
         '
+        'mapDateTrackBar
+        '
+        Me.mapDateTrackBar.AutoSize = False
+        Me.mapDateTrackBar.Enabled = False
+        Me.mapDateTrackBar.Location = New System.Drawing.Point(252, 25)
+        Me.mapDateTrackBar.Maximum = 100
+        Me.mapDateTrackBar.Name = "mapDateTrackBar"
+        Me.mapDateTrackBar.Size = New System.Drawing.Size(408, 45)
+        Me.mapDateTrackBar.TabIndex = 3
+        Me.mapDateTrackBar.Value = 100
+        Me.mapDateTrackBar.Visible = False
+        '
         'mapGradientCheckBox
         '
         Me.mapGradientCheckBox.AutoSize = True
         Me.mapGradientCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.mapGradientCheckBox.Location = New System.Drawing.Point(664, 29)
+        Me.mapGradientCheckBox.Location = New System.Drawing.Point(872, 29)
         Me.mapGradientCheckBox.Name = "mapGradientCheckBox"
         Me.mapGradientCheckBox.Size = New System.Drawing.Size(161, 24)
         Me.mapGradientCheckBox.TabIndex = 4
@@ -250,7 +265,7 @@ Partial Class Main
         Me.mapDatePicker.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.mapDatePicker.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.mapDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.mapDatePicker.Location = New System.Drawing.Point(458, 29)
+        Me.mapDatePicker.Location = New System.Drawing.Point(666, 29)
         Me.mapDatePicker.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
         Me.mapDatePicker.Name = "mapDatePicker"
         Me.mapDatePicker.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -264,7 +279,7 @@ Partial Class Main
         Me.mapStatisticsCombobox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.mapStatisticsCombobox.FormattingEnabled = True
         Me.mapStatisticsCombobox.Items.AddRange(New Object() {"Vaktsineerimine", "Haiged", "Testid"})
-        Me.mapStatisticsCombobox.Location = New System.Drawing.Point(314, 28)
+        Me.mapStatisticsCombobox.Location = New System.Drawing.Point(108, 25)
         Me.mapStatisticsCombobox.Name = "mapStatisticsCombobox"
         Me.mapStatisticsCombobox.Size = New System.Drawing.Size(138, 28)
         Me.mapStatisticsCombobox.TabIndex = 2
@@ -314,9 +329,9 @@ Partial Class Main
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray
-        CGradient2.CenterColor = System.Drawing.Color.Green
-        CGradient2.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = CGradient2
+        CGradient1.CenterColor = System.Drawing.Color.Green
+        CGradient1.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = CGradient1
         Me.MapControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True
@@ -343,14 +358,15 @@ Partial Class Main
         Me.Controls.Add(Me.PanelDesktop)
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)
-        Me.MinimumSize = New System.Drawing.Size(1158, 536)
+        Me.MinimumSize = New System.Drawing.Size(1294, 800)
         Me.Name = "Main"
-        Me.Text = "CovidTrackr"
+        Me.Text = " "
         Me.MenuPanel.ResumeLayout(False)
         Me.PanelLogo.ResumeLayout(False)
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelBar.ResumeLayout(False)
         Me.PanelBar.PerformLayout()
+        CType(Me.mapDateTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CurrentIcon, System.ComponentModel.ISupportInitialize).EndInit()
         Me.PanelDesktop.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -376,4 +392,5 @@ Partial Class Main
     Friend WithEvents mapStatisticsCombobox As ComboBox
     Friend WithEvents mapDatePicker As DateTimePicker
     Friend WithEvents mapGradientCheckBox As CheckBox
+    Friend WithEvents mapDateTrackBar As TrackBar
 End Class

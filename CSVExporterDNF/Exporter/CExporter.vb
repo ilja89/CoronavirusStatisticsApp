@@ -67,8 +67,12 @@ Public Class CExporter
     ''' Saves data to CSV file using path chosen in <see cref="setFileToSave"/>
     ''' </summary>
     ''' <returns></returns>
-    Private Function saveDataToCSV(data() As String, Optional appendData As Boolean = False) _
+    Private Function saveDataToCSV(inputData() As String, Optional appendData As Boolean = False) _
         As Integer Implements IExporter.saveDataToCSV
+        Dim data() As String = inputData
+        If (appendData) Then
+            data(0) = Nothing
+        End If
         If (_path <> Nothing) Then
             Dim directory As String = _path.Replace(_fileName, "")
             If (directory = Nothing) Then
@@ -79,10 +83,14 @@ Public Class CExporter
             If (Not IO.Directory.Exists(directory)) Then
                 IO.Directory.CreateDirectory(directory)
             End If
-            Dim sw As New IO.StreamWriter(_path, appendData, New Text.UTF32Encoding)
-            sw.Write(String.Join(vbCrLf, data))
-            sw.Close()
-            Return data.Length
+            Try
+                Dim sw As New IO.StreamWriter(_path, appendData, New Text.UTF32Encoding)
+                sw.Write(String.Join(vbCrLf, data))
+                sw.Close()
+                Return data.Length
+            Catch ex As Exception
+                Return -1
+            End Try
         Else
             Return -1
         End If

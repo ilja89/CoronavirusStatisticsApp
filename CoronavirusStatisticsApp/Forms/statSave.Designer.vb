@@ -87,7 +87,7 @@ Partial Class statSave
         '
         Me.infoLabel.AutoSize = True
         Me.infoLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.infoLabel.Location = New System.Drawing.Point(274, 428)
+        Me.infoLabel.Location = New System.Drawing.Point(384, 480)
         Me.infoLabel.Name = "infoLabel"
         Me.infoLabel.Size = New System.Drawing.Size(57, 20)
         Me.infoLabel.TabIndex = 5

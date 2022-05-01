@@ -22,18 +22,20 @@ Partial Class moreStatCounty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Me.fromDate = New System.Windows.Forms.DateTimePicker()
         Me.toDate = New System.Windows.Forms.DateTimePicker()
         Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.absoluteValueCheckBox = New System.Windows.Forms.CheckBox()
         Me.removeCountyButton = New System.Windows.Forms.Button()
-        Me.removeCountyLabel = New System.Windows.Forms.Label()
+        Me.countyActionsLabel = New System.Windows.Forms.Label()
         Me.selectedCountyListBox = New System.Windows.Forms.ListBox()
         Me.addCountyCombobox = New System.Windows.Forms.ComboBox()
         Me.addCountyLabel = New System.Windows.Forms.Label()
+        Me.saveStatButton = New System.Windows.Forms.Button()
+        Me.appendCheckBox = New System.Windows.Forms.CheckBox()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
@@ -63,10 +65,10 @@ Partial Class moreStatCounty
         '
         'Chart1
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea2)
-        Legend2.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend2)
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend1)
         Me.Chart1.Location = New System.Drawing.Point(12, 67)
         Me.Chart1.Name = "Chart1"
         Me.Chart1.Size = New System.Drawing.Size(965, 403)
@@ -76,9 +78,11 @@ Partial Class moreStatCounty
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Gray
+        Me.Panel1.Controls.Add(Me.appendCheckBox)
+        Me.Panel1.Controls.Add(Me.saveStatButton)
         Me.Panel1.Controls.Add(Me.absoluteValueCheckBox)
         Me.Panel1.Controls.Add(Me.removeCountyButton)
-        Me.Panel1.Controls.Add(Me.removeCountyLabel)
+        Me.Panel1.Controls.Add(Me.countyActionsLabel)
         Me.Panel1.Controls.Add(Me.selectedCountyListBox)
         Me.Panel1.Controls.Add(Me.addCountyCombobox)
         Me.Panel1.Controls.Add(Me.addCountyLabel)
@@ -114,16 +118,16 @@ Partial Class moreStatCounty
         Me.removeCountyButton.Text = "Eemalda"
         Me.removeCountyButton.UseVisualStyleBackColor = True
         '
-        'removeCountyLabel
+        'countyActionsLabel
         '
-        Me.removeCountyLabel.AutoSize = True
-        Me.removeCountyLabel.BackColor = System.Drawing.Color.DarkGray
-        Me.removeCountyLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.removeCountyLabel.Location = New System.Drawing.Point(983, 161)
-        Me.removeCountyLabel.Name = "removeCountyLabel"
-        Me.removeCountyLabel.Size = New System.Drawing.Size(158, 18)
-        Me.removeCountyLabel.TabIndex = 20
-        Me.removeCountyLabel.Text = "Eemalda maakond"
+        Me.countyActionsLabel.AutoSize = True
+        Me.countyActionsLabel.BackColor = System.Drawing.Color.DarkGray
+        Me.countyActionsLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.countyActionsLabel.Location = New System.Drawing.Point(983, 161)
+        Me.countyActionsLabel.Name = "countyActionsLabel"
+        Me.countyActionsLabel.Size = New System.Drawing.Size(209, 18)
+        Me.countyActionsLabel.TabIndex = 20
+        Me.countyActionsLabel.Text = "Maakond interaktsioonid"
         '
         'selectedCountyListBox
         '
@@ -158,6 +162,27 @@ Partial Class moreStatCounty
         Me.addCountyLabel.TabIndex = 17
         Me.addCountyLabel.Text = "Lisa maakond"
         '
+        'saveStatButton
+        '
+        Me.saveStatButton.Location = New System.Drawing.Point(983, 382)
+        Me.saveStatButton.Name = "saveStatButton"
+        Me.saveStatButton.Size = New System.Drawing.Size(117, 24)
+        Me.saveStatButton.TabIndex = 23
+        Me.saveStatButton.Text = "Salvestada Infot"
+        Me.saveStatButton.UseVisualStyleBackColor = True
+        '
+        'appendCheckBox
+        '
+        Me.appendCheckBox.AutoSize = True
+        Me.appendCheckBox.BackColor = System.Drawing.Color.DarkGray
+        Me.appendCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.appendCheckBox.Location = New System.Drawing.Point(1103, 382)
+        Me.appendCheckBox.Name = "appendCheckBox"
+        Me.appendCheckBox.Size = New System.Drawing.Size(118, 24)
+        Me.appendCheckBox.TabIndex = 24
+        Me.appendCheckBox.Text = "Lisada lõppu"
+        Me.appendCheckBox.UseVisualStyleBackColor = False
+        '
         'moreStatCounty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -181,7 +206,9 @@ Partial Class moreStatCounty
     Friend WithEvents addCountyLabel As Label
     Friend WithEvents addCountyCombobox As ComboBox
     Friend WithEvents removeCountyButton As Button
-    Friend WithEvents removeCountyLabel As Label
+    Friend WithEvents countyActionsLabel As Label
     Friend WithEvents selectedCountyListBox As ListBox
     Friend WithEvents absoluteValueCheckBox As CheckBox
+    Friend WithEvents saveStatButton As Button
+    Friend WithEvents appendCheckBox As CheckBox
 End Class

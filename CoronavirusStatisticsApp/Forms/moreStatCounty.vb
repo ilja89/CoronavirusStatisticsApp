@@ -11,16 +11,19 @@ Imports System.Math
 Imports StatisticsObject
 Imports StatisticsFunctions
 Imports CoronaStatisticsGetter
+Imports CSVExporterDNF
 
 ''' <summary>
 ''' Form, what shows advanced statistics for county
 ''' </summary>
 Public Class moreStatCounty
+    Private _CSVExporter As IExporter = New CExporter(AppSettings.CSVExporterDelimiter, AppSettings.CSVExporterTextQualifier)
     Private _dateFrom As DateTime = New DateTime(2020, 1, 1)
     Private _dateTo As DateTime = DateTime.Now.AddDays(-2)
     Private _statObject As CStatList
     Private _statObjectValueField As String
     Private _seriesStatList As New List(Of KeyValuePair(Of String, IStatList))
+    Private _curSeriesStatList As New List(Of KeyValuePair(Of String, IStatList))
 
     Private Sub WhenLoaded() Handles Me.Load
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
@@ -44,6 +47,7 @@ Public Class moreStatCounty
             Exit Sub
         End If
         _seriesStatList.Add(New KeyValuePair(Of String, IStatList)(countyKey, _statObject.AsNew.Where("County", countyKey)))
+        _curSeriesStatList.Add(New KeyValuePair(Of String, IStatList)(countyKey, _statObject.AsNew.Where("County", countyKey)))
         Dim newSeries As Series = New Series(countyKey)
         newSeries.ChartType = SeriesChartType.Line
         newSeries.BorderWidth = 3
@@ -59,6 +63,7 @@ Public Class moreStatCounty
         While (i < _seriesStatList.Count - 1)
             If (_seriesStatList(i).Key = countyKey) Then
                 _seriesStatList.RemoveAt(i)
+                _curSeriesStatList.RemoveAt(i)
             End If
             i += 1
         End While
@@ -66,17 +71,21 @@ Public Class moreStatCounty
 
     Private Sub UpdateChart()
         Dim series As SeriesCollection = Chart1.Series
+        Dim fromDate As String = DateTimeToString(_dateFrom)
+        Dim toDate As String = DateTimeToString(_dateTo)
         For i As Integer = 0 To series.Count - 1
-            Dim statList As IStatList = Nothing
-            For Each item As KeyValuePair(Of String, IStatList) In _seriesStatList
-                If (item.Key = series(i).Name) Then
-                    statList = item.Value
+            For itemIndex As Integer = 0 To _seriesStatList.Count - 1
+                If (_seriesStatList(itemIndex).Key = series(i).Name) Then
+                    _curSeriesStatList(itemIndex) = New KeyValuePair(Of String, IStatList) _
+                    (_seriesStatList(itemIndex).Key, _seriesStatList(itemIndex).Value.AsNew.WhereDate(fromDate, ">=").WhereDate(toDate, "<="))
+                    Dim XY As Array = StatListToXY(_curSeriesStatList(itemIndex).Value, AppConstants.GetPopulationByCountyName(series(i).Name))
+                    If (XY IsNot Nothing) Then
+                        series(i).Points.DataBindXY(XY(0), XY(1))
+                    End If
+                    Exit For
                 End If
             Next
-            Dim XY As Array = StatListToXY(statList, DateTimeToString(_dateFrom), DateTimeToString(_dateTo), AppConstants.GetPopulationByCountyName(series(i).Name))
-            If (XY IsNot Nothing) Then
-                series(i).Points.DataBindXY(XY(0), XY(1))
-            End If
+
         Next
     End Sub
 
@@ -84,8 +93,7 @@ Public Class moreStatCounty
         Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
     End Function
 
-    Private Function StatListToXY(initialStatList As IStatList, fromDate As String, toDate As String, countyPopulation As Integer)
-        Dim stat As IStatList = initialStatList.AsNew.WhereDate(fromDate, ">=").WhereDate(toDate, "<=")
+    Private Function StatListToXY(stat As IStatList, countyPopulation As Integer)
         If (stat.Count > 0) Then
             Dim stringDate As String() = stat.GetFields("Date")
             Dim x(stringDate.Length - 1) As DateTime
@@ -124,7 +132,8 @@ Public Class moreStatCounty
         absoluteValueCheckBox.BackColor = SecondaryColor
         addCountyCombobox.BackColor = SecondaryColor
         addCountyLabel.BackColor = SecondaryColor
-        removeCountyLabel.BackColor = SecondaryColor
+        countyActionsLabel.BackColor = SecondaryColor
+        appendCheckBox.BackColor = SecondaryColor
     End Sub
     Private Sub MeClosingHandler() Handles Me.Closing
         RemoveHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
@@ -132,13 +141,26 @@ Public Class moreStatCounty
 
     Private Sub addCountyCombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles addCountyCombobox.SelectedIndexChanged
         AddSeries(addCountyCombobox.SelectedItem)
-        UpdateChart
+        UpdateChart()
     End Sub
 
     Private Sub removeCountyButton_Click(sender As Object, e As EventArgs) Handles removeCountyButton.Click
         If (selectedCountyListBox.SelectedItem <> Nothing) Then
             DeleteSeries(selectedCountyListBox.SelectedItem)
         End If
+    End Sub
+    Private Sub saveStatButton_Click(sender As Object, e As EventArgs) Handles saveStatButton.Click
+        If (selectedCountyListBox.SelectedItem = Nothing) Then
+            Exit Sub
+        End If
+
+        _CSVExporter.setFileToSave
+        For Each item As KeyValuePair(Of String, IStatList) In _curSeriesStatList
+            If (item.Key = selectedCountyListBox.SelectedItem) Then
+                _CSVExporter.saveDataToCSV(item.Value.ToCSVStrings(CSVExporterDelimiter, CSVExporterTextQualifier), appendCheckBox.Checked)
+                Exit For
+            End If
+        Next
     End Sub
 
     Private Sub fromDate_CloseUp(sender As Object, e As EventArgs) Handles fromDate.CloseUp

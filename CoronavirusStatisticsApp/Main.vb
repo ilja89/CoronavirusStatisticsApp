@@ -27,6 +27,7 @@ Public Class Main
     Private countyStat As IStatList
     Public covidTest As IStatList
     Public covidVact As IStatList
+    Public covidFullVact As IStatList
     Public covidSick As IStatList
     Public covidTestPosGen As IStatList
     Public covidVactGen As IStatList
@@ -38,6 +39,7 @@ Public Class Main
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Private _threads As New List(Of Threading.Thread)
     Private _popupDate As String = DateTimeToString(DateTime.Now)
+    Private _statListForMapDateTracker
 
     Public Property SaveLoad As CStatSaveLoad_ForLoadingControl
         Get
@@ -71,6 +73,7 @@ DataUpdate:     setProgress(60)
                 covidTest = request.GetTestStatCounty(, False)
                 setProgress(70)
                 covidVact = request.GetVaccinationStatByCounty
+                covidFullVact = covidVact.AsNew.Where("Type", "FullyVaccinated")
                 setProgress(80)
                 covidSick = request.GetSickCounty
                 setProgress(95)
@@ -347,6 +350,7 @@ DataUpdate:     setProgress(60)
         mapDatePicker.Hide()
         mapStatisticsCombobox.Hide()
         mapGradientCheckBox.Hide()
+        mapDateTrackBar.Hide()
     End Sub
     Private Sub MapShow()
         MapControl1.Visible = True
@@ -358,6 +362,7 @@ DataUpdate:     setProgress(60)
         mapDatePicker.Show()
         mapStatisticsCombobox.Show()
         mapGradientCheckBox.Show()
+        mapDateTrackBar.Show()
     End Sub
 
     Private Sub CreateLoadingOverlay()
@@ -511,10 +516,34 @@ DataUpdate:     setProgress(60)
         ReleaseMemory()
     End Sub
 
-    Private Sub mapRedrawHandler(sender As Object, e As EventArgs) Handles mapGradientCheckBox.CheckedChanged, mapDatePicker.CloseUp, mapStatisticsCombobox.SelectedIndexChanged
+    Private Sub SelectedItemChanged() Handles mapStatisticsCombobox.SelectedIndexChanged
+        Dim statList As IStatList = {covidFullVact, covidSick, covidTest}(mapStatisticsCombobox.SelectedIndex)
+        _statListForMapDateTracker = statList.AsNew.Where("County", "Harju maakond")
+        mapDateTrackBar.Enabled = True
+        mapDateTrackBar.Minimum = 0
+        mapDateTrackBar.Maximum = _statListForMapDateTracker.Count - 1
+        mapRedrawHandler()
+    End Sub
+
+    Private Sub mapDateTrackBar_Scroll() Handles mapDateTrackBar.MouseClick
+        If (mapStatisticsCombobox.SelectedIndex >= 0) Then
+            Dim datePieces() As String = _statListForMapDateTracker.GetField(mapDateTrackBar.Value, "Date").Split("-")
+            mapDatePicker.Value = New DateTime(datePieces(0), datePieces(1), datePieces(2))
+            mapRedrawHandler()
+        End If
+    End Sub
+
+    Private Sub mapDatePicker_CloseUp() Handles mapDatePicker.CloseUp
+        Dim statList As IStatList = {covidFullVact, covidSick, covidTest}(mapStatisticsCombobox.SelectedIndex)
+        Dim dateString As String = DateTimeToString(mapDatePicker.Value)
+        mapDateTrackBar.Value = _statListForMapDateTracker.GetIndexOfFirstItemWhereDate(dateString, ">=")
+        mapRedrawHandler()
+    End Sub
+
+    Private Sub mapRedrawHandler() Handles mapGradientCheckBox.CheckedChanged
         If (mapGradientCheckBox.Checked And mapStatisticsCombobox.Text <> Nothing) Then
             _popupDate = DateTimeToString(mapDatePicker.Value)
-            Dim statList() As IStatList = {covidVact, covidSick, covidTest}
+            Dim statList() As IStatList = {covidFullVact, covidSick, covidTest}
             Dim valueField() As String = {"DailyCount", "Sick", "DailyTests"}
             Dim keyValue() As KeyValuePair(Of String, Double) = {
             New KeyValuePair(Of String, Double)("Harju maakond", -1),
@@ -555,5 +584,12 @@ DataUpdate:     setProgress(60)
             MapControl1.MapDrawAllGradient(CGradient.Green)
             MapControl1.Update()
         End If
+    End Sub
+
+    Private Sub mapNextDateButton_Click(sender As Object, e As EventArgs)
+        If (mapDateTrackBar.Value + 1 <= mapDateTrackBar.Maximum) Then
+            mapDateTrackBar.Value += 1
+        End If
+        mapDateTrackBar_Scroll()
     End Sub
 End Class
