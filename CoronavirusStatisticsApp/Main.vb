@@ -516,29 +516,30 @@ DataUpdate:     setProgress(60)
             _popupDate = DateTimeToString(mapDatePicker.Value)
             Dim statList() As IStatList = {covidVact, covidSick, covidTest}
             Dim valueField() As String = {"DailyCount", "Sick", "DailyTests"}
-            Dim keyValue() As KeyValuePair(Of String, Integer) = {
-            New KeyValuePair(Of String, Integer)("Harju maakond", -1),
-            New KeyValuePair(Of String, Integer)("Ida-Viru maakond", -1),
-            New KeyValuePair(Of String, Integer)("Lääne-Viru maakond", -1),
-            New KeyValuePair(Of String, Integer)("Järva maakond", -1),
-            New KeyValuePair(Of String, Integer)("Jõgeva maakond", -1),
-            New KeyValuePair(Of String, Integer)("Võru maakond", -1),
-            New KeyValuePair(Of String, Integer)("Põlva maakond", -1),
-            New KeyValuePair(Of String, Integer)("Valga maakond", -1),
-            New KeyValuePair(Of String, Integer)("Tartu maakond", -1),
-            New KeyValuePair(Of String, Integer)("Pärnu maakond", -1),
-            New KeyValuePair(Of String, Integer)("Rapla maakond", -1),
-            New KeyValuePair(Of String, Integer)("Lääne maakond", -1),
-            New KeyValuePair(Of String, Integer)("Saare maakond", -1),
-            New KeyValuePair(Of String, Integer)("Hiiu maakond", -1),
-            New KeyValuePair(Of String, Integer)("Viljandi maakond", -1)}
+            Dim keyValue() As KeyValuePair(Of String, Double) = {
+            New KeyValuePair(Of String, Double)("Harju maakond", -1),
+            New KeyValuePair(Of String, Double)("Ida-Viru maakond", -1),
+            New KeyValuePair(Of String, Double)("Lääne-Viru maakond", -1),
+            New KeyValuePair(Of String, Double)("Järva maakond", -1),
+            New KeyValuePair(Of String, Double)("Jõgeva maakond", -1),
+            New KeyValuePair(Of String, Double)("Võru maakond", -1),
+            New KeyValuePair(Of String, Double)("Põlva maakond", -1),
+            New KeyValuePair(Of String, Double)("Valga maakond", -1),
+            New KeyValuePair(Of String, Double)("Tartu maakond", -1),
+            New KeyValuePair(Of String, Double)("Pärnu maakond", -1),
+            New KeyValuePair(Of String, Double)("Rapla maakond", -1),
+            New KeyValuePair(Of String, Double)("Lääne maakond", -1),
+            New KeyValuePair(Of String, Double)("Saare maakond", -1),
+            New KeyValuePair(Of String, Double)("Hiiu maakond", -1),
+            New KeyValuePair(Of String, Double)("Viljandi maakond", -1)}
             Dim k = mapStatisticsCombobox.SelectedIndex
             For i As Integer = 0 To keyValue.Length - 1
                 Dim countyStat As IStatList = statList(mapStatisticsCombobox.SelectedIndex).AsNew.Where("County", keyValue(i).Key).
                     WhereDate(_popupDate, "<=")
                 If (countyStat.Count <> 0) Then
-                    keyValue(i) = New KeyValuePair(Of String, Integer)(keyValue(i).Key,
-                        countyStat.GetField(countyStat.Count - 1, valueField(mapStatisticsCombobox.SelectedIndex)))
+                    keyValue(i) = New KeyValuePair(Of String, Double)(keyValue(i).Key,
+                        countyStat.GetField(countyStat.Count - 1, valueField(mapStatisticsCombobox.SelectedIndex)) /
+                        AppConstants.GetPopulationByCountyName(keyValue(i).Key))
                 End If
             Next
             MapControl1.MapDrawLevelGradient(keyValue, {

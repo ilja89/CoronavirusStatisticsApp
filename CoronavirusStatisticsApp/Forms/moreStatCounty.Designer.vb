@@ -22,12 +22,13 @@ Partial Class moreStatCounty
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Me.fromDate = New System.Windows.Forms.DateTimePicker()
         Me.toDate = New System.Windows.Forms.DateTimePicker()
         Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.absoluteValueCheckBox = New System.Windows.Forms.CheckBox()
         Me.removeCountyButton = New System.Windows.Forms.Button()
         Me.removeCountyLabel = New System.Windows.Forms.Label()
         Me.selectedCountyListBox = New System.Windows.Forms.ListBox()
@@ -62,10 +63,10 @@ Partial Class moreStatCounty
         '
         'Chart1
         '
-        ChartArea1.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend1)
+        ChartArea2.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea2)
+        Legend2.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend2)
         Me.Chart1.Location = New System.Drawing.Point(12, 67)
         Me.Chart1.Name = "Chart1"
         Me.Chart1.Size = New System.Drawing.Size(965, 403)
@@ -75,6 +76,7 @@ Partial Class moreStatCounty
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.Gray
+        Me.Panel1.Controls.Add(Me.absoluteValueCheckBox)
         Me.Panel1.Controls.Add(Me.removeCountyButton)
         Me.Panel1.Controls.Add(Me.removeCountyLabel)
         Me.Panel1.Controls.Add(Me.selectedCountyListBox)
@@ -88,6 +90,20 @@ Partial Class moreStatCounty
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1224, 477)
         Me.Panel1.TabIndex = 0
+        '
+        'absoluteValueCheckBox
+        '
+        Me.absoluteValueCheckBox.AutoSize = True
+        Me.absoluteValueCheckBox.BackColor = System.Drawing.Color.DarkGray
+        Me.absoluteValueCheckBox.Checked = True
+        Me.absoluteValueCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.absoluteValueCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.absoluteValueCheckBox.Location = New System.Drawing.Point(983, 67)
+        Me.absoluteValueCheckBox.Name = "absoluteValueCheckBox"
+        Me.absoluteValueCheckBox.Size = New System.Drawing.Size(143, 24)
+        Me.absoluteValueCheckBox.TabIndex = 22
+        Me.absoluteValueCheckBox.Text = "Absoluutväärtus"
+        Me.absoluteValueCheckBox.UseVisualStyleBackColor = False
         '
         'removeCountyButton
         '
@@ -103,7 +119,7 @@ Partial Class moreStatCounty
         Me.removeCountyLabel.AutoSize = True
         Me.removeCountyLabel.BackColor = System.Drawing.Color.DarkGray
         Me.removeCountyLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.removeCountyLabel.Location = New System.Drawing.Point(982, 161)
+        Me.removeCountyLabel.Location = New System.Drawing.Point(983, 161)
         Me.removeCountyLabel.Name = "removeCountyLabel"
         Me.removeCountyLabel.Size = New System.Drawing.Size(158, 18)
         Me.removeCountyLabel.TabIndex = 20
@@ -126,7 +142,7 @@ Partial Class moreStatCounty
         Me.addCountyCombobox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.addCountyCombobox.FormattingEnabled = True
         Me.addCountyCombobox.Items.AddRange(New Object() {"Hiiu maakond", "Saare maakond", "Lääne maakond", "Harju maakond", "Rapla maakond", "Pärnu maakond", "Viljandi maakond", "Tartu maakond", "Valga maakond", "Põlva maakond", "Võru maakond", "Jõgeva maakond", "Järva maakond", "Lääne-Viru maakond", "Ida-Viru maakond"})
-        Me.addCountyCombobox.Location = New System.Drawing.Point(983, 88)
+        Me.addCountyCombobox.Location = New System.Drawing.Point(983, 130)
         Me.addCountyCombobox.Name = "addCountyCombobox"
         Me.addCountyCombobox.Size = New System.Drawing.Size(207, 28)
         Me.addCountyCombobox.TabIndex = 18
@@ -136,7 +152,7 @@ Partial Class moreStatCounty
         Me.addCountyLabel.AutoSize = True
         Me.addCountyLabel.BackColor = System.Drawing.Color.DarkGray
         Me.addCountyLabel.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.addCountyLabel.Location = New System.Drawing.Point(983, 67)
+        Me.addCountyLabel.Location = New System.Drawing.Point(983, 109)
         Me.addCountyLabel.Name = "addCountyLabel"
         Me.addCountyLabel.Size = New System.Drawing.Size(121, 18)
         Me.addCountyLabel.TabIndex = 17
@@ -167,4 +183,5 @@ Partial Class moreStatCounty
     Friend WithEvents removeCountyButton As Button
     Friend WithEvents removeCountyLabel As Label
     Friend WithEvents selectedCountyListBox As ListBox
+    Friend WithEvents absoluteValueCheckBox As CheckBox
 End Class

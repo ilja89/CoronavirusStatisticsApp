@@ -73,7 +73,7 @@ Public Class moreStatCounty
                     statList = item.Value
                 End If
             Next
-            Dim XY As Array = StatListToXY(statList, DateTimeToString(_dateFrom), DateTimeToString(_dateTo))
+            Dim XY As Array = StatListToXY(statList, DateTimeToString(_dateFrom), DateTimeToString(_dateTo), AppConstants.GetPopulationByCountyName(series(i).Name))
             If (XY IsNot Nothing) Then
                 series(i).Points.DataBindXY(XY(0), XY(1))
             End If
@@ -84,7 +84,7 @@ Public Class moreStatCounty
         Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
     End Function
 
-    Private Function StatListToXY(initialStatList As IStatList, fromDate As String, toDate As String)
+    Private Function StatListToXY(initialStatList As IStatList, fromDate As String, toDate As String, countyPopulation As Integer)
         Dim stat As IStatList = initialStatList.AsNew.WhereDate(fromDate, ">=").WhereDate(toDate, "<=")
         If (stat.Count > 0) Then
             Dim stringDate As String() = stat.GetFields("Date")
@@ -93,11 +93,17 @@ Public Class moreStatCounty
                 Dim spl As String() = stringDate(i).Split("-")
                 x(i) = New DateTime(spl(0), spl(1), spl(2))
             Next
-            Dim y(stat.Count - 1) As Integer
+            Dim y(stat.Count - 1) As Double
             Dim arr = stat.GetFields(_statObjectValueField)
-            For i As Integer = 0 To arr.Length - 1
-                y(i) = CInt(arr(i))
-            Next
+            If (absoluteValueCheckBox.Checked) Then
+                For i As Integer = 0 To arr.Length - 1
+                    y(i) = CInt(arr(i))
+                Next
+            Else
+                For i As Integer = 0 To arr.Length - 1
+                    y(i) = 100 * (arr(i) / countyPopulation)
+                Next
+            End If
             Return {x, y}
         End If
         Return Nothing
@@ -115,6 +121,10 @@ Public Class moreStatCounty
     Private Sub ColorSettingsAppliedHandler()
         Panel1.BackColor = MainColor
         Chart1.BackColor = SecondaryColor
+        absoluteValueCheckBox.BackColor = SecondaryColor
+        addCountyCombobox.BackColor = SecondaryColor
+        addCountyLabel.BackColor = SecondaryColor
+        removeCountyLabel.BackColor = SecondaryColor
     End Sub
     Private Sub MeClosingHandler() Handles Me.Closing
         RemoveHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
@@ -144,6 +154,10 @@ Public Class moreStatCounty
             fromDate.Value = fromDate.Value
         End If
         _dateTo = toDate.Value
+        UpdateChart()
+    End Sub
+
+    Private Sub absoluteValueCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles absoluteValueCheckBox.CheckedChanged
         UpdateChart()
     End Sub
 End Class

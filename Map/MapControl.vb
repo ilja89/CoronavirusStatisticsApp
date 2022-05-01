@@ -300,15 +300,15 @@ Public Class MapControl
     ''' First is for smallest values _polygons, last for biggest values, gradients between are used for intermediate values</param>
     ''' <param name="gradientDefault">Default gradient what will be used to fill polygon in case if it is not presented
     ''' in "pair" array</param>
-    Public Sub MapDrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
+    Public Sub MapDrawLevelGradient(pair() As KeyValuePair(Of String, Double),
                              levelGradients As Array,
                              Optional gradientDefault As CGradient = Nothing)
-        Dim maxValue As Integer = 0
-        Dim minValue As Integer = Integer.MaxValue
+        Dim maxValue As Double = 0
+        Dim minValue As Double = Integer.MaxValue
         If (gradientDefault Is Nothing) Then
             gradientDefault = CGradient.Gray
         End If
-        For Each item As KeyValuePair(Of String, Integer) In pair
+        For Each item As KeyValuePair(Of String, Double) In pair
             If (item.Value > maxValue) Then
                 maxValue = item.Value
             End If
@@ -317,12 +317,12 @@ Public Class MapControl
             End If
         Next
         If (levelGradients.Length <> 0) Then
-            For Each item As KeyValuePair(Of String, Integer) In pair
-                Dim n = Min(Round(((minValue + item.Value) / maxValue) * levelGradients.Length), levelGradients.Length - 1)
+            For Each item As KeyValuePair(Of String, Double) In pair
+                Dim n As Integer = Min(Round(((minValue + item.Value) / maxValue) * levelGradients.Length), levelGradients.Length - 1)
                 _polygons.SetGradientWhereKey(item.Key, levelGradients(n))
             Next
         End If
-        For Each item As KeyValuePair(Of String, Integer) In pair
+        For Each item As KeyValuePair(Of String, Double) In pair
             If (item.Value = -1) Then
                 _polygons.SetGradientWhereKey(item.Key, gradientDefault)
             End If

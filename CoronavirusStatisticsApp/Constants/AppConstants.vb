@@ -13,7 +13,6 @@
 ''' </summary>
 Public Module AppConstants
     Public Const ESTONIA_POPULATION As Integer = 1331000            'Number of people who live in Estonia
-
     Public Const HARJU_POPULATION As Integer = 609515                   'Number of people who live in Harju county 
     Public Const IDA_VURU_POPULATION As Integer = 131913                'Number of people who live in Ida-Viru county
     Public Const LAANE_VURU_POPULATION As Integer = 58402               'Number of people who live in Lääne-Viru county
@@ -29,4 +28,18 @@ Public Module AppConstants
     Public Const SAARE_POPULATION As Integer = 33032                    'Number of people who live in Saare county
     Public Const HIIU_POPULATION As Integer = 9381                      'Number of people who live in Hiiu county
     Public Const VILJANDI_POPULATION As Integer = 45877                 'Number of people who live in Viljandi county
+    Public Function GetPopulationByCountyName(name As String)
+        Dim names() As String = {"Hiiu maakond", "Saare maakond", "Lääne maakond", "Harju maakond", "Rapla maakond", "Pärnu maakond",
+            "Viljandi maakond", "Tartu maakond", "Valga maakond", "Põlva maakond", "Võru maakond", "Jõgeva maakond", "Järva maakond",
+            "Lääne-Viru maakond", "Ida-Viru maakond"}
+        Dim values() As Integer = {HIIU_POPULATION, SAARE_POPULATION, LAANE_POPULATION, HARJU_POPULATION, RAPLA_POPULATION,
+            PARNU_POPULATION, VILJANDI_POPULATION, TARTU_POPULATION, VALGA_POPULATION, POLVA_POPULATION, VORU_POPULATION, JOGEVA_POPULATION,
+            JARVA_POPULATION, LAANE_VURU_POPULATION, IDA_VURU_POPULATION}
+        For i As Integer = 0 To names.Length - 1
+            If (names(i) = name) Then
+                Return values(i)
+            End If
+        Next
+        Throw New Exception("Incorrect name input in GetPopulationByCountyName")
+    End Function
 End Module

@@ -39,21 +39,21 @@ Public Class mapTest
     Private Sub Gradient_Click(sender As Object, e As EventArgs) Handles gradientButton.Click
         Dim rand As New Random
         MapControl1.MapDrawLevelGradient({
-                New KeyValuePair(Of String, Integer)("Hiiu maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Saare maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Lääne maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Harju maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Rapla maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Pärnu maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Viljandi maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Tartu maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Valga maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Võru maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Järva maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Lääne-Viru maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Ida-Viru maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Jõgeva maakond", rand.Next(0, 1000)),
-                New KeyValuePair(Of String, Integer)("Põlva maakond", rand.Next(0, 1000))
+                New KeyValuePair(Of String, Double)("Hiiu maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Saare maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Lääne maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Harju maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Rapla maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Pärnu maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Viljandi maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Tartu maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Valga maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Võru maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Järva maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Lääne-Viru maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Ida-Viru maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Jõgeva maakond", rand.Next(0, 1000)),
+                New KeyValuePair(Of String, Double)("Põlva maakond", rand.Next(0, 1000))
                 }, {
                 CGradient.BrightBlue,
                 CGradient.Green,
