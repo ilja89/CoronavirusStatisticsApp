@@ -54,6 +54,7 @@ Public Class CStatSaveLoad
         stream = New IO.FileStream(fullPath, IO.FileMode.Open, IO.FileAccess.Read, IO.FileShare.None)
         Dim returnable As Object = formatter.Deserialize(stream)
         stream.Close()
+        stream.Dispose()
         Return returnable
     End Function
     ''' <summary>

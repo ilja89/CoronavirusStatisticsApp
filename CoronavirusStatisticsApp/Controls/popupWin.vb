@@ -39,7 +39,6 @@ Public Class popupWin
     End Sub
 
     Private Sub closeBtn_Click(sender As Object, e As EventArgs) Handles closeBtn.Click
-
         Me.Visible = False
         Me.Dispose()
     End Sub

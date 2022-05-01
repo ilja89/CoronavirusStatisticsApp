@@ -35,9 +35,7 @@ Public Class CStatSaveLoad_ForLoadingControl
             "Sick"}
         ' Load Settings
         If (IO.File.Exists(AppSettings.AppSettingsCachePath + AppSettings.AppSettingsCacheName + ".bin")) Then
-            Dim newThread As New Threading.Thread(Sub() LoadAppSettings())
-            newThread.IsBackground = True
-            newThread.Start()
+            LoadAppSettings()
         End If
 
         ' Check path

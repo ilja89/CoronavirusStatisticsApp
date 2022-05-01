@@ -69,20 +69,23 @@ Public Class CExporter
     ''' <returns></returns>
     Private Function saveDataToCSV(data() As String, Optional appendData As Boolean = False) _
         As Integer Implements IExporter.saveDataToCSV
+        If (_path <> Nothing) Then
+            Dim directory As String = _path.Replace(_fileName, "")
+            If (directory = Nothing) Then
+                Throw New Exception("Empty folder path")
+                Exit Function
+            End If
 
-        Dim directory As String = _path.Replace(_fileName, "")
-        If (directory = Nothing) Then
-            Throw New Exception("Empty folder path")
-            Exit Function
+            If (Not IO.Directory.Exists(directory)) Then
+                IO.Directory.CreateDirectory(directory)
+            End If
+            Dim sw As New IO.StreamWriter(_path, appendData, New Text.UTF32Encoding)
+            sw.Write(String.Join(vbCrLf, data))
+            sw.Close()
+            Return data.Length
+        Else
+            Return -1
         End If
-
-        If (Not IO.Directory.Exists(directory)) Then
-            IO.Directory.CreateDirectory(directory)
-        End If
-        Dim sw As New IO.StreamWriter(_path, appendData, New Text.UTF32Encoding)
-        sw.Write(String.Join(vbCrLf, data))
-        sw.Close()
-        Return data.Length
     End Function
 
     Public Sub New(newDelimiter As String, newTextQualifier As String)

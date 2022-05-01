@@ -28,13 +28,16 @@ Partial Class Main
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
-        Me.btnExtra2 = New FontAwesome.Sharp.IconButton()
+        Me.saveStatButton = New FontAwesome.Sharp.IconButton()
         Me.btnTelegramm = New FontAwesome.Sharp.IconButton()
         Me.btnStatistics = New FontAwesome.Sharp.IconButton()
         Me.btnMap = New FontAwesome.Sharp.IconButton()
         Me.PanelLogo = New System.Windows.Forms.Panel()
         Me.BoxLogo = New System.Windows.Forms.PictureBox()
         Me.PanelBar = New System.Windows.Forms.Panel()
+        Me.mapGradientCheckBox = New System.Windows.Forms.CheckBox()
+        Me.mapDatePicker = New System.Windows.Forms.DateTimePicker()
+        Me.mapStatisticsCombobox = New System.Windows.Forms.ComboBox()
         Me.CurrentIconLabel = New System.Windows.Forms.Label()
         Me.CurrentIcon = New FontAwesome.Sharp.IconPictureBox()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
@@ -54,7 +57,7 @@ Partial Class Main
         Me.MenuPanel.BackColor = System.Drawing.Color.DarkGray
         Me.MenuPanel.Controls.Add(Me.btnExit)
         Me.MenuPanel.Controls.Add(Me.btnSettings)
-        Me.MenuPanel.Controls.Add(Me.btnExtra2)
+        Me.MenuPanel.Controls.Add(Me.saveStatButton)
         Me.MenuPanel.Controls.Add(Me.btnTelegramm)
         Me.MenuPanel.Controls.Add(Me.btnStatistics)
         Me.MenuPanel.Controls.Add(Me.btnMap)
@@ -109,27 +112,27 @@ Partial Class Main
         Me.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnSettings.UseVisualStyleBackColor = False
         '
-        'btnExtra2
+        'saveStatButton
         '
-        Me.btnExtra2.BackColor = System.Drawing.Color.DarkGray
-        Me.btnExtra2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.btnExtra2.FlatAppearance.BorderSize = 0
-        Me.btnExtra2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnExtra2.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExtra2.IconChar = FontAwesome.Sharp.IconChar.Question
-        Me.btnExtra2.IconColor = System.Drawing.Color.Black
-        Me.btnExtra2.IconFont = FontAwesome.Sharp.IconFont.[Auto]
-        Me.btnExtra2.IconSize = 40
-        Me.btnExtra2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExtra2.Location = New System.Drawing.Point(0, 320)
-        Me.btnExtra2.Name = "btnExtra2"
-        Me.btnExtra2.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
-        Me.btnExtra2.Size = New System.Drawing.Size(233, 60)
-        Me.btnExtra2.TabIndex = 4
-        Me.btnExtra2.Text = "Extra Button 2"
-        Me.btnExtra2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExtra2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.btnExtra2.UseVisualStyleBackColor = False
+        Me.saveStatButton.BackColor = System.Drawing.Color.DarkGray
+        Me.saveStatButton.Dock = System.Windows.Forms.DockStyle.Top
+        Me.saveStatButton.FlatAppearance.BorderSize = 0
+        Me.saveStatButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.saveStatButton.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.saveStatButton.IconChar = FontAwesome.Sharp.IconChar.Question
+        Me.saveStatButton.IconColor = System.Drawing.Color.Black
+        Me.saveStatButton.IconFont = FontAwesome.Sharp.IconFont.[Auto]
+        Me.saveStatButton.IconSize = 40
+        Me.saveStatButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.saveStatButton.Location = New System.Drawing.Point(0, 320)
+        Me.saveStatButton.Name = "saveStatButton"
+        Me.saveStatButton.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
+        Me.saveStatButton.Size = New System.Drawing.Size(233, 60)
+        Me.saveStatButton.TabIndex = 4
+        Me.saveStatButton.Text = "Salvestada statistikat"
+        Me.saveStatButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.saveStatButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.saveStatButton.UseVisualStyleBackColor = False
         '
         'btnTelegramm
         '
@@ -220,6 +223,9 @@ Partial Class Main
         'PanelBar
         '
         Me.PanelBar.BackColor = System.Drawing.Color.DarkGray
+        Me.PanelBar.Controls.Add(Me.mapGradientCheckBox)
+        Me.PanelBar.Controls.Add(Me.mapDatePicker)
+        Me.PanelBar.Controls.Add(Me.mapStatisticsCombobox)
         Me.PanelBar.Controls.Add(Me.CurrentIconLabel)
         Me.PanelBar.Controls.Add(Me.CurrentIcon)
         Me.PanelBar.Dock = System.Windows.Forms.DockStyle.Top
@@ -227,6 +233,41 @@ Partial Class Main
         Me.PanelBar.Name = "PanelBar"
         Me.PanelBar.Size = New System.Drawing.Size(1045, 70)
         Me.PanelBar.TabIndex = 1
+        '
+        'mapGradientCheckBox
+        '
+        Me.mapGradientCheckBox.AutoSize = True
+        Me.mapGradientCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.mapGradientCheckBox.Location = New System.Drawing.Point(664, 29)
+        Me.mapGradientCheckBox.Name = "mapGradientCheckBox"
+        Me.mapGradientCheckBox.Size = New System.Drawing.Size(161, 24)
+        Me.mapGradientCheckBox.TabIndex = 4
+        Me.mapGradientCheckBox.Text = "Kuva gradientkaart"
+        Me.mapGradientCheckBox.UseVisualStyleBackColor = True
+        '
+        'mapDatePicker
+        '
+        Me.mapDatePicker.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.mapDatePicker.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.mapDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.mapDatePicker.Location = New System.Drawing.Point(458, 29)
+        Me.mapDatePicker.MinDate = New Date(2020, 1, 1, 0, 0, 0, 0)
+        Me.mapDatePicker.Name = "mapDatePicker"
+        Me.mapDatePicker.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.mapDatePicker.Size = New System.Drawing.Size(200, 26)
+        Me.mapDatePicker.TabIndex = 3
+        Me.mapDatePicker.Value = New Date(2022, 5, 1, 13, 3, 59, 0)
+        '
+        'mapStatisticsCombobox
+        '
+        Me.mapStatisticsCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.mapStatisticsCombobox.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.mapStatisticsCombobox.FormattingEnabled = True
+        Me.mapStatisticsCombobox.Items.AddRange(New Object() {"Vaktsineerimine", "Haiged", "Testid"})
+        Me.mapStatisticsCombobox.Location = New System.Drawing.Point(314, 28)
+        Me.mapStatisticsCombobox.Name = "mapStatisticsCombobox"
+        Me.mapStatisticsCombobox.Size = New System.Drawing.Size(138, 28)
+        Me.mapStatisticsCombobox.TabIndex = 2
         '
         'CurrentIconLabel
         '
@@ -321,7 +362,7 @@ Partial Class Main
     Friend WithEvents PanelLogo As Panel
     Friend WithEvents btnExit As FontAwesome.Sharp.IconButton
     Friend WithEvents btnSettings As FontAwesome.Sharp.IconButton
-    Friend WithEvents btnExtra2 As FontAwesome.Sharp.IconButton
+    Friend WithEvents saveStatButton As FontAwesome.Sharp.IconButton
     Friend WithEvents btnTelegramm As FontAwesome.Sharp.IconButton
     Friend WithEvents btnStatistics As FontAwesome.Sharp.IconButton
     Friend WithEvents BoxLogo As PictureBox
@@ -332,4 +373,7 @@ Partial Class Main
     Friend WithEvents PanelDesktop As Panel
     Friend WithEvents GarbageTimer As Timer
     Friend WithEvents MapControl1 As Map.MapControl
+    Friend WithEvents mapStatisticsCombobox As ComboBox
+    Friend WithEvents mapDatePicker As DateTimePicker
+    Friend WithEvents mapGradientCheckBox As CheckBox
 End Class

@@ -303,19 +303,16 @@ Public Class MapControl
     Public Sub MapDrawLevelGradient(pair() As KeyValuePair(Of String, Integer),
                              levelGradients As Array,
                              Optional gradientDefault As CGradient = Nothing)
-        Dim maxValue As Integer = Integer.MinValue
+        Dim maxValue As Integer = 0
         Dim minValue As Integer = Integer.MaxValue
-        If (gradientDefault IsNot Nothing) Then
-            For i As Integer = 0 To _polygons.Count - 1
-                _polygons(i).GradientBrushCenterColor = gradientDefault.CenterColor
-                _polygons(i).GradientBrushSideColor = gradientDefault.SideColor
-            Next
+        If (gradientDefault Is Nothing) Then
+            gradientDefault = CGradient.Gray
         End If
         For Each item As KeyValuePair(Of String, Integer) In pair
             If (item.Value > maxValue) Then
                 maxValue = item.Value
             End If
-            If (item.Value < minValue) Then
+            If (item.Value < minValue And item.Value <> -1) Then
                 minValue = item.Value
             End If
         Next
@@ -325,6 +322,11 @@ Public Class MapControl
                 _polygons.SetGradientWhereKey(item.Key, levelGradients(n))
             Next
         End If
+        For Each item As KeyValuePair(Of String, Integer) In pair
+            If (item.Value = -1) Then
+                _polygons.SetGradientWhereKey(item.Key, gradientDefault)
+            End If
+        Next
         _polygons.DrawAll(mapPictureBox,
                          _fillPolygons,,,
                          _mapFont,

@@ -132,6 +132,12 @@
     <Compile Include="Forms\statGraphs.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\statSave.Designer.vb">
+      <DependentUpon>statSave.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\statSave.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Main.designer.vb">
       <DependentUpon>Main.vb</DependentUpon>
     </Compile>
@@ -201,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\statGraphs.resx">
       <DependentUpon>statGraphs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\statSave.resx">
+      <DependentUpon>statSave.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>

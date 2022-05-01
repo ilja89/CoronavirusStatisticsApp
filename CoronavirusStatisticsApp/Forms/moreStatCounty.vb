@@ -91,7 +91,7 @@ Public Class moreStatCounty
             "Rapla maakond", "Lääne maakond", "Saare maakond", "Hiiu maakond",
            "Viljandi maakond"}
 
-        Dim VALUE() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
+        Dim value() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
             AppConstants.LAANE_VURU_POPULATION, AppConstants.JARVA_POPULATION,
             AppConstants.JOGEVA_POPULATION, AppConstants.VORU_POPULATION, AppConstants.POLVA_POPULATION,
             AppConstants.VALGA_POPULATION, AppConstants.TARTU_POPULATION, AppConstants.PARNU_POPULATION,

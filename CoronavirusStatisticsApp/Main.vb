@@ -10,32 +10,34 @@ Imports CoronaStatisticsGetter
 Imports FontAwesome.Sharp
 Imports System.Math
 Imports StatisticsObject
+Imports Map
 
 ''' <summary>
 ''' Main form for application
 ''' </summary>
 Public Class Main
     'Details declaration
-    Private _saveLoad As New CStatSaveLoad_ForLoadingControl
+    Private _saveLoad As IStatSaveLoad_ForLoadingControl = New CStatSaveLoad_ForLoadingControl
     Public request As IRequest
 
     Private currentBtn As IconButton
     Private leftBorderBtn As Panel
     Private currentChildForm As Form
 
-    Private countyStat As CStatList
-    Public covidTest As CStatList
-    Public covidVact As CStatList
-    Public covidSick As CStatList
-    Public covidTestPosGen As CStatList
-    Public covidVactGen As CStatList
-    Public covidSickGen As CStatList
-    Public covidTestPositiveCounty As CStatList
+    Private countyStat As IStatList
+    Public covidTest As IStatList
+    Public covidVact As IStatList
+    Public covidSick As IStatList
+    Public covidTestPosGen As IStatList
+    Public covidVactGen As IStatList
+    Public covidSickGen As IStatList
+    Public covidTestPositiveCounty As IStatList
 
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
     Private _threads As New List(Of Threading.Thread)
+    Private _popupDate As String = DateTimeToString(DateTime.Now)
 
     Public Property SaveLoad As CStatSaveLoad_ForLoadingControl
         Get
@@ -54,7 +56,7 @@ Public Class Main
 
         ' Initialize components
         request = New CRequest(_cachePath)
-
+        mapDatePicker.MaxDate = DateTime.Now.AddDays(-1)
         InitMap()
         OpenChildForm(New homeForm)
         CurrentIconLabel.Text = "Kodu"
@@ -251,7 +253,7 @@ DataUpdate:     setProgress(60)
         End If
     End Sub
 
-    Private Sub OpenChildForm(childForm As Form)
+    Private Sub OpenChildForm(childForm)
         If (currentChildForm Is Nothing OrElse
             childForm.GetType <> currentChildForm.GetType) Then
             Dim oldChildForm As Form = currentChildForm
@@ -266,7 +268,7 @@ DataUpdate:     setProgress(60)
             PanelDesktop.Tag = childForm
             childForm.BringToFront()
             childForm.Show()
-            CurrentIconLabel.Text = childForm.Text
+            CurrentIconLabel.Text = childForm.FormName
             If (oldChildForm IsNot Nothing) Then
                 oldChildForm.Dispose()
             End If
@@ -312,7 +314,6 @@ DataUpdate:     setProgress(60)
         MapShow()
         ActivateButton(sender, AppSettings.ButtonColorMap)
         'StatWin1.Visible = False
-
     End Sub
 
     Private Sub btnStatistics_Click(sender As Object, e As EventArgs) Handles btnStatistics.Click
@@ -328,9 +329,9 @@ DataUpdate:     setProgress(60)
 
     End Sub
 
-    Private Sub btnExtra2_Click(sender As Object, e As EventArgs) Handles btnExtra2.Click
+    Private Sub btnExtra2_Click(sender As Object, e As EventArgs) Handles saveStatButton.Click
         ActivateButton(sender, Color.Violet)
-
+        OpenChildForm(New statSave)
     End Sub
 
     Private Sub btnSettings_Click(sender As Object, e As EventArgs) Handles btnSettings.Click
@@ -343,6 +344,9 @@ DataUpdate:     setProgress(60)
 
     Private Sub MapHide()
         MapControl1.Visible = False
+        mapDatePicker.Hide()
+        mapStatisticsCombobox.Hide()
+        mapGradientCheckBox.Hide()
     End Sub
     Private Sub MapShow()
         MapControl1.Visible = True
@@ -351,6 +355,9 @@ DataUpdate:     setProgress(60)
             currentChildForm = Nothing
             oldCurrentChildForm.Dispose()
         End If
+        mapDatePicker.Show()
+        mapStatisticsCombobox.Show()
+        mapGradientCheckBox.Show()
     End Sub
 
     Private Sub CreateLoadingOverlay()
@@ -369,7 +376,7 @@ DataUpdate:     setProgress(60)
         newThread.Start()
         btnMap.Enabled = False
         btnExit.Enabled = False
-        btnExtra2.Enabled = False
+        saveStatButton.Enabled = False
         btnSettings.Enabled = False
         btnStatistics.Enabled = False
         btnTelegramm.Enabled = False
@@ -380,7 +387,7 @@ DataUpdate:     setProgress(60)
         loading.Dispose()
         btnMap.Enabled = True
         btnExit.Enabled = True
-        btnExtra2.Enabled = True
+        saveStatButton.Enabled = True
         btnSettings.Enabled = True
         btnStatistics.Enabled = True
         btnTelegramm.Enabled = True
@@ -438,13 +445,24 @@ DataUpdate:     setProgress(60)
                 popup.Name = polygonName
                 popup.BringToFront()
             End If
-            Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey)
-            Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey)
-            Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey)
-
-            popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
-            popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
-            popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
+            Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
+            Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
+            Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey).WhereDate(_popupDate).
+                Where("Type", "FullyVaccinated")
+            If (CovidTestEdited.Count > 0 And
+                CovidSickEdited.Count > 0 And
+                CovidVactEdited.Count > 0) Then
+                popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
+                popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
+                popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
+            Else
+                CovidTestEdited = covidTest.AsNew.Where("County", polygonKey)
+                CovidSickEdited = covidSick.AsNew.Where("County", polygonKey)
+                CovidVactEdited = covidVact.AsNew.Where("County", polygonKey)
+                popup.allTest.Text = CovidTestEdited.GetField(CovidTestEdited.Count - 1, "TotalTests")
+                popup.allSick.Text = CovidSickEdited.GetField(CovidSickEdited.Count - 1, "Sick")
+                popup.allVact.Text = CovidVactEdited.GetField(CovidVactEdited.Count - 1, "TotalCount")
+            End If
             popup.countyName.Text = polygonName
         End If
     End Sub
@@ -459,7 +477,7 @@ DataUpdate:     setProgress(60)
         MenuPanel.BackColor = SecondaryColor
         BoxLogo.BackColor = SecondaryColor
         btnExit.BackColor = SecondaryColor
-        btnExtra2.BackColor = SecondaryColor
+        saveStatButton.BackColor = SecondaryColor
         btnMap.BackColor = SecondaryColor
         btnSettings.BackColor = SecondaryColor
         btnStatistics.BackColor = SecondaryColor
@@ -484,7 +502,56 @@ DataUpdate:     setProgress(60)
         End Try
     End Sub
 
+    Private Function DateTimeToString(dateTimeObject As DateTime)
+        Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
+    End Function
+
     Private Sub GarbageTimer_Tick(sender As Object, e As EventArgs) Handles GarbageTimer.Tick
         ReleaseMemory()
+    End Sub
+
+    Private Sub mapRedrawHandler(sender As Object, e As EventArgs) Handles mapGradientCheckBox.CheckedChanged, mapDatePicker.CloseUp, mapStatisticsCombobox.SelectedIndexChanged
+        If (mapGradientCheckBox.Checked And mapStatisticsCombobox.Text <> Nothing) Then
+            _popupDate = DateTimeToString(mapDatePicker.Value)
+            Dim statList() As IStatList = {covidVact, covidSick, covidTest}
+            Dim valueField() As String = {"DailyCount", "Sick", "DailyTests"}
+            Dim keyValue() As KeyValuePair(Of String, Integer) = {
+            New KeyValuePair(Of String, Integer)("Harju maakond", -1),
+            New KeyValuePair(Of String, Integer)("Ida-Viru maakond", -1),
+            New KeyValuePair(Of String, Integer)("Lääne-Viru maakond", -1),
+            New KeyValuePair(Of String, Integer)("Järva maakond", -1),
+            New KeyValuePair(Of String, Integer)("Jõgeva maakond", -1),
+            New KeyValuePair(Of String, Integer)("Võru maakond", -1),
+            New KeyValuePair(Of String, Integer)("Põlva maakond", -1),
+            New KeyValuePair(Of String, Integer)("Valga maakond", -1),
+            New KeyValuePair(Of String, Integer)("Tartu maakond", -1),
+            New KeyValuePair(Of String, Integer)("Pärnu maakond", -1),
+            New KeyValuePair(Of String, Integer)("Rapla maakond", -1),
+            New KeyValuePair(Of String, Integer)("Lääne maakond", -1),
+            New KeyValuePair(Of String, Integer)("Saare maakond", -1),
+            New KeyValuePair(Of String, Integer)("Hiiu maakond", -1),
+            New KeyValuePair(Of String, Integer)("Viljandi maakond", -1)}
+            Dim k = mapStatisticsCombobox.SelectedIndex
+            For i As Integer = 0 To keyValue.Length - 1
+                Dim countyStat As IStatList = statList(mapStatisticsCombobox.SelectedIndex).AsNew.Where("County", keyValue(i).Key).
+                    WhereDate(_popupDate, "<=")
+                If (countyStat.Count <> 0) Then
+                    keyValue(i) = New KeyValuePair(Of String, Integer)(keyValue(i).Key,
+                        countyStat.GetField(countyStat.Count - 1, valueField(mapStatisticsCombobox.SelectedIndex)))
+                End If
+            Next
+            MapControl1.MapDrawLevelGradient(keyValue, {
+                CGradient.BrightBlue,
+                CGradient.Green,
+                CGradient.BrightGreen,
+                CGradient.Yellow,
+                CGradient.Orange,
+                CGradient.Red
+                }, CGradient.Gray)
+        Else
+            _popupDate = DateTimeToString(mapDatePicker.Value)
+            MapControl1.MapDrawAllGradient(CGradient.Green)
+            MapControl1.Update()
+        End If
     End Sub
 End Class

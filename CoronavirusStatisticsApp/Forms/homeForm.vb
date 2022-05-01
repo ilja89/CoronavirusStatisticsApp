@@ -10,6 +10,7 @@
 ''' Home form
 ''' </summary>
 Public Class homeForm
+    Public ReadOnly FormName As String = "Avaleht"
     Private Sub WhenLoaded() Handles Me.Load
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()

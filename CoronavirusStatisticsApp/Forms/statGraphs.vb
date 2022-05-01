@@ -13,15 +13,15 @@ Imports StatisticsObject
 ''' Shows global country statistics
 ''' </summary>
 Public Class statGraphs
-
-    Dim covidTestPosGen As CStatList
-    Dim covidVactGen As CStatList
-    Dim covidSickGen As CStatList
-    Dim covidHospitalizedGen As CStatList
-    Dim covidHospitalizedCurrentGen As CStatList
-    Dim covidDeceasedGen As CStatList
+    Public ReadOnly FormName As String = "Statistika"
+    Public covidTestPosGen As CStatList
+    Public covidVactGen As CStatList
+    Public covidSickGen As CStatList
+    Public covidHospitalizedGen As CStatList
+    Public covidHospitalizedCurrentGen As CStatList
+    Public covidDeceasedGen As CStatList
     Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
-    Dim request As New CRequest(_cachePath)
+    Public request As New CRequest(_cachePath)
 
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         totalSick.To = AppConstants.ESTONIA_POPULATION

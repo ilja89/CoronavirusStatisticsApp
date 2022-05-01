@@ -10,6 +10,7 @@
 ''' Form for application settings editing
 ''' </summary>
 Public Class settings
+    Public ReadOnly FormName As String = "Seaded"
     Private _listBoxElementRelatedSetting() As Action(Of Color) = {
         Sub(val As Color) AppSettings.MainColor = val, Sub(val As Color) AppSettings.SecondaryColor = val,
         Sub(val As Color) AppSettings.ButtonColorMap = val, Sub(val As Color) AppSettings.ButtonColorStatistics = val,
