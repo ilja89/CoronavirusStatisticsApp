@@ -10,121 +10,97 @@ Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Math
 Imports StatisticsObject
 Imports StatisticsFunctions
+Imports CoronaStatisticsGetter
 
 ''' <summary>
 ''' Form, what shows advanced statistics for county
 ''' </summary>
 Public Class moreStatCounty
-    Private _limit As Integer
-    Private _dateFrom As DateTime
-    Private _dateTo As DateTime
+    Private _dateFrom As DateTime = New DateTime(2020, 1, 1)
+    Private _dateTo As DateTime = DateTime.Now.AddDays(-2)
     Private _statObject As CStatList
     Private _statObjectValueField As String
+    Private _seriesStatList As New List(Of KeyValuePair(Of String, IStatList))
 
     Private Sub WhenLoaded() Handles Me.Load
-        Chart1.Series(0).ChartType = SeriesChartType.Line
-        Chart1.Series(0).BorderWidth = 3
-        Chart1.Series(0).IsValueShownAsLabel = False
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
-        statypeSelector.Visible = False
-        countySelector.Visible = False
-        Label1.Visible = False
-        Label2.Visible = False
-        clearBtn.Visible = False
-
+        fromDate.MaxDate = DateTime.Now.AddDays(-2)
+        toDate.MaxDate = DateTime.Now.AddDays(-2)
     End Sub
-    Private Sub DatePicker_CloseUp(sender As Object, e As EventArgs)
-        Dim newDateFrom As DateTime = fromDate.Value
-        Dim newDateTo As DateTime = toDate.Value
-        If (_dateFrom <> newDateFrom Or _dateTo <> newDateTo) Then
-            _dateFrom = newDateFrom
-            _dateTo = newDateTo
-            Dim temp As CStatList = _statObject.AsNew.WhereDate(DateTimeToString(_dateFrom), ">=").
-                WhereDate(DateTimeToString(_dateTo), "<=")
-            If (temp.Count > 0) Then
-                Dim XY As Array = StatListToXY(temp)
-                Dim dateNow As DateTime = DateTime.Now
-                Dim diff As Integer = (_dateTo - dateNow).Days
 
-                Chart1.Series(0).Points.DataBindXY(XY(0), XY(1))
+    Public Sub Init(newFormName As String, statistics As IStatList, valueField As String, countyKey() As String)
+        Me.Text = newFormName
+        _statObject = statistics
+        For Each county As String In countyKey
+            AddSeries(county)
+        Next
+        _statObjectValueField = valueField
+        UpdateChart()
+    End Sub
 
-                If (diff > 0) Then
-                    Dim forecast As CStatList = CStatFunctions.Forecast(temp, _statObjectValueField,, 14, diff)
-                    forecast.WhereDate(DateTimeToString(dateNow), ">=")
-                    Dim dateNowString = DateTimeToString(dateNow)
-                    For i As Integer = 0 To forecast.Count - 1
-                        If (forecast.GetField(i, _statObjectValueField) = 0) Then
-                            For j As Integer = forecast.Count - 1 To i Step -1
-                                forecast.Remove(j)
-                            Next
-                            Exit For
-                        End If
-                    Next
-                    XY = StatListToXY(forecast)
-                    If (Chart1.Series.IsUniqueName("Forecast") = True) Then
-                        Dim newSeries As Series = New Series("Forecast")
-                        newSeries.Points.DataBindXY(XY(0), XY(1))
-
-                        newSeries.ChartType = SeriesChartType.Line
-                        newSeries.BorderWidth = 3
-                        Chart1.Series.Add(newSeries)
-                    Else
-                        Chart1.Series.FindByName("Forecast").Points.DataBindXY(XY(0), XY(1))
-                    End If
-                ElseIf (Not Chart1.Series.IsUniqueName("Forecast")) Then
-                    Chart1.Series.Remove(Chart1.Series.FindByName("Forecast"))
-                End If
-                Chart1.Update()
-            End If
+    Public Sub AddSeries(countyKey As String)
+        If (Not Chart1.Series.IsUniqueName(countyKey)) Then
+            Exit Sub
         End If
+        _seriesStatList.Add(New KeyValuePair(Of String, IStatList)(countyKey, _statObject.AsNew.Where("County", countyKey)))
+        Dim newSeries As Series = New Series(countyKey)
+        newSeries.ChartType = SeriesChartType.Line
+        newSeries.BorderWidth = 3
+        Chart1.Series.Add(newSeries)
+        selectedCountyListBox.Items.Add(countyKey)
+        addCountyCombobox.Items.Remove(countyKey)
     End Sub
-    Public Sub Init(polygonKey As String, newStatObject As CStatList, statType As String, newStatObjectValueField As String)
-        Chart1.Series(0).LegendText = statType
-        Chart1.Series(0).ChartType = SeriesChartType.Line
-        Chart1.Series(0).IsValueShownAsLabel = True
-        maakondLabel.Text = polygonKey
+    Public Sub DeleteSeries(countyKey As String)
+        Dim i As Integer = 0
+        selectedCountyListBox.Items.Remove(countyKey)
+        addCountyCombobox.Items.Add(countyKey)
+        Chart1.Series.Remove(Chart1.Series.FindByName(countyKey))
+        While (i < _seriesStatList.Count - 1)
+            If (_seriesStatList(i).Key = countyKey) Then
+                _seriesStatList.RemoveAt(i)
+            End If
+            i += 1
+        End While
+    End Sub
 
-        Dim keys() As String = {"Harju maakond", "Ida-Viru maakond", "Lääne-Viru maakond",
-            "Järva maakond", "Jõgeva maakond", "Võru maakond",
-            "Põlva maakond", "Valga maakond", "Tartu maakond", "Pärnu maakond",
-            "Rapla maakond", "Lääne maakond", "Saare maakond", "Hiiu maakond",
-           "Viljandi maakond"}
-
-        Dim value() As Integer = {AppConstants.HARJU_POPULATION, AppConstants.IDA_VURU_POPULATION,
-            AppConstants.LAANE_VURU_POPULATION, AppConstants.JARVA_POPULATION,
-            AppConstants.JOGEVA_POPULATION, AppConstants.VORU_POPULATION, AppConstants.POLVA_POPULATION,
-            AppConstants.VALGA_POPULATION, AppConstants.TARTU_POPULATION, AppConstants.PARNU_POPULATION,
-            AppConstants.RAPLA_POPULATION, AppConstants.LAANE_POPULATION, AppConstants.SAARE_POPULATION,
-            AppConstants.HIIU_POPULATION, AppConstants.VILJANDI_POPULATION}
-
-        _statObject = newStatObject
-        _statObjectValueField = newStatObjectValueField
-
-        Me.Text = statType
-        For i As Integer = 0 To keys.Length - 1
-            If keys(i) = polygonKey Then
-                '    _limit = value(i)
+    Private Sub UpdateChart()
+        Dim series As SeriesCollection = Chart1.Series
+        For i As Integer = 0 To series.Count - 1
+            Dim statList As IStatList = Nothing
+            For Each item As KeyValuePair(Of String, IStatList) In _seriesStatList
+                If (item.Key = series(i).Name) Then
+                    statList = item.Value
+                End If
+            Next
+            Dim XY As Array = StatListToXY(statList, DateTimeToString(_dateFrom), DateTimeToString(_dateTo))
+            If (XY IsNot Nothing) Then
+                series(i).Points.DataBindXY(XY(0), XY(1))
             End If
         Next
-        AddHandler fromDate.CloseUp, AddressOf DatePicker_CloseUp
-        AddHandler toDate.CloseUp, AddressOf DatePicker_CloseUp
-        DatePicker_CloseUp(Nothing, Nothing)
     End Sub
 
-    Private Function StatListToXY(stat As CStatList)
-        Dim stringDate As String() = stat.GetFields("Date")
-        Dim x(stringDate.Length - 1) As DateTime
-        For i As Integer = 0 To stringDate.Length - 1
-            Dim spl As String() = stringDate(i).Split("-")
-            x(i) = New DateTime(spl(0), spl(1), spl(2))
-        Next
-        Dim y(stat.Count - 1) As Integer
-        Dim arr = stat.GetFields(_statObjectValueField)
-        For i As Integer = 0 To arr.Length - 1
-            y(i) = CInt(arr(i))
-        Next
-        Return {x, y}
+    Private Function DateTimeToString(dateTimeObject As DateTime)
+        Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
+    End Function
+
+    Private Function StatListToXY(initialStatList As IStatList, fromDate As String, toDate As String)
+        Dim stat As IStatList = initialStatList.AsNew.WhereDate(fromDate, ">=").WhereDate(toDate, "<=")
+        If (stat.Count > 0) Then
+            Dim stringDate As String() = stat.GetFields("Date")
+            Dim x(stringDate.Length - 1) As DateTime
+            For i As Integer = 0 To stringDate.Length - 1
+                Dim spl As String() = stringDate(i).Split("-")
+                x(i) = New DateTime(spl(0), spl(1), spl(2))
+            Next
+            Dim y(stat.Count - 1) As Integer
+            Dim arr = stat.GetFields(_statObjectValueField)
+            For i As Integer = 0 To arr.Length - 1
+                y(i) = CInt(arr(i))
+            Next
+            Return {x, y}
+        End If
+        Return Nothing
     End Function
     Private Function DateCmp(date1 As String, date2 As String) As Integer
         For c As Integer = 0 To Min(date1.Length, date2.Length) - 1
@@ -139,42 +115,35 @@ Public Class moreStatCounty
     Private Sub ColorSettingsAppliedHandler()
         Panel1.BackColor = MainColor
         Chart1.BackColor = SecondaryColor
-        maakondLabel.BackColor = SecondaryColor
     End Sub
     Private Sub MeClosingHandler() Handles Me.Closing
         RemoveHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
     End Sub
-    Private Function DateTimeToString(dateTimeObject As DateTime)
-        Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
-    End Function
 
-    Private Sub dropDownBtn_Click(sender As Object, e As EventArgs) Handles dropDownBtn.Click
-        statypeSelector.Visible = True
-        countySelector.Visible = True
-        Label1.Visible = True
-        Label2.Visible = True
-        clearBtn.Visible = True
+    Private Sub addCountyCombobox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles addCountyCombobox.SelectedIndexChanged
+        AddSeries(addCountyCombobox.SelectedItem)
+        UpdateChart
     End Sub
 
-    Private Sub clearBtn_Click(sender As Object, e As EventArgs) Handles clearBtn.Click
-        statypeSelector.Visible = False
-        countySelector.Visible = False
-        Label1.Visible = False
-        Label2.Visible = False
-        clearBtn.Visible = False
-    End Sub
-
-    Private Sub dropDownCounty_SelectedIndexChanged(sender As Object, e As EventArgs) Handles statypeSelector.SelectedIndexChanged
-        If statypeSelector.SelectedIndex = "Testid kokku" Then
-
-        ElseIf statypeSelector.SelectedIndex = "Nakatanud kokkud" Then
-
-        ElseIf statypeSelector.SelectedIndex = "Vaktsineeritud kokku" Then
-
-        Else
-
+    Private Sub removeCountyButton_Click(sender As Object, e As EventArgs) Handles removeCountyButton.Click
+        If (selectedCountyListBox.SelectedItem <> Nothing) Then
+            DeleteSeries(selectedCountyListBox.SelectedItem)
         End If
+    End Sub
 
+    Private Sub fromDate_CloseUp(sender As Object, e As EventArgs) Handles fromDate.CloseUp
+        If (fromDate.Value > toDate.Value) Then
+            toDate.Value = fromDate.Value
+        End If
+        _dateFrom = fromDate.Value
+        UpdateChart()
+    End Sub
 
+    Private Sub toDate_CloseUp(sender As Object, e As EventArgs) Handles toDate.CloseUp
+        If (toDate.Value < fromDate.Value) Then
+            fromDate.Value = fromDate.Value
+        End If
+        _dateTo = toDate.Value
+        UpdateChart()
     End Sub
 End Class

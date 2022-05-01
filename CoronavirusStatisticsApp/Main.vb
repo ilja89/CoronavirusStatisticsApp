@@ -432,7 +432,8 @@ DataUpdate:     setProgress(60)
             Dim popup As New popupWin
             popup.Init(covidTest.AsNew.Where("Result", "P").Where("County", polygonKey),
                        covidSick.AsNew.Where("County", polygonKey),
-                       covidVact.AsNew.Where("County", polygonKey).Where("Type", "FullyVaccinated"))
+                       covidVact.AsNew.Where("County", polygonKey).Where("Type", "FullyVaccinated"),
+                       New KeyValuePair(Of String, String)(polygonKey, polygonName))
             Controls.Add(popup)
             popup.Location = mouseCoords
             For Each position As KeyValuePair(Of String, Point) In positions

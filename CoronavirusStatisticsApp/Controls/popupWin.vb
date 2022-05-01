@@ -10,15 +10,17 @@
 ' RELATED COMPONENTS: ...
 Imports System.Runtime.InteropServices
 Imports StatisticsObject
+Imports CoronaStatisticsGetter
 
 ''' <summary>
 ''' Popup windows for some information showing
 ''' </summary>
 Public Class popupWin
-    Public isClosed As Boolean = False
+    Private _county As KeyValuePair(Of String, String)
     Private _covidTestStat As CStatList
     Private _covidSickStat As CStatList
     Private _covidVactStat As CStatList
+    Private _request As IRequest = New CRequest(AppSettings.CachePath)
     Public Sub popupWin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
@@ -45,26 +47,27 @@ Public Class popupWin
 
     Private Sub openTestBtn_Click(sender As Object, e As EventArgs) Handles openTestBtn.Click
         Dim moreStatCountyForm As New moreStatCounty
-        moreStatCountyForm.Init(Me.Name, _covidTestStat, "Covid Tests", "DailyTests")
+        moreStatCountyForm.Init("Testid", _request.GetTestStatCounty, "DailyTests", {_county.Key})
         moreStatCountyForm.Show()
     End Sub
 
     Private Sub openSickBtn_Click(sender As Object, e As EventArgs) Handles openSickBtn.Click
         Dim moreStatCountyForm As New moreStatCounty
-        moreStatCountyForm.Init(Me.Name, _covidSickStat, "Covid sick", "Sick")
+        moreStatCountyForm.Init("Haiged", _request.GetSickCounty, "Sick", {_county.Key})
         moreStatCountyForm.Show()
     End Sub
 
     Private Sub openVactBtn_Click(sender As Object, e As EventArgs) Handles openVactBtn.Click
         Dim moreStatCountyForm As New moreStatCounty
-        moreStatCountyForm.Init(Me.Name, _covidVactStat, "Vaccinations", "DailyCount")
+        moreStatCountyForm.Init("Vaktsineerimine", _request.GetVaccinationStatByCounty, "DailyCount", {_county.Key})
         moreStatCountyForm.Show()
     End Sub
 
-    Public Sub Init(NewTestStat As CStatList, NewSickStat As CStatList, NewVactStat As CStatList)
+    Public Sub Init(NewTestStat As CStatList, NewSickStat As CStatList, NewVactStat As CStatList, county As KeyValuePair(Of String, String))
         _covidTestStat = NewTestStat
         _covidSickStat = NewSickStat
         _covidVactStat = NewVactStat
+        _county = county
     End Sub
     Private Sub ColorSettingsAppliedHandler()
         Panel2.BackColor = PopupColorMain
