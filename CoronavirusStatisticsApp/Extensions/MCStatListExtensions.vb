@@ -1,7 +1,19 @@
-﻿Imports System.Runtime.CompilerServices
+﻿' FILENAME: MCStatListExtensions.vb
+' AUTOR: El Plan - Ilja Kuznetsov
+' CREATED: 28.04.2022
+' CHANGED: 28.04.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: StatisticsObject
+Imports System.Runtime.CompilerServices
+Imports StatisticsObject
+''' <summary>
+''' Provides some functional extensions for IStatList
+''' </summary>
 Public Module MCStatListExtensions
     <Extension>
-    Public Function ToCSVStrings(list As CoronaStatisticsGetter.IStatList, delimiter As String, textQualifier As String) As String()
+    Public Function ToCSVStrings(list As IStatList, delimiter As String, textQualifier As String) As String()
         Dim data(list.Count) As String
         Dim raw As List(Of String()) = list.GetItemsDirectly
         Dim j As Integer = 0

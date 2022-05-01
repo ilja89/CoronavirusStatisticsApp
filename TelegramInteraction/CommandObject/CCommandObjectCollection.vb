@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CCommandObject.vb
+' Related components: ...
 
 
 ''' <summary>

@@ -1,4 +1,15 @@
-﻿Public Class settings
+﻿' FILENAME: settings.vb
+' AUTOR: El Plan - Ilja Kuznetsov
+' CREATED: 25.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: ...
+''' <summary>
+''' Form for application settings editing
+''' </summary>
+Public Class settings
     Private _listBoxElementRelatedSetting() As Action(Of Color) = {
         Sub(val As Color) AppSettings.MainColor = val, Sub(val As Color) AppSettings.SecondaryColor = val,
         Sub(val As Color) AppSettings.ButtonColorMap = val, Sub(val As Color) AppSettings.ButtonColorStatistics = val,
@@ -44,7 +55,7 @@
     End Sub
 
     Private Sub buttonResetApplicationColors_Click(sender As Object, e As EventArgs) Handles buttonResetApplicationColors.Click
-        AppSettings.ResetToDefault
+        AppSettings.ResetToDefault()
         AppSettings.RaiseEventNewColorSettingsApplied()
     End Sub
     Private Sub ColorSettingsAppliedHandler()

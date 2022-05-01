@@ -5,8 +5,12 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CStatList
+' Related components: StatisticsObject
 Imports System.Runtime
+Imports StatisticsObject
+''' <summary>
+''' Provides statistics processing functions
+''' </summary>
 Public Class CStatFunctions
 
     ''' <summary>

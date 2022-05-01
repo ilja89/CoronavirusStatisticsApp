@@ -1,4 +1,5 @@
-﻿Public Interface IRequest
+﻿Imports StatisticsObject
+Public Interface IRequest
     Function GetVaccinationStatByCounty() As CStatList
 
     Function GetVaccinationStatByAgeGroup() As CStatList

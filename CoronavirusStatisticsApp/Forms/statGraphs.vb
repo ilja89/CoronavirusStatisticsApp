@@ -1,4 +1,17 @@
-﻿Imports CoronaStatisticsGetter
+﻿' FILENAME: statGraphs.vb
+' AUTOR: El Plan - Nikita Budovei
+' CREATED: 10.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: ...
+Imports CoronaStatisticsGetter
+Imports StatisticsObject
+
+''' <summary>
+''' Shows global country statistics
+''' </summary>
 Public Class statGraphs
 
     Dim covidTestPosGen As CStatList

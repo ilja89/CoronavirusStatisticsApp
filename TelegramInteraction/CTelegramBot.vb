@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CInlineKeyboardButton, CMarkup, CTelegramResponse
+' Related components: ...
 
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq

@@ -1,6 +1,19 @@
-﻿Imports System.Runtime.InteropServices
-Imports CoronaStatisticsGetter
+﻿' FILENAME: PopupWin.vb
+' AUTOR: El Plan - Alexandr Ivantsov
+' CREATED: 14.04.2022
+' CHANGED: 18.05.2022
+'
+' DESCRIPTION: See below
+'
+' PRECONDITIONS: ...
+' SUBSEQUENT CONDITIONS: ...
+' RELATED COMPONENTS: ...
+Imports System.Runtime.InteropServices
+Imports StatisticsObject
 
+''' <summary>
+''' Popup windows for some information showing
+''' </summary>
 Public Class popupWin
     Public isClosed As Boolean = False
     Private _covidTestStat As CStatList
@@ -29,18 +42,6 @@ Public Class popupWin
 
         Me.Visible = False
         Me.Dispose()
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
-
-    End Sub
-
-    Private Sub Label4_Click(sender As Object, e As EventArgs) Handles countyName.Click
-
-    End Sub
-
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
     End Sub
 
     Private Sub openTestBtn_Click(sender As Object, e As EventArgs) Handles openTestBtn.Click

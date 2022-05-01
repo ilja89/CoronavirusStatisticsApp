@@ -1,4 +1,17 @@
-﻿Public Module AppConstants
+﻿' FILENAME: AppConstants.vb
+' AUTOR: El Plan - Nikita Budovei
+' CREATED: 28.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' PRECONDITIONS: ...
+' SUBSEQUENT CONDITIONS: ...
+' RELATED COMPONENTS: ...
+''' <summary>
+''' Stores global app constants
+''' </summary>
+Public Module AppConstants
     Public Const ESTONIA_POPULATION As Integer = 1331000            'Number of people who live in Estonia
 
     Public Const HARJU_POPULATION As Integer = 609515                   'Number of people who live in Harju county 

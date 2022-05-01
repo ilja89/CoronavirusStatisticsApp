@@ -1,4 +1,16 @@
-﻿Imports CoronaStatisticsGetter
+﻿' FILENAME: CStatSaveLoad_ForLoadingControl.vb
+' AUTOR: El Plan - Nikita Budovei
+' CREATED: 24.04.2022
+' CHANGED: 25.04.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: ...
+Imports CoronaStatisticsGetter
+Imports DataDownload
+''' <summary>
+''' CStatSaveLoad, changed to show loading progress and work with application settings
+''' </summary>
 Public Class CStatSaveLoad_ForLoadingControl
     Inherits CStatSaveLoad
     Implements IStatSaveLoad_ForLoadingControl
@@ -7,7 +19,7 @@ Public Class CStatSaveLoad_ForLoadingControl
                                              progressValueUpdate As Action(Of Integer)) As Task(Of Boolean) Implements IStatSaveLoad_ForLoadingControl.UpdateData
 
         Dim saveLoad As IStatSaveLoad_ForLoadingControl = New CStatSaveLoad_ForLoadingControl
-        Dim newDataDownload As CoronaStatisticsGetter.IDataDowload = New CDataDownload
+        Dim newDataDownload As IDataDowload = New CDataDownload
         Dim fileNames() As String = {
             "VaccinationStatByCounty",
             "VaccinationStatByAgeGroup",

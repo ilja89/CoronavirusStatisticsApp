@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CTelegramBot
+' Related components: ...
 
 Imports System.Runtime.CompilerServices
 

@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CPolygon
+' Related components: ...
 Imports System.Drawing.Drawing2D
 ''' <summary>
 ''' Used to make a list of <see cref="CPolygon"/> and treat them in more convenient form

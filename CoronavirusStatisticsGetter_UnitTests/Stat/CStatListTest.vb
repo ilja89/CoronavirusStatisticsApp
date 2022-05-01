@@ -8,13 +8,14 @@
 ' Related components: CStatList
 Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports StatisticsObject
 
 <TestClass()> Public Class CStatListTest
 
     Implements IStatListTest
 
     <TestMethod()> Public Sub New_Test() Implements IStatListTest.New_Test
-        Dim list As New CoronaStatisticsGetter.CStatList({{"Name", "NametosaveWith", "0"},
+        Dim list As New CStatList({{"Name", "NametosaveWith", "0"},
                                                          {"Name2", "NametosaveWith2", "1"}})
         Dim resultFields As String() = list.Fields
         Dim expectedResult As String() = {"NametosaveWith", "NametosaveWith2"}
@@ -31,7 +32,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(Nothing, resultGetField)
     End Sub
     <TestMethod> Public Sub ElementProperty_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"Field1", "Field1ToSaveAs", 0},
+        Dim list = New CStatList({{"Field1", "Field1ToSaveAs", 0},
                                                          {"Field2", "Field2ToSaveAs", 2}})
         list.Add({"field1Value,notUsedValue,field2Value"})
         Dim item1 = list(0)
@@ -42,14 +43,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("newField2Value", list(0)(1))
     End Sub
     <TestMethod> Public Sub FieldsNumberProperty_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"Field1", "Field1ToSaveAs", 0},
+        Dim list = New CStatList({{"Field1", "Field1ToSaveAs", 0},
                                                          {"Field2", "Field2ToSaveAs", 2}})
         list.Add({"field1Value,notUsedValue,field2Value"})
         Assert.AreEqual(2, list.FieldsNumber)
     End Sub
 
     <TestMethod> Public Sub SetField_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"Field1", "Field1ToSaveAs", 0},
+        Dim list = New CStatList({{"Field1", "Field1ToSaveAs", 0},
                                                          {"Field2", "Field2ToSaveAs", 2}})
         list.Add({"field1Value,notUsedValue,field2Value"})
         list.SetField(0, "Field2ToSaveAs") = "newField2Value"
@@ -61,7 +62,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     End Sub
 
     <TestMethod> Public Sub GetField_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"Field1", "Field1ToSaveAs", 0},
+        Dim list = New CStatList({{"Field1", "Field1ToSaveAs", 0},
                                                          {"Field2", "Field2ToSaveAs", 2}})
         Dim result1 As String = list.GetField(0, "Field2ToSaveAs")
         Dim result2 As String = list.GetField
@@ -77,7 +78,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     End Sub
 
     <TestMethod> Public Sub GetFields_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 2},
                                                          {"DirectionField", "Direction", 3}})
         list.Add({"2020-02-02,unused,red,right", "2021-01-01,unused,blue,left", "2022-02-02,unused,red,left"})
@@ -104,7 +105,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     End Sub
 
     <TestMethod> Public Sub GetIndexOfFirstItemWhere_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -135,7 +136,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     End Sub
 
     <TestMethod> Public Sub Remove_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -149,7 +150,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("green", result1(2))
     End Sub
     <TestMethod> Public Sub WhereDate_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -172,7 +173,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(Nothing, result7)
     End Sub
     <TestMethod> Public Sub Where_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -189,7 +190,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("yellow", result4.GetField(0, "Color"))
     End Sub
     <TestMethod> Public Sub WhereNot_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -202,7 +203,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("left", result1.GetField(1, "Direction"))
     End Sub
     <TestMethod> Public Sub DeleteFieldFromList_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -213,7 +214,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("right", list(0)(1))
     End Sub
     <TestMethod> Public Sub RenameField_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -224,7 +225,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("red", list.GetField(0, "ColorField"))
     End Sub
     <TestMethod> Public Sub AddField_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -235,7 +236,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("12345", list.GetField(2, "NewField"))
     End Sub
     <TestMethod> Public Sub AddItemDirectly_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -248,7 +249,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual({"2022-02-06", "purple", "right"}(2), list.GetField(list.Count - 1, 2))
     End Sub
     <TestMethod> Public Sub AddItemsDirectly_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",
@@ -267,7 +268,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual({"2022-02-07", "black", "left"}(2), list.GetField(list.Count - 1, 2))
     End Sub
     <TestMethod> Public Sub GetItemsDirectly_Test()
-        Dim list = New CoronaStatisticsGetter.CStatList({{"DateField", "Date", 0},
+        Dim list = New CStatList({{"DateField", "Date", 0},
                                                          {"ColorField", "Color", 1},
                                                          {"DirectionField", "Direction", 2}})
         list.Add({"2022-02-02,red,right",

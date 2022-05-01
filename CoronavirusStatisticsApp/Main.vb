@@ -1,7 +1,19 @@
-﻿Imports CoronaStatisticsGetter
+﻿' FILENAME: Main.vb
+' AUTOR: El Plan - Aleksandr Ivantsov, Ilja Kuznetsov
+' CREATED: 16.03.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: StatisticsObject, CoronavirusStatisticsGetter
+Imports CoronaStatisticsGetter
 Imports FontAwesome.Sharp
 Imports System.Math
+Imports StatisticsObject
 
+''' <summary>
+''' Main form for application
+''' </summary>
 Public Class Main
     'Details declaration
     Private _saveLoad As New CStatSaveLoad_ForLoadingControl

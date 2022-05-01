@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: MapControl, CArgb
+' Related components: ...
 ''' <summary>
 ''' Used to save gradient colors.
 ''' </summary>

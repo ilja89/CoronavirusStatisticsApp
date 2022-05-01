@@ -1,6 +1,19 @@
-﻿Imports CoronaStatisticsGetter
+﻿' FILENAME: moreStatCounty.vb
+' AUTOR: El Plan - Ilja Kuznetsov, Alexandr Ivantsov
+' CREATED: 10.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: ...
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Math
+Imports StatisticsObject
+Imports StatisticsFunctions
+
+''' <summary>
+''' Form, what shows advanced statistics for county
+''' </summary>
 Public Class moreStatCounty
     Private _limit As Integer
     Private _dateFrom As DateTime

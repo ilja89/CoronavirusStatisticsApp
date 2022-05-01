@@ -115,9 +115,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoronavirusStatisticsGetter\CoronavirusStatisticsGetter.vbproj">
-      <Project>{e1a5f7d2-0285-429a-899a-d29be7d3826d}</Project>
-      <Name>CoronavirusStatisticsGetter</Name>
+    <ProjectReference Include="..\StatisticsObject\StatisticsObject.vbproj">
+      <Project>{b9db1ea2-f009-474d-a718-96e3b7d3b866}</Project>
+      <Name>StatisticsObject</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

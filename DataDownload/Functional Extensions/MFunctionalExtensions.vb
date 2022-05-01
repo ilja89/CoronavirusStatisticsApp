@@ -1,11 +1,11 @@
-﻿' FILENAME: CFunctionalExtensions.vb
+﻿' FILENAME: MFunctionalExtensions.vb
 ' AUTHOR: El Plan : Ilja Kuznetsov.
 ' CREATED: 02.03.2022
 ' CHANGED: 02.03.2022
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: No related components, general use
+' Related components: NewtonJson
 
 Imports System.Runtime.CompilerServices
 

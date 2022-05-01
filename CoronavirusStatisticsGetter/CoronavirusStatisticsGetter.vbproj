@@ -63,13 +63,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Request\CDataDownload.vb" />
-    <Compile Include="Request\HelperWebClient.vb" />
-    <Compile Include="Request\IDataDowload.vb" />
     <Compile Include="Request\IRequest.vb" />
-    <Compile Include="Stat\CStatFunctions.vb" />
-    <Compile Include="Stat\CStatList.vb" />
-    <Compile Include="Functional Extensions\MFunctionalExtensions.vb" />
     <Compile Include="Request\CRequest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -88,7 +82,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Stat\CStatSaveLoad.vb" />
-    <Compile Include="Stat\IStatList.vb" />
     <Compile Include="Stat\IStatSaveLoad.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +106,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataDownload\DataDownload.vbproj">
+      <Project>{b6232e76-15b5-4d44-9edd-f0202b30763b}</Project>
+      <Name>DataDownload</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatisticsObject\StatisticsObject.vbproj">
+      <Project>{b9db1ea2-f009-474d-a718-96e3b7d3b866}</Project>
+      <Name>StatisticsObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

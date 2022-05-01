@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CPolygons
+' Related components: ...
 Imports System.Math
 Imports System.Drawing.Drawing2D
 Public Class CPolygon

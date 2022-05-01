@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: MapControl
+' Related components: ...
 
 ''' <summary>
 ''' Used to somehow save ARGB color values separately.

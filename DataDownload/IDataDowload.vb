@@ -1,4 +1,5 @@
-﻿Public Interface IDataDowload
+﻿Imports StatisticsObject
+Public Interface IDataDowload
 
     Function GetVaccinationStatByCountyRaw() As Task(Of CStatList)
 

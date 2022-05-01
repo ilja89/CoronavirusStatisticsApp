@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CCommandObjectCollection.vb
+' Related components: ...
 
 ''' <summary>
 '''  This class is used to link together any custom Telegram command and function, what handles it. <br/>

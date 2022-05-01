@@ -5,8 +5,9 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CStatList, CRequest
+' Related components: StatisticsObject
 Imports System.Math
+Imports DataDownload
 ''' <summary>
 ''' Used to save and load data from / to binary files on disk and update outdated or absent info.
 ''' </summary>

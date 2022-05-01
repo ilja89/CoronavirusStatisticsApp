@@ -243,9 +243,21 @@
       <Project>{6cb980c2-51d0-42ab-920c-f434b3f17f94}</Project>
       <Name>CSVExporterDNF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataDownload\DataDownload.vbproj">
+      <Project>{b6232e76-15b5-4d44-9edd-f0202b30763b}</Project>
+      <Name>DataDownload</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Map\Map.vbproj">
       <Project>{d9ec6d3f-7949-414d-95d1-bf26a5d75f48}</Project>
       <Name>Map</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatisticsFunctions\StatisticsFunctions.vbproj">
+      <Project>{0c8e5af3-8a8e-4929-bc6b-ec484e12f332}</Project>
+      <Name>StatisticsFunctions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatisticsObject\StatisticsObject.vbproj">
+      <Project>{b9db1ea2-f009-474d-a718-96e3b7d3b866}</Project>
+      <Name>StatisticsObject</Name>
     </ProjectReference>
     <ProjectReference Include="..\TelegramInteraction\TelegramInteraction.vbproj">
       <Project>{282771c9-d0b4-45ab-a29f-e1c94ff18f80}</Project>

@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CInlineKeyboardButton, CTelegramBot
+' Related components: ...
 
 ''' <summary>
 ''' This class is used for inline buttons builder<br/>

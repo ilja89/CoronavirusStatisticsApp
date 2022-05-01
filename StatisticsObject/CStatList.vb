@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CStatFunctions
+' Related components: ...
 Imports System.Math
 ''' <summary>
 ''' Class used to comfortably work with statistics data, received from network in CSV format.

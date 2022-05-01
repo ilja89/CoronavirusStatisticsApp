@@ -1,4 +1,18 @@
-﻿<Serializable>
+﻿' FILENAME: AppSettingsSerializable.vb
+' AUTOR: El Plan - Ilja Kuznetsov
+' CREATED: 25.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' PRECONDITIONS: AppSettings.vb exists and has required properties
+' SUBSEQUENT CONDITIONS: ...
+' RELATED COMPONENTS: ...
+
+''' <summary>
+''' Used to save AppSettings.vb information in serializable form
+''' </summary>
+<Serializable>
 Public Class AppSettingsSerializable
     Private _CSVExporterDelimiter As String = AppSettings.CSVExporterDelimiter
     Private _CSVExporterTextQualifier As String = AppSettings.CSVExporterTextQualifier

@@ -1,4 +1,17 @@
-﻿Module AppSettings
+﻿' FILENAME: AppSettings.vb
+' AUTOR: El Plan - Ilja Kuznetsov
+' CREATED: 25.04.2022
+' CHANGED: 01.05.2022
+'
+' DESCRIPTION: See below
+'
+' PRECONDITIONS: ...
+' SUBSEQUENT CONDITIONS: ...
+' RELATED COMPONENTS: ...
+''' <summary>
+''' Provides static object what stores all applications settings
+''' </summary>
+Module AppSettings
     Public Event NewColorSettingsApplied()
 
     Public ReadOnly AppSettingsCachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Settings\"

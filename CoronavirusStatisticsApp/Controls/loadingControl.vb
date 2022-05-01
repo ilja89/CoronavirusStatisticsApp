@@ -1,4 +1,18 @@
-﻿Imports System.Math
+﻿' FILENAME: LoadingControl.vb
+' AUTOR: El Plan - Nikita Budovei
+' CREATED: 20.04.2022
+' CHANGED: 25.04.2022
+'
+' DESCRIPTION: See below
+'
+' PRECONDITIONS: ...
+' SUBSEQUENT CONDITIONS: ...
+' RELATED COMPONENTS: ...
+
+Imports System.Math
+''' <summary>
+''' Provides loading overlay control for application
+''' </summary>
 Public Class loadingControl
     Private _picture As Image = Nothing
     Private _bmp As Bitmap = Nothing

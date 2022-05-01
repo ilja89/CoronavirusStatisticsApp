@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CInlineKeyboardButtonBuilder
+' Related components: ...
 
 ''' <summary>
 ''' This class is used to describe instances of Telegram inline buttons

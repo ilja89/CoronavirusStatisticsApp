@@ -1,4 +1,15 @@
-﻿Public Class CExporter
+﻿' FILENAME: CExporter.vb
+' AUTOR: El Plan - Ilja Kuznetsov
+' CREATED: 27.04.2022
+' CHANGED: 30.04.2022
+'
+' DESCRIPTION: See below
+'
+' RELATED COMPONENTS: ...
+''' <summary>
+''' Used to export some data into CSV
+''' </summary>
+Public Class CExporter
     Implements IExporter
 
     Private _delimiter As String = ":"

@@ -5,7 +5,7 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CTelegramBot
+' Related components: ...
 
 ''' <summary>
 ''' Public class, purpose of what is to store received Telegram message in form of regular message or command<br/>

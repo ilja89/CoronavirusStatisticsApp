@@ -5,13 +5,13 @@
 '
 ' DESCRIPTION: See below↓↓↓
 
-' Related components: CStatList, CStatObject
+' Related components: StatisticsObject, Newtonsoft.Json
 
 Imports System.Net
-Imports CoronaStatisticsGetter.CRequest
 Imports Newtonsoft.Json.Linq
 Imports System.Math
 Imports System.Reflection.MethodInfo
+Imports StatisticsObject
 ''' <summary>
 ''' This class is used to download raw data from <strong>Digilugu</strong> 
 ''' <see href="https://opendata.digilugu.ee/"></see> servers and other sources.
@@ -458,5 +458,45 @@ Public Class CDataDownload
             End Try
         End While
         Return data
+    End Function
+    ''' <summary>
+    ''' Parses raw CSV statistics file received in <see cref="String"/> form into instance of <see cref="CStatList"/>
+    ''' </summary>
+    ''' <param name="rawCSV">Raw CSV file in <see cref="String"/> format</param>
+    ''' <param name="fields">Headers what must be parsed from CSV statistics file</param>
+    ''' <returns>Instance of <see cref="CStatList"/></returns>
+    Public Shared Function ParseCSVToCStatList(rawCSV As String, fields As Array) As CStatList
+        Dim data As String() = rawCSV.Replace("""", "").Split(vbLf)
+        Dim headers As String() = data(0).Split(",")
+        Dim parsedFields(fields.Length - 1, 2) As String
+        Dim i As Integer = 0
+        Dim statList As CStatList
+        ' Parse fields to divide aim input value and saveto value
+        For Each field As String In fields
+            If (field.Contains("||")) Then
+                Dim splitted As String() = field.Split("||")
+                parsedFields(i, 0) = splitted(0)
+                parsedFields(i, 1) = splitted(2)
+            Else
+                parsedFields(i, 0) = field
+                parsedFields(i, 1) = field
+            End If
+            i = i + 1
+        Next
+        i = 0
+        ' Find input headers corresponding to parsed fields
+        For Each header As String In headers
+            For c As Integer = 0 To fields.Length - 1
+                If (header = parsedFields(c, 0)) Then
+                    parsedFields(c, 2) = i
+                End If
+            Next
+            i = i + 1
+        Next
+        ' Initialize stat object
+        data(0) = Nothing
+        statList = New CStatList(parsedFields)
+        statList.Add(data, ",")
+        Return statList
     End Function
 End Class
