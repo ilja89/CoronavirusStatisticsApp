@@ -24,7 +24,7 @@ Partial Class Main
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
-        Dim CGradient1 As Map.CGradient = New Map.CGradient()
+        Dim CGradient2 As Map.CGradient = New Map.CGradient()
         Me.MenuPanel = New System.Windows.Forms.Panel()
         Me.btnExit = New FontAwesome.Sharp.IconButton()
         Me.btnSettings = New FontAwesome.Sharp.IconButton()
@@ -82,7 +82,7 @@ Partial Class Main
         Me.btnExit.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnExit.Size = New System.Drawing.Size(233, 63)
         Me.btnExit.TabIndex = 6
-        Me.btnExit.Text = "Exit"
+        Me.btnExit.Text = "Välju"
         Me.btnExit.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnExit.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnExit.UseVisualStyleBackColor = False
@@ -104,7 +104,7 @@ Partial Class Main
         Me.btnSettings.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnSettings.Size = New System.Drawing.Size(233, 60)
         Me.btnSettings.TabIndex = 5
-        Me.btnSettings.Text = " Settings"
+        Me.btnSettings.Text = "Seaded"
         Me.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnSettings.UseVisualStyleBackColor = False
@@ -170,7 +170,7 @@ Partial Class Main
         Me.btnStatistics.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnStatistics.Size = New System.Drawing.Size(233, 60)
         Me.btnStatistics.TabIndex = 2
-        Me.btnStatistics.Text = "Statistics"
+        Me.btnStatistics.Text = "Statistika"
         Me.btnStatistics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnStatistics.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnStatistics.UseVisualStyleBackColor = False
@@ -192,7 +192,7 @@ Partial Class Main
         Me.btnMap.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnMap.Size = New System.Drawing.Size(233, 60)
         Me.btnMap.TabIndex = 1
-        Me.btnMap.Text = "Map"
+        Me.btnMap.Text = "Kaart"
         Me.btnMap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btnMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btnMap.UseVisualStyleBackColor = False
@@ -234,9 +234,9 @@ Partial Class Main
         Me.CurrentIconLabel.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CurrentIconLabel.Location = New System.Drawing.Point(57, 33)
         Me.CurrentIconLabel.Name = "CurrentIconLabel"
-        Me.CurrentIconLabel.Size = New System.Drawing.Size(43, 16)
+        Me.CurrentIconLabel.Size = New System.Drawing.Size(39, 16)
         Me.CurrentIconLabel.TabIndex = 1
-        Me.CurrentIconLabel.Text = "Home"
+        Me.CurrentIconLabel.Text = "Kodu"
         '
         'CurrentIcon
         '
@@ -273,9 +273,9 @@ Partial Class Main
         Me.MapControl1.BaseImage = Nothing
         Me.MapControl1.DefBgCenterColor = System.Drawing.Color.Gray
         Me.MapControl1.DefBgSideColor = System.Drawing.Color.Gray
-        CGradient1.CenterColor = System.Drawing.Color.Green
-        CGradient1.SideColor = System.Drawing.Color.DarkGreen
-        Me.MapControl1.DefGradient = CGradient1
+        CGradient2.CenterColor = System.Drawing.Color.Green
+        CGradient2.SideColor = System.Drawing.Color.DarkGreen
+        Me.MapControl1.DefGradient = CGradient2
         Me.MapControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MapControl1.DrawNames = True
         Me.MapControl1.FillPolygons = True

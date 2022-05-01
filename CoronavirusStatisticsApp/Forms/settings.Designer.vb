@@ -48,9 +48,9 @@ Partial Class settings
         Me.labelCSVExporterSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelCSVExporterSettings.Location = New System.Drawing.Point(12, 9)
         Me.labelCSVExporterSettings.Name = "labelCSVExporterSettings"
-        Me.labelCSVExporterSettings.Size = New System.Drawing.Size(251, 29)
+        Me.labelCSVExporterSettings.Size = New System.Drawing.Size(294, 29)
         Me.labelCSVExporterSettings.TabIndex = 0
-        Me.labelCSVExporterSettings.Text = "CSV Exporter Settings"
+        Me.labelCSVExporterSettings.Text = "CSV Eksportimise seaded"
         '
         'textBoxDelimiter
         '
@@ -68,9 +68,9 @@ Partial Class settings
         Me.labelDelimiter.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelDelimiter.Location = New System.Drawing.Point(12, 49)
         Me.labelDelimiter.Name = "labelDelimiter"
-        Me.labelDelimiter.Size = New System.Drawing.Size(83, 24)
+        Me.labelDelimiter.Size = New System.Drawing.Size(141, 24)
         Me.labelDelimiter.TabIndex = 2
-        Me.labelDelimiter.Text = "Delimiter"
+        Me.labelDelimiter.Text = "Eraldus sümbol"
         '
         'labelTextQualifier
         '
@@ -80,9 +80,9 @@ Partial Class settings
         Me.labelTextQualifier.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelTextQualifier.Location = New System.Drawing.Point(12, 84)
         Me.labelTextQualifier.Name = "labelTextQualifier"
-        Me.labelTextQualifier.Size = New System.Drawing.Size(121, 24)
+        Me.labelTextQualifier.Size = New System.Drawing.Size(100, 24)
         Me.labelTextQualifier.TabIndex = 3
-        Me.labelTextQualifier.Text = "Text Qualifier"
+        Me.labelTextQualifier.Text = "Teksti valik"
         '
         'textBoxTextQualifier
         '
@@ -100,9 +100,9 @@ Partial Class settings
         Me.labelGeneralAppSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelGeneralAppSettings.Location = New System.Drawing.Point(11, 118)
         Me.labelGeneralAppSettings.Name = "labelGeneralAppSettings"
-        Me.labelGeneralAppSettings.Size = New System.Drawing.Size(241, 29)
+        Me.labelGeneralAppSettings.Size = New System.Drawing.Size(183, 29)
         Me.labelGeneralAppSettings.TabIndex = 7
-        Me.labelGeneralAppSettings.Text = "General App Settings"
+        Me.labelGeneralAppSettings.Text = "Üldised seaded"
         '
         'labelCachePath
         '
@@ -112,9 +112,9 @@ Partial Class settings
         Me.labelCachePath.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelCachePath.Location = New System.Drawing.Point(12, 155)
         Me.labelCachePath.Name = "labelCachePath"
-        Me.labelCachePath.Size = New System.Drawing.Size(205, 24)
+        Me.labelCachePath.Size = New System.Drawing.Size(167, 24)
         Me.labelCachePath.TabIndex = 5
-        Me.labelCachePath.Text = "Application Cache Path"
+        Me.labelCachePath.Text = "Äppi vahemälu tee"
         '
         'richTextBoxCachePath
         '
@@ -133,7 +133,7 @@ Partial Class settings
         Me.buttonCachePathChange.Name = "buttonCachePathChange"
         Me.buttonCachePathChange.Size = New System.Drawing.Size(194, 23)
         Me.buttonCachePathChange.TabIndex = 9
-        Me.buttonCachePathChange.Text = "Change"
+        Me.buttonCachePathChange.Text = "Muuta"
         Me.buttonCachePathChange.UseVisualStyleBackColor = True
         '
         'buttonCachePathReset
@@ -143,7 +143,7 @@ Partial Class settings
         Me.buttonCachePathReset.Name = "buttonCachePathReset"
         Me.buttonCachePathReset.Size = New System.Drawing.Size(188, 23)
         Me.buttonCachePathReset.TabIndex = 10
-        Me.buttonCachePathReset.Text = "Reset"
+        Me.buttonCachePathReset.Text = "Vaikimisi"
         Me.buttonCachePathReset.UseVisualStyleBackColor = False
         '
         'labelApplicationColors
@@ -154,9 +154,9 @@ Partial Class settings
         Me.labelApplicationColors.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.labelApplicationColors.Location = New System.Drawing.Point(13, 258)
         Me.labelApplicationColors.Name = "labelApplicationColors"
-        Me.labelApplicationColors.Size = New System.Drawing.Size(162, 24)
+        Me.labelApplicationColors.Size = New System.Drawing.Size(103, 24)
         Me.labelApplicationColors.TabIndex = 11
-        Me.labelApplicationColors.Text = "Application Colors"
+        Me.labelApplicationColors.Text = "Äppi värvid"
         '
         'buttonChangeApplicationColors
         '
@@ -164,7 +164,7 @@ Partial Class settings
         Me.buttonChangeApplicationColors.Name = "buttonChangeApplicationColors"
         Me.buttonChangeApplicationColors.Size = New System.Drawing.Size(110, 23)
         Me.buttonChangeApplicationColors.TabIndex = 13
-        Me.buttonChangeApplicationColors.Text = "Change"
+        Me.buttonChangeApplicationColors.Text = "Muuta"
         Me.buttonChangeApplicationColors.UseVisualStyleBackColor = True
         '
         'buttonResetApplicationColors
@@ -174,7 +174,7 @@ Partial Class settings
         Me.buttonResetApplicationColors.Name = "buttonResetApplicationColors"
         Me.buttonResetApplicationColors.Size = New System.Drawing.Size(110, 23)
         Me.buttonResetApplicationColors.TabIndex = 14
-        Me.buttonResetApplicationColors.Text = "Reset"
+        Me.buttonResetApplicationColors.Text = "Vaikimisi"
         Me.buttonResetApplicationColors.UseVisualStyleBackColor = False
         '
         'listBoxApplicationElement

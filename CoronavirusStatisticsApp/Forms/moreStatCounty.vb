@@ -14,6 +14,12 @@ Public Class moreStatCounty
         Chart1.Series(0).IsValueShownAsLabel = False
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
+        statypeSelector.Visible = False
+        countySelector.Visible = False
+        Label1.Visible = False
+        Label2.Visible = False
+        clearBtn.Visible = False
+
     End Sub
     Private Sub DatePicker_CloseUp(sender As Object, e As EventArgs)
         Dim newDateFrom As DateTime = fromDate.Value
@@ -128,4 +134,34 @@ Public Class moreStatCounty
     Private Function DateTimeToString(dateTimeObject As DateTime)
         Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)
     End Function
+
+    Private Sub dropDownBtn_Click(sender As Object, e As EventArgs) Handles dropDownBtn.Click
+        statypeSelector.Visible = True
+        countySelector.Visible = True
+        Label1.Visible = True
+        Label2.Visible = True
+        clearBtn.Visible = True
+    End Sub
+
+    Private Sub clearBtn_Click(sender As Object, e As EventArgs) Handles clearBtn.Click
+        statypeSelector.Visible = False
+        countySelector.Visible = False
+        Label1.Visible = False
+        Label2.Visible = False
+        clearBtn.Visible = False
+    End Sub
+
+    Private Sub dropDownCounty_SelectedIndexChanged(sender As Object, e As EventArgs) Handles statypeSelector.SelectedIndexChanged
+        If statypeSelector.SelectedIndex = "Testid kokku" Then
+
+        ElseIf statypeSelector.SelectedIndex = "Nakatanud kokkud" Then
+
+        ElseIf statypeSelector.SelectedIndex = "Vaktsineeritud kokku" Then
+
+        Else
+
+        End If
+
+
+    End Sub
 End Class

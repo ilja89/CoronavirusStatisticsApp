@@ -45,7 +45,8 @@ Public Class Main
 
         InitMap()
         OpenChildForm(New homeForm)
-        CurrentIconLabel.Text = "Home"
+        CurrentIconLabel.Text = "Kodu"
+
         MapHide()
         CreateLoadingOverlay()
 
@@ -280,7 +281,7 @@ DataUpdate:     setProgress(60)
         leftBorderBtn.Visible = False
         CurrentIcon.IconChar = IconChar.Home
         CurrentIcon.IconColor = Color.Black
-        CurrentIconLabel.Text = "Home"
+        CurrentIconLabel.Text = "Kodu"
 
     End Sub
 
