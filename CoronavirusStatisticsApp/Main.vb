@@ -37,7 +37,7 @@ Public Class Main
 
     Private _lastButtonColor As Color = Color.DarkGray
     Private mouseCoords As Point = New Point(0, 0)
-    Private _cachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
+    Private _cachePath As String = AppSettings.CachePath
     Private _threads As New List(Of Threading.Thread)
     Private _popupDate As String = DateTimeToString(DateTime.Now)
     Private _statListForMapDateTracker
@@ -423,7 +423,7 @@ DataUpdate:     setProgress(60)
     Private Sub CreateLoadingOverlay()
         Dim loading As New loadingControl
         Controls.Add(loading)
-        loading.Picture = Image.FromFile(My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Resources\loading.png")
+        loading.Picture = Image.FromFile(AppSettings.GetAppPath + "Resources\loading.png")
         loading.Location = MapControl1.Location
         loading.Dock = DockStyle.Fill
         loading.Name = "loadingControl"
