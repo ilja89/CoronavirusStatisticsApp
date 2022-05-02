@@ -26,40 +26,44 @@ Public Class statGraphs
     Public request As IRequest = New CRequest(AppSettings.CachePath)
 
     Private Sub statGraphs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim Today As DateTime = DateTime.Now
         Dim Week As DateTime = Today.AddDays(-7)
         Dim stringWeekAgo As String = DateTimeToString(Week)
         Dim stringToday As String = DateTimeToString(Today)
-        totalSick.To = AppConstants.ESTONIA_POPULATION
-        totalVact.To = AppConstants.ESTONIA_POPULATION
-        totalPos.To = AppConstants.ESTONIA_POPULATION
-        totalHospitalized.To = AppConstants.ESTONIA_POPULATION
-        hospitalizedCurrent.To = AppConstants.ESTONIA_POPULATION
-        totalDied.To = AppConstants.ESTONIA_POPULATION
         covidTestPosGen = request.GetTestStatPositiveGeneral()
         covidVactGen = request.GetVaccinationStatGeneral()
         covidSickGen = request.GetSick()
         covidHospitalizedGen = request.GetHospitalizationPatients()
         covidHospitalizedCurrentGen = request.GetHospitalizationPatientInfoCurrent()
         covidDeceasedGen = request.GetDeceased(True)
-        covidHospitalized = request.GetHospitalizationPatients()
         covidHospitalizedWeek = request.GetHospitalizationPatients()
 
         totalSick.Value = covidSickGen.GetField(covidSickGen.Count - 1, "Sick")
-        totalPer100K.To = 100000
-        totalPer100K.Value = Math.Round(totalSick.Value / AppConstants.ESTONIA_POPULATION * 100000)
+        totalSick.To = GetRand(totalSick.Value * 1.5, totalSick.Value * 5)
         totalVact.Value = covidVactGen.GetField(covidVactGen.Count - 1, "TotalCount")
+        totalVact.To = GetRand(totalVact.Value * 1.5, totalVact.Value * 5)
         totalPos.Value = covidTestPosGen.GetField(covidTestPosGen.Count - 1, "TotalCases")
+        totalPos.To = GetRand(totalPos.Value * 1.5, totalPos.Value * 5)
         totalHospitalized.Value = covidHospitalizedGen.GetField(covidHospitalizedGen.Count - 1, "TotalCases")
+        totalHospitalized.To = GetRand(totalHospitalized.Value * 1.5, totalHospitalized.Value * 5)
         hospitalizedCurrent.Value = covidHospitalizedCurrentGen.GetField(covidHospitalizedCurrentGen.Count - 1, "PatientCount")
+        hospitalizedCurrent.To = GetRand(hospitalizedCurrent.Value * 1.5, hospitalizedCurrent.Value * 5)
         totalDied.Value = covidDeceasedGen.GetField(0, "Deceased")
-        todayHospitalized.To = ESTONIA_POPULATION
-        weekHospitalized.To = ESTONIA_POPULATION
-        todayHospitalized.Value = covidHospitalized.AsNew.WhereDate(stringToday, "=").GetField(covidHospitalized.Count - 1, "Hospitalised")
+        totalDied.To = GetRand(totalDied.Value * 1.5, totalDied.Value * 5)
+        totalPer100K.Value = Math.Round(totalSick.Value / AppConstants.ESTONIA_POPULATION * 100000)
+        totalPer100K.To = 100000
+        todayHospitalized.Value = covidHospitalizedGen.GetField(covidHospitalizedGen.Count - 1, "NewCases")
+        todayHospitalized.To = GetRand(todayHospitalized.Value * 1.5, todayHospitalized.Value * 5)
         weekHospitalized.Value = covidHospitalizedWeek.GetFieldsAverageForPeriod(stringWeekAgo, "Hospitalised")
+        weekHospitalized.To = GetRand(weekHospitalized.Value * 1.5, weekHospitalized.Value * 5)
+
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
     End Sub
+
+    Private Function GetRand(low As Integer, high As Integer)
+        Randomize()
+        Return CInt(Int(high * Rnd() + low))
+    End Function
 
     Private Function DateTimeToString(dateTimeObject As DateTime)
         Return String.Join("-", dateTimeObject.ToString.Split(" ")(0).Split(".").Reverse)

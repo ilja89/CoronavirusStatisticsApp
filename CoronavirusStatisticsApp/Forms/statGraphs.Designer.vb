@@ -25,6 +25,8 @@ Partial Class statGraphs
         Me.totalVact = New LiveCharts.WinForms.SolidGauge()
         Me.totalPos = New LiveCharts.WinForms.SolidGauge()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.sickBtn = New System.Windows.Forms.Button()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
@@ -47,8 +49,6 @@ Partial Class statGraphs
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.sickBtn = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -106,6 +106,29 @@ Partial Class statGraphs
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1223, 663)
         Me.Panel1.TabIndex = 3
+        '
+        'Label13
+        '
+        Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.Label13.AutoSize = True
+        Me.Label13.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.Location = New System.Drawing.Point(1010, 417)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(182, 18)
+        Me.Label13.TabIndex = 26
+        Me.Label13.Text = "Haigestumise graafik"
+        '
+        'sickBtn
+        '
+        Me.sickBtn.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.sickBtn.BackColor = System.Drawing.Color.Green
+        Me.sickBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.sickBtn.Location = New System.Drawing.Point(1045, 464)
+        Me.sickBtn.Name = "sickBtn"
+        Me.sickBtn.Size = New System.Drawing.Size(100, 34)
+        Me.sickBtn.TabIndex = 25
+        Me.sickBtn.Text = "Kuva rohkem"
+        Me.sickBtn.UseVisualStyleBackColor = False
         '
         'Label12
         '
@@ -223,11 +246,11 @@ Partial Class statGraphs
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(38, 220)
+        Me.Label7.Location = New System.Drawing.Point(8, 220)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(192, 18)
+        Me.Label7.Size = New System.Drawing.Size(260, 18)
         Me.Label7.TabIndex = 14
-        Me.Label7.Text = "Täna hospitaliseeritud"
+        Me.Label7.Text = "Kesk. hospitaliseeritud päevas"
         '
         'todayHospitalized
         '
@@ -344,29 +367,6 @@ Partial Class statGraphs
         Me.Label1.Size = New System.Drawing.Size(107, 18)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Kokku haige"
-        '
-        'Label13
-        '
-        Me.Label13.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Verdana", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(1010, 417)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(182, 18)
-        Me.Label13.TabIndex = 26
-        Me.Label13.Text = "Haigestumise graafik"
-        '
-        'sickBtn
-        '
-        Me.sickBtn.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.sickBtn.BackColor = System.Drawing.Color.Green
-        Me.sickBtn.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.sickBtn.Location = New System.Drawing.Point(1045, 464)
-        Me.sickBtn.Name = "sickBtn"
-        Me.sickBtn.Size = New System.Drawing.Size(100, 34)
-        Me.sickBtn.TabIndex = 25
-        Me.sickBtn.Text = "Kuva rohkem"
-        Me.sickBtn.UseVisualStyleBackColor = False
         '
         'statGraphs
         '
