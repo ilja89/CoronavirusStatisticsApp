@@ -8,17 +8,19 @@
 ' PRECONDITIONS: ...
 ' SUBSEQUENT CONDITIONS: ...
 ' RELATED COMPONENTS: ...
+
+Imports System.IO
 ''' <summary>
 ''' Provides static object what stores all applications settings
 ''' </summary>
 Module AppSettings
     Public Event NewColorSettingsApplied()
 
-    Public ReadOnly AppSettingsCachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Settings\"
+    Public ReadOnly AppSettingsCachePath As String = GetAppPath() + "Settings\"
     Public ReadOnly AppSettingsCacheName As String = "AppSettings"
     Public ReadOnly DefaultCSVExporterDelimiter As String = ":"
     Public ReadOnly DefaultCSVExporterTextQualifier As String = ""
-    Public ReadOnly DefaultCachePath As String = My.Application.Info.DirectoryPath.Replace("CoronavirusStatisticsApp\bin\Debug", "") + "Cache\"
+    Public ReadOnly DefaultCachePath As String = GetAppPath() + "Cache\"
     Public ReadOnly DefaultMainColor As Color = Color.Gray
     Public ReadOnly DefaultSecondaryColor As Color = Color.DarkGray
     Public ReadOnly DefaultButtonColorMap As Color = Color.LawnGreen
@@ -226,4 +228,17 @@ Module AppSettings
         PopupColorSecondary = DefaultPopupColorSecondary
         TelegramBotEnabled = DefaultTelegramBotEnabled
     End Sub
+
+    Public Function GetAppPath() As String
+        Dim dir As String = Directory.GetCurrentDirectory()
+        Dim splitted() = dir.Split("\")
+        Dim result As String = ""
+        For Each item As String In splitted
+            result += item + "\"
+            If (item = "CoronavirusStatisticsApp") Then
+                Exit For
+            End If
+        Next
+        Return result
+    End Function
 End Module
