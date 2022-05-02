@@ -24,6 +24,7 @@ Public Class moreStatCounty
     Private _statObjectValueField As String
     Private _seriesStatList As New List(Of KeyValuePair(Of String, IStatList))
     Private _curSeriesStatList As New List(Of KeyValuePair(Of String, IStatList))
+    Private _lineWidth As Integer = 2
 
     Private Sub WhenLoaded() Handles Me.Load
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
@@ -50,7 +51,7 @@ Public Class moreStatCounty
         _curSeriesStatList.Add(New KeyValuePair(Of String, IStatList)(countyKey, _statObject.AsNew.Where("County", countyKey)))
         Dim newSeries As Series = New Series(countyKey)
         newSeries.ChartType = SeriesChartType.Line
-        newSeries.BorderWidth = 3
+        newSeries.BorderWidth = _lineWidth
         Chart1.Series.Add(newSeries)
         selectedCountyListBox.Items.Add(countyKey)
         addCountyCombobox.Items.Remove(countyKey)

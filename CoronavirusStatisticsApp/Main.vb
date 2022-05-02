@@ -11,6 +11,7 @@ Imports FontAwesome.Sharp
 Imports System.Math
 Imports StatisticsObject
 Imports Map
+Imports TelegramBotLib
 
 ''' <summary>
 ''' Main form for application
@@ -316,7 +317,7 @@ DataUpdate:     setProgress(60)
         MapControl1.BringToFront()
         MapShow()
         ActivateButton(sender, AppSettings.ButtonColorMap)
-        'StatWin1.Visible = False
+        dataUpdateTimer_Tick()
     End Sub
 
     Private Sub btnStatistics_Click(sender As Object, e As EventArgs) Handles btnStatistics.Click
@@ -329,10 +330,16 @@ DataUpdate:     setProgress(60)
 
     Private Sub btnTelegramm_Click(sender As Object, e As EventArgs) Handles btnTelegramm.Click
         ActivateButton(sender, AppSettings.ButtonColorTelegram)
-
+        If MapControl1 IsNot Nothing Then
+            MapHide()
+        End If
+        OpenChildForm(New telegramSettings)
     End Sub
 
-    Private Sub btnExtra2_Click(sender As Object, e As EventArgs) Handles saveStatButton.Click
+    Private Sub saveStatButton_Click(sender As Object, e As EventArgs) Handles saveStatButton.Click
+        If MapControl1 IsNot Nothing Then
+            MapHide()
+        End If
         ActivateButton(sender, Color.Violet)
         OpenChildForm(New statSave)
     End Sub
@@ -591,5 +598,17 @@ DataUpdate:     setProgress(60)
             mapDateTrackBar.Value += 1
         End If
         mapDateTrackBar_Scroll()
+    End Sub
+
+    Private Sub dataUpdateTimer_Tick() Handles dataUpdateTimer.Tick
+        Dim saveLoadInstance As IStatSaveLoad = New CStatSaveLoad
+        Dim lastUpdateDate As Date = saveLoadInstance.LoadFrom(AppSettings.CachePath, "lastCheckDate")
+        If (Not saveLoadInstance.IsUpToDate(lastUpdateDate)) Then
+            If (AppSettings.TelegramBotEnabled = True) Then
+                Dim telegramBot As CTelegramBot = New CTelegramBot("NewBot", AppSettings.TelegramBotToken, AppSettings.TelegramBotChatID)
+                telegramBot.SendTelegramMessage("Application statistics data is updated")
+            End If
+            saveLoadInstance.UpdateData(AppSettings.CachePath)
+        End If
     End Sub
 End Class

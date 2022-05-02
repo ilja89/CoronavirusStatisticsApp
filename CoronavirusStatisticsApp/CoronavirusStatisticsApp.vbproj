@@ -102,6 +102,12 @@
     <Compile Include="Edited Classes\CStatSaveLoad_ForLoadingControl.vb" />
     <Compile Include="Edited Classes\IStatSaveLoad_ForLoadingControl.vb" />
     <Compile Include="Extensions\MCStatListExtensions.vb" />
+    <Compile Include="Forms\helpForm.Designer.vb">
+      <DependentUpon>helpForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\helpForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\mapDebug.Designer.vb">
       <DependentUpon>mapDebug.vb</DependentUpon>
     </Compile>
@@ -136,6 +142,12 @@
       <DependentUpon>statSave.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\statSave.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\telegramSettings.Designer.vb">
+      <DependentUpon>telegramSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\telegramSettings.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.designer.vb">
@@ -193,6 +205,9 @@
     <EmbeddedResource Include="Controls\loadingControl.resx">
       <DependentUpon>loadingControl.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\helpForm.resx">
+      <DependentUpon>helpForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -210,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\statSave.resx">
       <DependentUpon>statSave.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\telegramSettings.resx">
+      <DependentUpon>telegramSettings.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.vb</DependentUpon>

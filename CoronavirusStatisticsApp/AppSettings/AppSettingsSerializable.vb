@@ -1,7 +1,7 @@
 ﻿' FILENAME: AppSettingsSerializable.vb
 ' AUTOR: El Plan - Ilja Kuznetsov
 ' CREATED: 25.04.2022
-' CHANGED: 01.05.2022
+' CHANGED: 02.05.2022
 '
 ' DESCRIPTION: See below
 '
@@ -26,6 +26,9 @@ Public Class AppSettingsSerializable
     Private _buttonColorExit As Color = AppSettings.ButtonColorExit
     Private _popupColorMain As Color = AppSettings.PopupColorMain
     Private _popupColorSecondary As Color = AppSettings.PopupColorSecondary
+    Private _telegramBotToken As String = AppSettings.TelegramBotToken
+    Private _telegramBotChatID As String = AppSettings.TelegramBotChatID
+    Private _telegramBotEnabled As Boolean = AppSettings.TelegramBotEnabled
     Public Sub UpdateAppSettings()
         AppSettings.CachePath = _CachePath
         AppSettings.CSVExporterDelimiter = _CSVExporterDelimiter
@@ -39,5 +42,8 @@ Public Class AppSettingsSerializable
         AppSettings.ButtonColorExit = _buttonColorExit
         AppSettings.PopupColorMain = _popupColorMain
         AppSettings.PopupColorSecondary = _popupColorSecondary
+        AppSettings.TelegramBotToken = _telegramBotToken
+        AppSettings.TelegramBotChatID = _telegramBotChatID
+        AppSettings.TelegramBotEnabled = _telegramBotEnabled
     End Sub
 End Class

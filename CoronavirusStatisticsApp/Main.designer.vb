@@ -45,6 +45,7 @@ Partial Class Main
         Me.PanelDesktop = New System.Windows.Forms.Panel()
         Me.MapControl1 = New Map.MapControl()
         Me.GarbageTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.dataUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuPanel.SuspendLayout()
         Me.PanelLogo.SuspendLayout()
         CType(Me.BoxLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -350,6 +351,11 @@ Partial Class Main
         Me.GarbageTimer.Enabled = True
         Me.GarbageTimer.Interval = 30000
         '
+        'dataUpdateTimer
+        '
+        Me.dataUpdateTimer.Enabled = True
+        Me.dataUpdateTimer.Interval = 600000
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -393,4 +399,5 @@ Partial Class Main
     Friend WithEvents mapDatePicker As DateTimePicker
     Friend WithEvents mapGradientCheckBox As CheckBox
     Friend WithEvents mapDateTrackBar As TrackBar
+    Friend WithEvents dataUpdateTimer As Timer
 End Class

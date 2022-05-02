@@ -1,7 +1,7 @@
 ﻿' FILENAME: AppSettings.vb
 ' AUTOR: El Plan - Ilja Kuznetsov
 ' CREATED: 25.04.2022
-' CHANGED: 01.05.2022
+' CHANGED: 02.05.2022
 '
 ' DESCRIPTION: See below
 '
@@ -28,6 +28,7 @@ Module AppSettings
     Public ReadOnly DefaultButtonColorExit As Color = Color.Pink
     Public ReadOnly DefaultPopupColorMain As Color = Color.Silver
     Public ReadOnly DefaultPopupColorSecondary As Color = Color.DimGray
+    Public ReadOnly DefaultTelegramBotEnabled As Boolean = False
 
     Private _CSVExporterDelimiter As String
     Private _CSVExporterTextQualifier As String
@@ -41,6 +42,9 @@ Module AppSettings
     Private _buttonColorExit As Color
     Private _popupColorMain As Color
     Private _popupColorSecondary As Color
+    Private _telegramBotToken As String
+    Private _telegramBotChatID As String
+    Private _telegramBotEnabled As Boolean
 
     Public Property CSVExporterDelimiter As String
         Get
@@ -176,9 +180,38 @@ Module AppSettings
             _popupColorSecondary = value
         End Set
     End Property
+
+    Public Property TelegramBotToken As String
+        Get
+            Return _telegramBotToken
+        End Get
+        Set(value As String)
+            _telegramBotToken = value
+        End Set
+    End Property
+
+    Public Property TelegramBotChatID As String
+        Get
+            Return _telegramBotChatID
+        End Get
+        Set(value As String)
+            _telegramBotChatID = value
+        End Set
+    End Property
+
+    Public Property TelegramBotEnabled As Boolean
+        Get
+            Return _telegramBotEnabled
+        End Get
+        Set(value As Boolean)
+            _telegramBotEnabled = value
+        End Set
+    End Property
+
     Public Sub RaiseEventNewColorSettingsApplied()
         RaiseEvent NewColorSettingsApplied()
     End Sub
+
     Public Sub ResetToDefault()
         CSVExporterDelimiter = DefaultCSVExporterDelimiter
         CSVExporterTextQualifier = DefaultCSVExporterTextQualifier
@@ -191,5 +224,6 @@ Module AppSettings
         ButtonColorTelegram = DefaultButtonColorTelegram
         PopupColorMain = DefaultPopupColorMain
         PopupColorSecondary = DefaultPopupColorSecondary
+        TelegramBotEnabled = DefaultTelegramBotEnabled
     End Sub
 End Module

@@ -15,9 +15,9 @@ Imports Newtonsoft.Json.Linq
 ''' </summary>
 Public Class CTelegramBot
     Private telegramBotName As String = ""
-    Private telegramBotToken As String = "5207145300:AAGgsp2QZy7L6Ee-63zzLLHtyEMwIe84nhM" 'DEBUG!
-    Private telegramChatID As String = "698249543" 'DEBUG!
-    Private telegramBotSet As Boolean = True 'DEBUG!
+    Private telegramBotToken As String = Nothing
+    Private telegramChatID As String = Nothing
+    Private telegramBotSet As Boolean = False
     Private telMessageOffset As Integer = 0
 
     ''' <summary>
@@ -231,6 +231,11 @@ Public Class CTelegramBot
         End If
         Return False
     End Function
+
+    Public Sub Init(newBotToken As String, newChatID As String)
+        BotToken = newBotToken
+        ChatID = newChatID
+    End Sub
 
     ''' <summary>
     ''' Turns some tags in raw text to HTML format
