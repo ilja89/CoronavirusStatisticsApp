@@ -271,7 +271,7 @@ Imports System.Math
         Dim result As Integer
         Dim fieldIndex = FindFieldIndex(fieldName)
         If (fieldIndex <> -1) Then
-            Dim list As CStatList = AsNew()
+            Dim list As IStatList = AsNew()
             If (days < 0) Then
                 result = list.WhereDate(fromDate, "<",, dateFieldName).
                     WhereDate(DateTime.Parse(fromDate).AddDays(days).ToString("yyyy-MM-dd"), ">=",, dateFieldName).

@@ -42,16 +42,6 @@ Public Class Main
     Private _popupDate As String = DateTimeToString(DateTime.Now)
     Private _statListForMapDateTracker
 
-    Public Property SaveLoad As CStatSaveLoad_ForLoadingControl
-        Get
-            Return _saveLoad
-        End Get
-        Set(value As CStatSaveLoad_ForLoadingControl)
-            _saveLoad = value
-        End Set
-    End Property
-    'Dim statGraphs As New statWin
-
     Private Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal hProcess As IntPtr, ByVal dwMinimumWorkingSetSize As Int32, ByVal dwMaximumWorkingSetSize As Int32) As Int32
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Add event handlers
@@ -69,7 +59,7 @@ Public Class Main
 
         ' Data updating
         Try
-            If (Await SaveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
+            If (Await _saveLoad.UpdateData(_cachePath, Sub(progressValue As Integer) setProgress(progressValue))) Then
 DataUpdate:     setProgress(60)
                 covidTest = request.GetTestStatCounty(, False)
                 setProgress(70)
@@ -99,7 +89,7 @@ DataUpdate:     setProgress(60)
         ReleaseMemory()
     End Sub
     Private Sub InitMap()
-        Dim polygons As Map.CPolygons = MapControl1.Polygons
+        Dim polygons As Map.IPolygons = MapControl1.Polygons
         MapControl1.AddPolygon(stringToPoints(
             "280,360,310,370,313,405,365,415,385,433,420,500,385,500,358,524,325,540,305,575,273,580,247,566,
             238,491,220,468,166,475,125,447,126,438,175,433,202,435,222,447,253,398
@@ -309,7 +299,7 @@ DataUpdate:     setProgress(60)
         Application.Exit()
     End Sub
     Private Sub FormClosingHandler() Handles MyBase.Closing
-        SaveLoad.SaveAppSettings()
+        _saveLoad.SaveAppSettings()
     End Sub
 
     Private Sub btnMap_Click(sender As Object, e As EventArgs) Handles btnMap.Click
@@ -458,9 +448,9 @@ DataUpdate:     setProgress(60)
                 popup.Name = polygonName
                 popup.BringToFront()
             End If
-            Dim CovidTestEdited As CStatList = covidTest.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
-            Dim CovidSickEdited As CStatList = covidSick.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
-            Dim CovidVactEdited As CStatList = covidVact.AsNew.Where("County", polygonKey).WhereDate(_popupDate).
+            Dim CovidTestEdited As IStatList = covidTest.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
+            Dim CovidSickEdited As IStatList = covidSick.AsNew.Where("County", polygonKey).WhereDate(_popupDate)
+            Dim CovidVactEdited As IStatList = covidVact.AsNew.Where("County", polygonKey).WhereDate(_popupDate).
                 Where("Type", "FullyVaccinated")
             If (CovidTestEdited.Count > 0 And
                 CovidSickEdited.Count > 0 And

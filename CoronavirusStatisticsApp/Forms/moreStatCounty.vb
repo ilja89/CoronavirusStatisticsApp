@@ -20,7 +20,7 @@ Public Class moreStatCounty
     Private _CSVExporter As IExporter = New CExporter(AppSettings.CSVExporterDelimiter, AppSettings.CSVExporterTextQualifier)
     Private _dateFrom As DateTime = New DateTime(2020, 1, 1)
     Private _dateTo As DateTime = DateTime.Now.AddDays(-2)
-    Private _statObject As CStatList
+    Private _statObject As IStatList
     Private _statObjectValueField As String
     Private _seriesStatList As New List(Of KeyValuePair(Of String, IStatList))
     Private _curSeriesStatList As New List(Of KeyValuePair(Of String, IStatList))

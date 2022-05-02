@@ -68,7 +68,7 @@ Partial Class Main
         Me.MenuPanel.Dock = System.Windows.Forms.DockStyle.Left
         Me.MenuPanel.Location = New System.Drawing.Point(0, 0)
         Me.MenuPanel.Name = "MenuPanel"
-        Me.MenuPanel.Size = New System.Drawing.Size(233, 761)
+        Me.MenuPanel.Size = New System.Drawing.Size(233, 861)
         Me.MenuPanel.TabIndex = 0
         '
         'btnExit
@@ -83,7 +83,7 @@ Partial Class Main
         Me.btnExit.IconFont = FontAwesome.Sharp.IconFont.[Auto]
         Me.btnExit.IconSize = 40
         Me.btnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnExit.Location = New System.Drawing.Point(0, 698)
+        Me.btnExit.Location = New System.Drawing.Point(0, 798)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Padding = New System.Windows.Forms.Padding(10, 0, 20, 0)
         Me.btnExit.Size = New System.Drawing.Size(233, 63)
@@ -235,7 +235,7 @@ Partial Class Main
         Me.PanelBar.Dock = System.Windows.Forms.DockStyle.Top
         Me.PanelBar.Location = New System.Drawing.Point(233, 0)
         Me.PanelBar.Name = "PanelBar"
-        Me.PanelBar.Size = New System.Drawing.Size(1045, 70)
+        Me.PanelBar.Size = New System.Drawing.Size(1251, 70)
         Me.PanelBar.TabIndex = 1
         '
         'mapDateTrackBar
@@ -321,7 +321,7 @@ Partial Class Main
         Me.PanelDesktop.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PanelDesktop.Location = New System.Drawing.Point(233, 70)
         Me.PanelDesktop.Name = "PanelDesktop"
-        Me.PanelDesktop.Size = New System.Drawing.Size(1045, 691)
+        Me.PanelDesktop.Size = New System.Drawing.Size(1251, 791)
         Me.PanelDesktop.TabIndex = 2
         '
         'MapControl1
@@ -343,7 +343,7 @@ Partial Class Main
         Me.MapControl1.PictureBoxImage = CType(resources.GetObject("MapControl1.PictureBoxImage"), System.Drawing.Image)
         Me.MapControl1.SimpleBackgroundDraw = True
         Me.MapControl1.SimplePolygonsDraw = False
-        Me.MapControl1.Size = New System.Drawing.Size(1045, 691)
+        Me.MapControl1.Size = New System.Drawing.Size(1251, 791)
         Me.MapControl1.TabIndex = 2
         '
         'GarbageTimer
@@ -360,11 +360,11 @@ Partial Class Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1278, 761)
+        Me.ClientSize = New System.Drawing.Size(1484, 861)
         Me.Controls.Add(Me.PanelDesktop)
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)
-        Me.MinimumSize = New System.Drawing.Size(1294, 800)
+        Me.MinimumSize = New System.Drawing.Size(1500, 900)
         Me.Name = "Main"
         Me.Text = " "
         Me.MenuPanel.ResumeLayout(False)

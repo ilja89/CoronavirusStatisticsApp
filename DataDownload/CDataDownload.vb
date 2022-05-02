@@ -68,7 +68,7 @@ Public Class CDataDownload
         Task(Of CStatList) Implements IDataDowload.GetVaccinationStatByCountyRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
 
@@ -105,7 +105,7 @@ Public Class CDataDownload
         Task(Of CStatList) Implements IDataDowload.GetVaccinationStatByAgeGroupRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
 
@@ -140,7 +140,7 @@ Public Class CDataDownload
         Task(Of CStatList) Implements IDataDowload.GetVaccinationStatGeneralRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -205,7 +205,7 @@ Public Class CDataDownload
         Implements IDataDowload.GetTestStatCountyRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -237,7 +237,7 @@ Public Class CDataDownload
         Implements IDataDowload.GetTestStatByAverageAgeRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -268,7 +268,7 @@ Public Class CDataDownload
         Task(Of CStatList) Implements IDataDowload.GetHospitalizationAveragePatientAgeCurrentRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -297,7 +297,7 @@ Public Class CDataDownload
         Task(Of CStatList) Implements IDataDowload.GetHospitalizationPatientInfoCurrentRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -329,7 +329,7 @@ Public Class CDataDownload
         Implements IDataDowload.GetAverageHospitalizationTimeRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -380,7 +380,7 @@ Public Class CDataDownload
         Implements IDataDowload.GetHospitalizationPatientsRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -411,7 +411,7 @@ Public Class CDataDownload
         Implements IDataDowload.GetDeceasedRaw
 
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -444,7 +444,7 @@ Public Class CDataDownload
     ''' <returns><see cref="Task"/> returning instance of <see cref="CStatList"/></returns>
     Public Async Function GetSickRaw() As Task(Of CStatList) Implements IDataDowload.GetSickRaw
         Dim client As New WebClient
-        Dim data As CStatList = Nothing
+        Dim data As IStatList = Nothing
         Dim tries As Integer = 0
         Dim methodName As String = GetCurrentMethod().DeclaringType.Name
         While (data Is Nothing)
@@ -470,7 +470,7 @@ Public Class CDataDownload
         Dim headers As String() = data(0).Split(",")
         Dim parsedFields(fields.Length - 1, 2) As String
         Dim i As Integer = 0
-        Dim statList As CStatList
+        Dim statList As IStatList
         ' Parse fields to divide aim input value and saveto value
         For Each field As String In fields
             If (field.Contains("||")) Then

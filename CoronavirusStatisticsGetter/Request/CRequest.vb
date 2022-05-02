@@ -33,7 +33,7 @@ Public Class CRequest
     ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
     Public Function GetVaccinationStatByCounty() As CStatList Implements IRequest.GetVaccinationStatByCounty
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatByCountyRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatByCountyRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("County", "null").WhereNot("County", "")
     End Function
     ''' <summary>
@@ -52,7 +52,7 @@ Public Class CRequest
     Public Function GetVaccinationStatByAgeGroup() As CStatList _
         Implements IRequest.GetVaccinationStatByAgeGroup
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatByAgeGroupRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatByAgeGroupRaw")
         Return data.Where("VaccinationSeries", "1").WhereNot("AgeGroup", "null")
     End Function
     ''' <summary>
@@ -71,7 +71,7 @@ Public Class CRequest
     Public Function GetVaccinationStatGeneral() As CStatList _
         Implements IRequest.GetVaccinationStatGeneral
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatGeneralRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "VaccinationStatGeneralRaw")
         Dim vaccinatedPercentageIndex As Integer = data.FindFieldIndex("VaccinatedPercentage")
         Dim locationPopulationIndex As Integer = data.FindFieldIndex("EstoniaPopulation")
         Dim totalCountIndex As Integer = data.FindFieldIndex("TotalCount")
@@ -104,7 +104,7 @@ Public Class CRequest
     ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
     Public Function GetTestStatPositiveGeneral() As CStatList Implements IRequest.GetTestStatPositiveGeneral
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "TestStatPositiveGeneralRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "TestStatPositiveGeneralRaw")
         Return data
     End Function
     ''' <summary>
@@ -127,7 +127,7 @@ Public Class CRequest
     Public Function GetTestStatCounty(Optional countyName As String = "all", Optional positiveOnly As _
                                       Boolean = True) As CStatList Implements IRequest.GetTestStatCounty
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "TestStatCountyRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "TestStatCountyRaw")
         If (positiveOnly) Then
             data.Where("Result", "P")
         End If
@@ -149,7 +149,7 @@ Public Class CRequest
     Public Function GetTestStatByAverageAge(Optional positiveOnly As Boolean = True) _
         As CStatList Implements IRequest.GetTestStatByAverageAge
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "TestStatByAverageAgeRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "TestStatByAverageAgeRaw")
 
         If (positiveOnly) Then
             data.Where("Result", "P")
@@ -167,7 +167,7 @@ Public Class CRequest
     Public Function GetHospitalizationAveragePatientAgeCurrent() As CStatList Implements _
         IRequest.GetHospitalizationAveragePatientAgeCurrent
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "HospitalizationAveragePatientAgeCurrentRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "HospitalizationAveragePatientAgeCurrentRaw")
         Return data
     End Function
     ''' <summary>
@@ -181,7 +181,7 @@ Public Class CRequest
     Public Function GetHospitalizationPatientInfoCurrent() As CStatList _
         Implements IRequest.GetHospitalizationPatientInfoCurrent
 
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath,
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath,
                                                   "HospitalizationPatientInfoCurrentRaw")
         Return data
     End Function
@@ -197,7 +197,7 @@ Public Class CRequest
     ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
     Public Function GetAverageHospitalizationTime() As CStatList Implements IRequest.GetAverageHospitalizationTime
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "AverageHospitalizationTimeRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "AverageHospitalizationTimeRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
         Next
@@ -234,7 +234,7 @@ Public Class CRequest
     ''' </list></summary>
     ''' <returns>Instance of <see cref="CStatList"/></returns>
     Public Function GetHospitalizationPatients() As CStatList Implements IRequest.GetHospitalizationPatients
-        Dim data As CStatList = saveLoad.LoadFrom(cachePath, "HospitalizationPatientsRaw")
+        Dim data As IStatList = saveLoad.LoadFrom(cachePath, "HospitalizationPatientsRaw")
         For i As Integer = 0 To data.Count - 1
             data.SetField() = data.GetField(i, "Date").Split("T")(0)
         Next
@@ -253,7 +253,7 @@ Public Class CRequest
     Public Function GetDeceased(Optional accumulative As Boolean = False) As _
         CStatList Implements IRequest.GetDeceased
 
-        Dim list As CStatList = saveLoad.LoadFrom(cachePath, "DeceasedRaw")
+        Dim list As IStatList = saveLoad.LoadFrom(cachePath, "DeceasedRaw")
         Dim i As Integer = 0
         If (accumulative <> True) Then
             While (i < list.Count - 1)
@@ -315,7 +315,7 @@ Public Class CRequest
         As CStatList Implements IRequest.GetSickCounty
 
         period = Max(0, period - 1)
-        Dim list As CStatList = Me.GetTestStatCounty()
+        Dim list As IStatList = Me.GetTestStatCounty()
         Dim counties As New List(Of CStatList)
         Dim sickFieldNumber, dailyFieldNumber As Integer
         If (aimCounty IsNot Nothing) Then

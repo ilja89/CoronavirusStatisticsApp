@@ -33,6 +33,7 @@ Public Class CStatSaveLoad_ForLoadingControl
             "HospitalizationPatients",
             "Deceased",
             "Sick"}
+        Dim k = AppSettings.ButtonColorMap
         ' Load Settings
         If (IO.File.Exists(AppSettings.AppSettingsCachePath + AppSettings.AppSettingsCacheName + ".bin")) Then
             LoadAppSettings()

@@ -25,8 +25,8 @@ Public Class CStatFunctions
     ''' calculations to find futurous approximate points</param>
     ''' <param name="outPointsNumber">Number of predicted points</param>
     ''' <returns></returns>
-    Public Shared Function Forecast(listOriginal As CStatList, fieldName As String, Optional dateFieldName As String = "Date", Optional sampleSize As Integer = 7, Optional outPointsNumber As Integer = 7) As CStatList
-        Dim list As CStatList = listOriginal.AsNew
+    Public Shared Function Forecast(listOriginal As IStatList, fieldName As String, Optional dateFieldName As String = "Date", Optional sampleSize As Integer = 7, Optional outPointsNumber As Integer = 7) As CStatList
+        Dim list As IStatList = listOriginal.AsNew
         If (list.Count >= 2) Then
             If (sampleSize > list.Count) Then
                 sampleSize = list.Count

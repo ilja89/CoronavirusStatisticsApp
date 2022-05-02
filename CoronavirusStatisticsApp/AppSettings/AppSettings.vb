@@ -108,7 +108,7 @@ Module AppSettings
     Public Property ButtonColorMap As Color
         Get
             If (_buttonColorMap = Nothing) Then
-                _buttonColorMap = ButtonColorMap
+                _buttonColorMap = DefaultButtonColorMap
             End If
             Return _buttonColorMap
         End Get
@@ -119,7 +119,7 @@ Module AppSettings
     Public Property ButtonColorStatistics As Color
         Get
             If (_buttonColorStatistics = Nothing) Then
-                _buttonColorStatistics = ButtonColorStatistics
+                _buttonColorStatistics = DefaultButtonColorStatistics
             End If
             Return _buttonColorStatistics
         End Get
@@ -130,7 +130,7 @@ Module AppSettings
     Public Property ButtonColorTelegram As Color
         Get
             If (_buttonColorTelegram = Nothing) Then
-                _buttonColorTelegram = ButtonColorTelegram
+                _buttonColorTelegram = DefaultButtonColorTelegram
             End If
             Return _buttonColorTelegram
         End Get
@@ -141,7 +141,7 @@ Module AppSettings
     Public Property ButtonColorSettings As Color
         Get
             If (_buttonColorSettings = Nothing) Then
-                _buttonColorSettings = ButtonColorSettings
+                _buttonColorSettings = DefaultButtonColorSettings
             End If
             Return _buttonColorSettings
         End Get
@@ -152,7 +152,7 @@ Module AppSettings
     Public Property ButtonColorExit As Color
         Get
             If (_buttonColorExit = Nothing) Then
-                _buttonColorExit = ButtonColorExit
+                _buttonColorExit = DefaultButtonColorExit
             End If
             Return _buttonColorExit
         End Get

@@ -1,10 +1,10 @@
 ﻿Public Interface IStatList
 
-    Property Element(index As Integer) As String()
+    Default Property Element(Index As Integer) As String()
 
-    Property Element(index As Integer, fieldName As String) As String
+    Default Property Element(index As Integer, fieldName As String) As String
 
-    Property Element(index As Integer, fieldIndex As Integer) As String
+    Default Property Element(index As Integer, fieldIndex As Integer) As String
 
     ReadOnly Property Fields As String()
 

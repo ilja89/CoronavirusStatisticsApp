@@ -17,9 +17,9 @@ Imports CoronaStatisticsGetter
 ''' </summary>
 Public Class popupWin
     Private _county As KeyValuePair(Of String, String)
-    Private _covidTestStat As CStatList
-    Private _covidSickStat As CStatList
-    Private _covidVactStat As CStatList
+    Private _covidTestStat As IStatList
+    Private _covidSickStat As IStatList
+    Private _covidVactStat As IStatList
     Private _request As IRequest = New CRequest(AppSettings.CachePath)
     Public Sub popupWin_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
@@ -63,7 +63,7 @@ Public Class popupWin
         moreStatCountyForm.Show()
     End Sub
 
-    Public Sub Init(NewTestStat As CStatList, NewSickStat As CStatList, NewVactStat As CStatList, county As KeyValuePair(Of String, String))
+    Public Sub Init(NewTestStat As IStatList, NewSickStat As IStatList, NewVactStat As IStatList, county As KeyValuePair(Of String, String))
         _covidTestStat = NewTestStat
         _covidSickStat = NewSickStat
         _covidVactStat = NewVactStat

@@ -126,6 +126,12 @@
     <Compile Include="Forms\homeForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\moreStatGeneral.Designer.vb">
+      <DependentUpon>moreStatGeneral.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\moreStatGeneral.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\settings.Designer.vb">
       <DependentUpon>settings.vb</DependentUpon>
     </Compile>
@@ -216,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\moreStatCounty.resx">
       <DependentUpon>moreStatCounty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\moreStatGeneral.resx">
+      <DependentUpon>moreStatGeneral.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\settings.resx">
       <DependentUpon>settings.vb</DependentUpon>
