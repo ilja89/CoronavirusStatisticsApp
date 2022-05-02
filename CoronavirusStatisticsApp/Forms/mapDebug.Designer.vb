@@ -35,7 +35,7 @@ Partial Class mapDebug
         'mpb
         '
         Me.mpb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.mpb.Image = Global.CoronavirusStatisticsApp.My.Resources.Resources.map
+        Me.mpb.Image = Global.CoronavirusStatisticsApp.My.Resources.Resources.mapDebug
         Me.mpb.Location = New System.Drawing.Point(12, 12)
         Me.mpb.Name = "mpb"
         Me.mpb.Size = New System.Drawing.Size(1271, 641)
@@ -71,7 +71,7 @@ Partial Class mapDebug
         '
         'PictureBox1
         '
-        Me.PictureBox1.Image = Global.CoronavirusStatisticsApp.My.Resources.Resources.map
+        Me.PictureBox1.Image = Global.CoronavirusStatisticsApp.My.Resources.Resources.mapDebug
         Me.PictureBox1.Location = New System.Drawing.Point(1447, 1005)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(35, 24)
