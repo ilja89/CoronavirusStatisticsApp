@@ -17,6 +17,7 @@ Public Class AppSettingsSerializable
     Private _CSVExporterDelimiter As String = AppSettings.CSVExporterDelimiter
     Private _CSVExporterTextQualifier As String = AppSettings.CSVExporterTextQualifier
     Private _CachePath As String = AppSettings.CachePath
+    Private _resourcesPath As String = AppSettings.ResourcesPath
     Private _mainColor As Color = AppSettings.MainColor
     Private _secondaryColor As Color = AppSettings.SecondaryColor
     Private _buttonColorMap As Color = AppSettings.ButtonColorMap
@@ -31,6 +32,7 @@ Public Class AppSettingsSerializable
     Private _telegramBotEnabled As Boolean = AppSettings.TelegramBotEnabled
     Public Sub UpdateAppSettings()
         AppSettings.CachePath = _CachePath
+        AppSettings.ResourcesPath = _resourcesPath
         AppSettings.CSVExporterDelimiter = _CSVExporterDelimiter
         AppSettings.CSVExporterTextQualifier = _CSVExporterTextQualifier
         AppSettings.MainColor = _mainColor

@@ -15,6 +15,8 @@ Public Class moreStatGeneral
     Private _lineWidth As Integer = 2
 
     Private Sub WhenLoaded() Handles Me.Load
+        Dim pic As Bitmap = Bitmap.FromFile(AppSettings.ResourcesPath + "icon.ico")
+        Me.Icon = System.Drawing.Icon.FromHandle(pic.GetHicon)
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
         fromDate.MaxDate = DateTime.Now.AddDays(-2)

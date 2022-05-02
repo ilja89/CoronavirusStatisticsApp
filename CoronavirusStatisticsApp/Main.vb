@@ -634,14 +634,18 @@ DataUpdate:     setProgress(60)
     End Sub
 
     Private Sub dataUpdateTimer_Tick() Handles dataUpdateTimer.Tick
-        Dim saveLoadInstance As IStatSaveLoad = New CStatSaveLoad
-        Dim lastUpdateDate As Date = saveLoadInstance.LoadFrom(AppSettings.CachePath, "lastCheckDate")
-        If (Not saveLoadInstance.IsUpToDate(lastUpdateDate)) Then
-            If (AppSettings.TelegramBotEnabled = True) Then
-                Dim telegramBot As CTelegramBot = New CTelegramBot("NewBot", AppSettings.TelegramBotToken, AppSettings.TelegramBotChatID)
-                telegramBot.SendTelegramMessage("Application statistics data is updated")
+        Try
+            Dim saveLoadInstance As IStatSaveLoad = New CStatSaveLoad
+            Dim lastUpdateDate As Date = saveLoadInstance.LoadFrom(AppSettings.CachePath, "lastCheckDate")
+            If (Not saveLoadInstance.IsUpToDate(lastUpdateDate)) Then
+                If (AppSettings.TelegramBotEnabled = True) Then
+                    Dim telegramBot As CTelegramBot = New CTelegramBot("NewBot", AppSettings.TelegramBotToken, AppSettings.TelegramBotChatID)
+                    telegramBot.SendTelegramMessage("Application statistics data is updated")
+                End If
+                saveLoadInstance.UpdateData(AppSettings.CachePath)
             End If
-            saveLoadInstance.UpdateData(AppSettings.CachePath)
-        End If
+        Catch
+            IO.Directory.Delete(AppSettings.AppSettingsCachePath)
+        End Try
     End Sub
 End Class

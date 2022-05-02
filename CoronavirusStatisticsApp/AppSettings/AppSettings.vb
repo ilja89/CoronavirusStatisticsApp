@@ -21,6 +21,7 @@ Module AppSettings
     Public ReadOnly DefaultCSVExporterDelimiter As String = ":"
     Public ReadOnly DefaultCSVExporterTextQualifier As String = ""
     Public ReadOnly DefaultCachePath As String = GetAppPath() + "Cache\"
+    Public ReadOnly DefaultResourcesPath As String = GetAppPath() + "Resources\"
     Public ReadOnly DefaultMainColor As Color = Color.Gray
     Public ReadOnly DefaultSecondaryColor As Color = Color.DarkGray
     Public ReadOnly DefaultButtonColorMap As Color = Color.LawnGreen
@@ -35,6 +36,7 @@ Module AppSettings
     Private _CSVExporterDelimiter As String
     Private _CSVExporterTextQualifier As String
     Private _cachePath As String
+    Private _resourcesPath
     Private _mainColor As Color
     Private _secondaryColor As Color
     Private _buttonColorMap As Color
@@ -81,6 +83,17 @@ Module AppSettings
         End Get
         Set(value As String)
             _cachePath = value
+        End Set
+    End Property
+    Public Property ResourcesPath As String
+        Get
+            If (_resourcesPath = Nothing) Then
+                _resourcesPath = DefaultResourcesPath
+            End If
+            Return _resourcesPath
+        End Get
+        Set(value As String)
+            _resourcesPath = value
         End Set
     End Property
     Public Property MainColor As Color

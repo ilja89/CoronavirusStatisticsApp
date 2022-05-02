@@ -364,6 +364,7 @@ Partial Class Main
         Me.Controls.Add(Me.PanelDesktop)
         Me.Controls.Add(Me.PanelBar)
         Me.Controls.Add(Me.MenuPanel)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(1500, 900)
         Me.Name = "Main"
         Me.Text = " "
