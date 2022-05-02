@@ -108,12 +108,6 @@
     <Compile Include="Forms\helpForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\mapDebug.Designer.vb">
-      <DependentUpon>mapDebug.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\mapDebug.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\moreStatCounty.Designer.vb">
       <DependentUpon>moreStatCounty.vb</DependentUpon>
     </Compile>
@@ -168,12 +162,6 @@
     <Compile Include="Controls\popupWin.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="mapTest.Designer.vb">
-      <DependentUpon>mapTest.vb</DependentUpon>
-    </Compile>
-    <Compile Include="mapTest.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -188,12 +176,6 @@
     <Compile Include="My Project\UserControl2.Designer.vb" />
     <Compile Include="My Project\UserControl2.vb">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="test2.Designer.vb">
-      <DependentUpon>test2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="test2.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -216,9 +198,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\homeForm.resx">
       <DependentUpon>homeForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\mapDebug.resx">
-      <DependentUpon>mapDebug.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\moreStatCounty.resx">
       <DependentUpon>moreStatCounty.vb</DependentUpon>
@@ -243,9 +222,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\popupWin.resx">
       <DependentUpon>popupWin.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="mapTest.resx">
-      <DependentUpon>mapTest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
