@@ -35,14 +35,6 @@ Public Class moreStatGeneral
         UpdateChart()
     End Sub
 
-    Public Sub AddSeries(countyKey As String)
-
-        Dim newSeries As Series = New Series()
-        newSeries.ChartType = SeriesChartType.Line
-        newSeries.BorderWidth = _lineWidth
-        Chart1.Series.Add(newSeries)
-    End Sub
-
     Private Sub UpdateChart()
         Dim series As SeriesCollection = Chart1.Series
         Dim fromDate As String = DateTimeToString(_dateFrom)
@@ -101,17 +93,20 @@ Public Class moreStatGeneral
         If (fromDate.Value > toDate.Value) Then
             toDate.Value = fromDate.Value
         End If
-        _dateFrom = fromDate.Value
+        UpdateDateValue()
         UpdateChart()
     End Sub
 
     Private Sub toDate_CloseUp(sender As Object, e As EventArgs) Handles toDate.CloseUp
         If (toDate.Value < fromDate.Value) Then
-            fromDate.Value = fromDate.Value
+            fromDate.Value = toDate.Value
         End If
-        _dateTo = toDate.Value
+        UpdateDateValue()
         UpdateChart()
     End Sub
 
-
+    Private Sub UpdateDateValue()
+        _dateFrom = fromDate.Value
+        _dateTo = toDate.Value
+    End Sub
 End Class

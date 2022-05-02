@@ -29,6 +29,7 @@ Module AppSettings
     Public ReadOnly DefaultButtonColorTelegram As Color = Color.MediumVioletRed
     Public ReadOnly DefaultButtonColorSettings As Color = Color.FromArgb(205, 205, 13)
     Public ReadOnly DefaultButtonColorExit As Color = Color.Pink
+    Public ReadOnly DefaultButtonColorSaveStat As Color = Color.BlueViolet
     Public ReadOnly DefaultPopupColorMain As Color = Color.Silver
     Public ReadOnly DefaultPopupColorSecondary As Color = Color.DimGray
     Public ReadOnly DefaultTelegramBotEnabled As Boolean = False
@@ -44,6 +45,7 @@ Module AppSettings
     Private _buttonColorTelegram As Color
     Private _buttonColorSettings As Color
     Private _buttonColorExit As Color
+    Private _buttonColorSaveStat As Color
     Private _popupColorMain As Color
     Private _popupColorSecondary As Color
     Private _telegramBotToken As String
@@ -171,6 +173,17 @@ Module AppSettings
         End Get
         Set(value As Color)
             _buttonColorExit = value
+        End Set
+    End Property
+    Public Property ButtonColorSaveStat As Color
+        Get
+            If (_buttonColorSaveStat = Nothing) Then
+                _buttonColorSaveStat = DefaultButtonColorSaveStat
+            End If
+            Return _buttonColorSaveStat
+        End Get
+        Set(value As Color)
+            _buttonColorSaveStat = value
         End Set
     End Property
     Public Property PopupColorMain As Color

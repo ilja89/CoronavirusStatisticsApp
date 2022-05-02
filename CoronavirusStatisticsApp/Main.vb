@@ -373,7 +373,7 @@ DataUpdate:     setProgress(60)
         If MapControl1 IsNot Nothing Then
             MapHide()
         End If
-        ActivateButton(sender, Color.Violet)
+        ActivateButton(sender, AppSettings.ButtonColorSaveStat)
         OpenChildForm(New statSave)
     End Sub
 
@@ -624,13 +624,6 @@ DataUpdate:     setProgress(60)
             MapControl1.MapDrawAllGradient(CGradient.Green)
             MapControl1.Update()
         End If
-    End Sub
-
-    Private Sub mapNextDateButton_Click(sender As Object, e As EventArgs)
-        If (mapDateTrackBar.Value + 1 <= mapDateTrackBar.Maximum) Then
-            mapDateTrackBar.Value += 1
-        End If
-        mapDateTrackBar_Scroll()
     End Sub
 
     Private Sub dataUpdateTimer_Tick() Handles dataUpdateTimer.Tick

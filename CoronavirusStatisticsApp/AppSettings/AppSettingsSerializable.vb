@@ -25,6 +25,7 @@ Public Class AppSettingsSerializable
     Private _buttonColorTelegram As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorSettings As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorExit As Color = AppSettings.ButtonColorExit
+    Private _buttonColorSaveStat As Color = AppSettings.ButtonColorSaveStat
     Private _popupColorMain As Color = AppSettings.PopupColorMain
     Private _popupColorSecondary As Color = AppSettings.PopupColorSecondary
     Private _telegramBotToken As String = AppSettings.TelegramBotToken
@@ -42,6 +43,7 @@ Public Class AppSettingsSerializable
         AppSettings.ButtonColorTelegram = _buttonColorTelegram
         AppSettings.ButtonColorSettings = _buttonColorSettings
         AppSettings.ButtonColorExit = _buttonColorExit
+        AppSettings.ButtonColorSaveStat = _buttonColorSaveStat
         AppSettings.PopupColorMain = _popupColorMain
         AppSettings.PopupColorSecondary = _popupColorSecondary
         AppSettings.TelegramBotToken = _telegramBotToken

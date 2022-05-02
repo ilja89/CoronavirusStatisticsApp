@@ -15,8 +15,8 @@ Public Class settings
         Sub(val As Color) AppSettings.MainColor = val, Sub(val As Color) AppSettings.SecondaryColor = val,
         Sub(val As Color) AppSettings.ButtonColorMap = val, Sub(val As Color) AppSettings.ButtonColorStatistics = val,
         Sub(val As Color) AppSettings.ButtonColorTelegram = val, Sub(val As Color) AppSettings.ButtonColorSettings = val,
-        Sub(val As Color) AppSettings.ButtonColorExit = val, Sub(val As Color) AppSettings.PopupColorMain = val,
-        Sub(val As Color) AppSettings.PopupColorSecondary = val}
+        Sub(val As Color) AppSettings.ButtonColorSaveStat = val, Sub(val As Color) AppSettings.ButtonColorExit = val,
+        Sub(val As Color) AppSettings.PopupColorMain = val, Sub(val As Color) AppSettings.PopupColorSecondary = val}
     Private _listBoxLastSelected As Integer = 0
     Private Sub settings_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         textBoxDelimiter.Text = AppSettings.CSVExporterDelimiter

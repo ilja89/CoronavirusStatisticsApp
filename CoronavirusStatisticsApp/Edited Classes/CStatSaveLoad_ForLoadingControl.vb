@@ -38,10 +38,11 @@ Public Class CStatSaveLoad_ForLoadingControl
             LoadAppSettings()
         End If
         If (Not IO.Directory.Exists(AppSettings.CachePath)) Then
-            IO.Directory.Delete(AppSettings.AppSettingsCachePath)
+            If (IO.Directory.Exists(AppSettings.AppSettingsCachePath)) Then
+                IO.Directory.Delete(AppSettings.AppSettingsCachePath)
+            End If
             AppSettings.ResetToDefault()
         End If
-        Dim n = AppSettings.CachePath
         ' Check path
         If (Not IO.Directory.Exists(path)) Then
             IO.Directory.CreateDirectory(path)
