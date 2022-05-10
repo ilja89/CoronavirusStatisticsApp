@@ -21,6 +21,7 @@ Module AppSettings
     Public ReadOnly DefaultCSVExporterDelimiter As String = ":"
     Public ReadOnly DefaultCSVExporterTextQualifier As String = ""
     Public ReadOnly DefaultCachePath As String = GetAppPath() + "Cache\"
+    Public ReadOnly DefaultResourcesPath As String = GetAppPath() + "Resources\"
     Public ReadOnly DefaultMainColor As Color = Color.Gray
     Public ReadOnly DefaultSecondaryColor As Color = Color.DarkGray
     Public ReadOnly DefaultButtonColorMap As Color = Color.LawnGreen
@@ -28,6 +29,7 @@ Module AppSettings
     Public ReadOnly DefaultButtonColorTelegram As Color = Color.MediumVioletRed
     Public ReadOnly DefaultButtonColorSettings As Color = Color.FromArgb(205, 205, 13)
     Public ReadOnly DefaultButtonColorExit As Color = Color.Pink
+    Public ReadOnly DefaultButtonColorSaveStat As Color = Color.BlueViolet
     Public ReadOnly DefaultPopupColorMain As Color = Color.Silver
     Public ReadOnly DefaultPopupColorSecondary As Color = Color.DimGray
     Public ReadOnly DefaultTelegramBotEnabled As Boolean = False
@@ -35,6 +37,7 @@ Module AppSettings
     Private _CSVExporterDelimiter As String
     Private _CSVExporterTextQualifier As String
     Private _cachePath As String
+    Private _resourcesPath
     Private _mainColor As Color
     Private _secondaryColor As Color
     Private _buttonColorMap As Color
@@ -42,6 +45,7 @@ Module AppSettings
     Private _buttonColorTelegram As Color
     Private _buttonColorSettings As Color
     Private _buttonColorExit As Color
+    Private _buttonColorSaveStat As Color
     Private _popupColorMain As Color
     Private _popupColorSecondary As Color
     Private _telegramBotToken As String
@@ -81,6 +85,17 @@ Module AppSettings
         End Get
         Set(value As String)
             _cachePath = value
+        End Set
+    End Property
+    Public Property ResourcesPath As String
+        Get
+            If (_resourcesPath = Nothing) Then
+                _resourcesPath = DefaultResourcesPath
+            End If
+            Return _resourcesPath
+        End Get
+        Set(value As String)
+            _resourcesPath = value
         End Set
     End Property
     Public Property MainColor As Color
@@ -158,6 +173,17 @@ Module AppSettings
         End Get
         Set(value As Color)
             _buttonColorExit = value
+        End Set
+    End Property
+    Public Property ButtonColorSaveStat As Color
+        Get
+            If (_buttonColorSaveStat = Nothing) Then
+                _buttonColorSaveStat = DefaultButtonColorSaveStat
+            End If
+            Return _buttonColorSaveStat
+        End Get
+        Set(value As Color)
+            _buttonColorSaveStat = value
         End Set
     End Property
     Public Property PopupColorMain As Color

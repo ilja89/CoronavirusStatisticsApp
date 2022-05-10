@@ -27,6 +27,8 @@ Public Class moreStatCounty
     Private _lineWidth As Integer = 2
 
     Private Sub WhenLoaded() Handles Me.Load
+        Dim pic As Bitmap = Bitmap.FromFile(AppSettings.ResourcesPath + "icon.ico")
+        Me.Icon = System.Drawing.Icon.FromHandle(pic.GetHicon)
         AddHandler AppSettings.NewColorSettingsApplied, AddressOf ColorSettingsAppliedHandler
         ColorSettingsAppliedHandler()
         fromDate.MaxDate = DateTime.Now.AddDays(-2)
@@ -77,6 +79,7 @@ Public Class moreStatCounty
         For i As Integer = 0 To series.Count - 1
             For itemIndex As Integer = 0 To _seriesStatList.Count - 1
                 If (_seriesStatList(itemIndex).Key = series(i).Name) Then
+                    Dim k = _curSeriesStatList(itemIndex).Value
                     _curSeriesStatList(itemIndex) = New KeyValuePair(Of String, IStatList) _
                     (_seriesStatList(itemIndex).Key, _seriesStatList(itemIndex).Value.AsNew.WhereDate(fromDate, ">=").WhereDate(toDate, "<="))
                     Dim XY As Array = StatListToXY(_curSeriesStatList(itemIndex).Value, AppConstants.GetPopulationByCountyName(series(i).Name))
@@ -168,16 +171,21 @@ Public Class moreStatCounty
         If (fromDate.Value > toDate.Value) Then
             toDate.Value = fromDate.Value
         End If
-        _dateFrom = fromDate.Value
+        UpdateDateValue()
         UpdateChart()
     End Sub
 
     Private Sub toDate_CloseUp(sender As Object, e As EventArgs) Handles toDate.CloseUp
         If (toDate.Value < fromDate.Value) Then
-            fromDate.Value = fromDate.Value
+            fromDate.Value = toDate.Value
         End If
-        _dateTo = toDate.Value
+        UpdateDateValue()
         UpdateChart()
+    End Sub
+
+    Private Sub UpdateDateValue()
+        _dateFrom = fromDate.Value
+        _dateTo = toDate.Value
     End Sub
 
     Private Sub absoluteValueCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles absoluteValueCheckBox.CheckedChanged

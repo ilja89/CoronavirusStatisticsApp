@@ -17,6 +17,7 @@ Public Class AppSettingsSerializable
     Private _CSVExporterDelimiter As String = AppSettings.CSVExporterDelimiter
     Private _CSVExporterTextQualifier As String = AppSettings.CSVExporterTextQualifier
     Private _CachePath As String = AppSettings.CachePath
+    Private _resourcesPath As String = AppSettings.ResourcesPath
     Private _mainColor As Color = AppSettings.MainColor
     Private _secondaryColor As Color = AppSettings.SecondaryColor
     Private _buttonColorMap As Color = AppSettings.ButtonColorMap
@@ -24,6 +25,7 @@ Public Class AppSettingsSerializable
     Private _buttonColorTelegram As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorSettings As Color = AppSettings.ButtonColorTelegram
     Private _buttonColorExit As Color = AppSettings.ButtonColorExit
+    Private _buttonColorSaveStat As Color = AppSettings.ButtonColorSaveStat
     Private _popupColorMain As Color = AppSettings.PopupColorMain
     Private _popupColorSecondary As Color = AppSettings.PopupColorSecondary
     Private _telegramBotToken As String = AppSettings.TelegramBotToken
@@ -31,6 +33,7 @@ Public Class AppSettingsSerializable
     Private _telegramBotEnabled As Boolean = AppSettings.TelegramBotEnabled
     Public Sub UpdateAppSettings()
         AppSettings.CachePath = _CachePath
+        AppSettings.ResourcesPath = _resourcesPath
         AppSettings.CSVExporterDelimiter = _CSVExporterDelimiter
         AppSettings.CSVExporterTextQualifier = _CSVExporterTextQualifier
         AppSettings.MainColor = _mainColor
@@ -40,6 +43,7 @@ Public Class AppSettingsSerializable
         AppSettings.ButtonColorTelegram = _buttonColorTelegram
         AppSettings.ButtonColorSettings = _buttonColorSettings
         AppSettings.ButtonColorExit = _buttonColorExit
+        AppSettings.ButtonColorSaveStat = _buttonColorSaveStat
         AppSettings.PopupColorMain = _popupColorMain
         AppSettings.PopupColorSecondary = _popupColorSecondary
         AppSettings.TelegramBotToken = _telegramBotToken

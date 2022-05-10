@@ -373,7 +373,7 @@ DataUpdate:     setProgress(60)
         If MapControl1 IsNot Nothing Then
             MapHide()
         End If
-        ActivateButton(sender, Color.Violet)
+        ActivateButton(sender, AppSettings.ButtonColorSaveStat)
         OpenChildForm(New statSave)
     End Sub
 
@@ -626,22 +626,19 @@ DataUpdate:     setProgress(60)
         End If
     End Sub
 
-    Private Sub mapNextDateButton_Click(sender As Object, e As EventArgs)
-        If (mapDateTrackBar.Value + 1 <= mapDateTrackBar.Maximum) Then
-            mapDateTrackBar.Value += 1
-        End If
-        mapDateTrackBar_Scroll()
-    End Sub
-
     Private Sub dataUpdateTimer_Tick() Handles dataUpdateTimer.Tick
-        Dim saveLoadInstance As IStatSaveLoad = New CStatSaveLoad
-        Dim lastUpdateDate As Date = saveLoadInstance.LoadFrom(AppSettings.CachePath, "lastCheckDate")
-        If (Not saveLoadInstance.IsUpToDate(lastUpdateDate)) Then
-            If (AppSettings.TelegramBotEnabled = True) Then
-                Dim telegramBot As CTelegramBot = New CTelegramBot("NewBot", AppSettings.TelegramBotToken, AppSettings.TelegramBotChatID)
-                telegramBot.SendTelegramMessage("Application statistics data is updated")
+        Try
+            Dim saveLoadInstance As IStatSaveLoad = New CStatSaveLoad
+            Dim lastUpdateDate As Date = saveLoadInstance.LoadFrom(AppSettings.CachePath, "lastCheckDate")
+            If (Not saveLoadInstance.IsUpToDate(lastUpdateDate)) Then
+                If (AppSettings.TelegramBotEnabled = True) Then
+                    Dim telegramBot As CTelegramBot = New CTelegramBot("NewBot", AppSettings.TelegramBotToken, AppSettings.TelegramBotChatID)
+                    telegramBot.SendTelegramMessage("Application statistics data is updated")
+                End If
+                saveLoadInstance.UpdateData(AppSettings.CachePath)
             End If
-            saveLoadInstance.UpdateData(AppSettings.CachePath)
-        End If
+        Catch
+            IO.Directory.Delete(AppSettings.AppSettingsCachePath)
+        End Try
     End Sub
 End Class

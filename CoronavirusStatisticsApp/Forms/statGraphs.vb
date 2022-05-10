@@ -21,7 +21,6 @@ Public Class statGraphs
     Public covidHospitalizedGen As IStatList
     Public covidHospitalizedCurrentGen As IStatList
     Public covidDeceasedGen As IStatList
-    Public covidHospitalized As IStatList
     Public covidHospitalizedWeek As IStatList
     Public request As IRequest = New CRequest(AppSettings.CachePath)
 
@@ -91,7 +90,7 @@ Public Class statGraphs
 
     Private Sub vactBtn_Click(sender As Object, e As EventArgs) Handles vactBtn.Click
         Dim newStat As New moreStatGeneral
-        newStat.Init("Vaktsinatsioonid", covidVactGen, "DailyCount")
+        newStat.Init("Vaktsinatsioonid", covidVactGen.AsNew.Where("Type", "FullyVaccinated"), "DailyCount")
         newStat.Show()
     End Sub
 
@@ -109,7 +108,7 @@ Public Class statGraphs
 
     Private Sub hospitalBtn_Click(sender As Object, e As EventArgs) Handles hospitalBtn.Click
         Dim newStat3 As New moreStatGeneral
-        newStat3.Init("Hospitaliseeritud", covidHospitalized, "NewCases")
+        newStat3.Init("Hospitaliseeritud", covidHospitalizedGen, "Hospitalised")
         newStat3.Show()
     End Sub
 

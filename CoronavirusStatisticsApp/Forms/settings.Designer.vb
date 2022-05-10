@@ -183,7 +183,7 @@ Partial Class settings
         Me.listBoxApplicationElement.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.listBoxApplicationElement.FormattingEnabled = True
         Me.listBoxApplicationElement.ItemHeight = 16
-        Me.listBoxApplicationElement.Items.AddRange(New Object() {"Main Color", "Secondary Color", "Map Button Color", "Statistics Button Color", "Telegram Button Color", "Settings Button Color", "Exit Button Color", "Map Popup Color Main", "Map Popup Color Secondary"})
+        Me.listBoxApplicationElement.Items.AddRange(New Object() {"Main Color", "Secondary Color", "Map Button Color", "Statistics Button Color", "Telegram Button Color", "Settings Button Color", "Save Stat Button Color", "Exit Button Color", "Map Popup Color Main", "Map Popup Color Secondary"})
         Me.listBoxApplicationElement.Location = New System.Drawing.Point(12, 285)
         Me.listBoxApplicationElement.Name = "listBoxApplicationElement"
         Me.listBoxApplicationElement.ScrollAlwaysVisible = True
